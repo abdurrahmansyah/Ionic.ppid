@@ -1,0 +1,6 @@
+{
+	"appId": "com.hutamakarya.ppid",
+	"appName": "HK PPID",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}

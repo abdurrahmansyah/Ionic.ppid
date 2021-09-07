@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">HK PPID</string>
+    <string name="title_activity_main">HK PPID</string>
+    <string name="package_name">com.hutamakarya.ppid</string>
+    <string name="custom_url_scheme">com.hutamakarya.ppid</string>
+</resources>
