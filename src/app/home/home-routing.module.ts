@@ -5,7 +5,17 @@ import { HomePage } from './home.page';
 const routes: Routes = [
   {
     path: '',
-    component: HomePage,
+    component: HomePage
+    // children: [
+    //   {
+    //     path: 'permohonan-informasi',
+    //     loadChildren: () => import('../pages/permohonan-informasi/permohonan-informasi.module').then(m => m.PermohonanInformasiPageModule)
+    //   },
+    //   {
+    //     path: 'pengajuan-keberatan',
+    //     loadChildren: () => import('../pages/pengajuan-keberatan/pengajuan-keberatan.module').then(m => m.PengajuanKeberatanPageModule)
+    //   },
+    // ]
   }
 ];
 
@@ -13,4 +23,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class HomePageRoutingModule {}
+export class HomePageRoutingModule { }

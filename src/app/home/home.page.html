@@ -1,35 +1,43 @@
-<!-- <ion-header [translucent]="true">
-  <ion-toolbar>
+<ion-header class="ion-no-border" [translucent]="true" mode="ios">
+  <ion-toolbar color="#eaebef">
     <ion-title>
-      Blank
+      PPID Hutama Karya
     </ion-title>
   </ion-toolbar>
-</ion-header> -->
+</ion-header>
 
 <ion-content [fullscreen]="true">
   <!-- <br> -->
-  <ion-toolbar color="#eaebef">
-    <ion-button mode="ios" fill="clear">
-      <ion-icon slot="start" name="stats-chart" style="color:#2c365a"></ion-icon>
-    </ion-button>
-  </ion-toolbar>
+  <ion-header class="ion-no-border" collapse="condense" mode="ios">
+    <ion-toolbar color="#eaebef">
+      <ion-button mode="ios" fill="clear">
+        <ion-icon slot="icon-only" name="stats-chart" style="color:#2c365a"></ion-icon>
+      </ion-button>
+    </ion-toolbar>
+  </ion-header>
+
+
+  <!-- <br>
+  <ion-button mode="ios" fill="clear">
+    <ion-icon slot="start" name="stats-chart" style="color:#2c365a"></ion-icon>
+  </ion-button> -->
 
   <!-- ------------------------------------------------->
 
-  <div id="title" class="ion-padding">
+  <div id="title" class="ion-padding" style="padding-top: 0px">
     <strong style="color: #2c365a">What Information Do You Need?</strong>
     <br> <br>
-    <ion-text style="font-size: 20px; font-weight: 700; color: #2c365a">Infomation</ion-text>
+    <ion-text style="font-size: 20px; font-weight: 700; color: #2c365a">Tata Cara</ion-text>
   </div>
 
   <div>
     <div class="row">
       <div class="card">
-        <img style="border-radius: 10px; box-shadow: 0px 3px 15px #dddddd;" src="../../assets/images/img-2.png">
+        <img style="border-radius: 10px; box-shadow: 0px 3px 15px #dddddd;" src="../../assets/images/img-1.png">
         <p class="card-text" style="color: #2c365a">Permohonan Informasi</p>
       </div>
       <div class="card">
-        <img style="border-radius: 10px; box-shadow: 0px 3px 15px #dddddd;" src="../../assets/images/img-1.png">
+        <img style="border-radius: 10px; box-shadow: 0px 3px 15px #dddddd;" src="../../assets/images/img-2.png">
         <p class="card-text" style="color: #2c365a">Pengajuan Keberatan</p>
       </div>
     </div>
@@ -45,42 +53,42 @@
 
   <!-- ------------------------------------------------->
 
-  <ion-text style="font-size: 20px; font-weight: 700; color: #2c365a" class="ion-padding">Order</ion-text>
+  <ion-text style="font-size: 20px; font-weight: 700; color: #2c365a" class="ion-padding">Ajukan Sekarang</ion-text>
 
-  <div button class="ion-padding" style="padding-top: 0.5rem; padding-bottom: 0.5rem" (click)="OpenPermohonanInformasi()">
+  <div button class="ion-padding" style="padding-top: 0.5rem; padding-bottom: 0.5rem;" (click)="OpenPermohonanInformasi()">
     <ion-grid style="background: white; padding: 0px; margin: 0px; border-radius: 10px;">
       <ion-row class="ion-align-items-center">
         <ion-col size="2" style="padding: 0px; margin: 0px">
-          <img style="border-radius: 10px 0px 0px 10px;" src="../../assets/images/img-6.png">
+          <ion-img style="border-radius: 10px  !important; overflow: hidden;" src="../../assets/images/img-4.png"></ion-img>
         </ion-col>
-        <ion-col size="8.5" style="font-size: 20px; font-style: normal; font-weight: bold">
+        <ion-col size="8.5" style="font-size: 14px; font-style: normal; font-weight: bold">
           <div class="ion-pading" style="margin-left: 10px">
             <ion-text color="hk-darkgrey">Buat</ion-text>
             <br>
             <ion-text color="hk-darkgrey">Pengajuan Informasi</ion-text>
           </div>
         </ion-col>
-        <ion-col size="1.5" style="padding: 0px; margin: 0px">
+        <ion-col size="1.5">
           <ion-icon name="chevron-forward-outline" style="font-size: 30px; color: #EBF1F7"></ion-icon>
         </ion-col>
       </ion-row>
     </ion-grid>
   </div>
 
-  <div button class="ion-padding" style="padding-top: 0px" (click)="OpenPengajuanKeberatan()">
+  <div button class="ion-padding" style="padding-top: 0px; padding-bottom: 20px" (click)="OpenPengajuanKeberatan()">
     <ion-grid button style="background: white; padding: 0px; margin: 0px; border-radius: 10px;">
       <ion-row class="ion-align-items-center">
         <ion-col size="2" style="padding: 0px; margin: 0px">
-          <img style="border-radius: 10px 0px 0px 10px;" src="../../assets/images/img-6.png">
+          <ion-img style="border-radius: 10px 10px 10px 10px !important; overflow: hidden;" src="../../assets/images/img-5.png"></ion-img>
         </ion-col>
-        <ion-col size="8.5" style="font-size: 20px; font-style: normal; font-weight: bold">
+        <ion-col size="8.5" style="font-size: 14px; font-style: normal; font-weight: bold">
           <div class="ion-pading" style="margin-left: 10px">
             <ion-text color="hk-darkgrey">Ajukan</ion-text>
             <br>
             <ion-text color="hk-darkgrey">Keberatan</ion-text>
           </div>
         </ion-col>
-        <ion-col size="1.5" style="padding: 0px; margin: 0px">
+        <ion-col size="1.5">
           <ion-icon name="chevron-forward-outline" style="font-size: 30px; color: #EBF1F7"></ion-icon>
         </ion-col>
       </ion-row>
@@ -102,11 +110,11 @@
   <ion-text style="font-size: 20px; font-weight: 700; color: #2c365a" class="ion-padding">May You Need</ion-text>
 
   <div style="padding-top: 0.5rem;">
-    <ion-card style="padding: 0px" mode="ios">
+    <ion-card style="margin-top: 0px" mode="ios">
       <ion-item detail button Lines="inset" color="hk-white-ppid">Profil KIP</ion-item>
       <ion-item detail button color="hk-white-ppid" (click)="UpdatePassword()">Informasi Berkala</ion-item>
       <ion-item detail button Lines="inset" color="hk-white-ppid">Informasi Serta Merta</ion-item>
-      <ion-item detail button Lines="inset" color="hk-white-ppid">Informasi Tersedua Setiap Saat</ion-item>
+      <ion-item detail button Lines="inset" color="hk-white-ppid">Informasi Tersedia Setiap Saat</ion-item>
       <ion-item detail button Lines="inset" color="hk-white-ppid">Laporan Layanan Informasi Publik</ion-item>
       <ion-item detail button Lines="full" color="hk-white-ppid">Download Formulir</ion-item>
     </ion-card>
