@@ -33,11 +33,17 @@
   <div>
     <div class="row">
       <div class="card">
-        <img style="border-radius: 10px; box-shadow: 0px 3px 15px #dddddd;" src="../../assets/images/img-1.png">
+        <!-- <img button style="border-radius: 10px; box-shadow: 0px 3px 15px #dddddd;" src="../../assets/images/img-1.png" (click)="ShowInformation(7)"> -->
+        <a href="https://kip.hutamakarya.com/tata-cara-permohonan-informasi">
+          <img button style="border-radius: 10px; box-shadow: 0px 3px 15px #dddddd;" src="../../assets/images/img-1.png">
+        </a>
         <p class="card-text" style="color: #2c365a">Permohonan Informasi</p>
       </div>
       <div class="card">
-        <img style="border-radius: 10px; box-shadow: 0px 3px 15px #dddddd;" src="../../assets/images/img-2.png">
+        <!-- <img button style="border-radius: 10px; box-shadow: 0px 3px 15px #dddddd;" src="../../assets/images/img-2.png" (click)="ShowInformation(8)"> -->
+        <a href="https://kip.hutamakarya.com/tara-cara-pengajuan-keberatan">
+          <img button style="border-radius: 10px; box-shadow: 0px 3px 15px #dddddd;" src="../../assets/images/img-2.png">
+        </a>
         <p class="card-text" style="color: #2c365a">Pengajuan Keberatan</p>
       </div>
     </div>
@@ -55,44 +61,50 @@
 
   <ion-text style="font-size: 20px; font-weight: 700; color: #2c365a" class="ion-padding">Ajukan Sekarang</ion-text>
 
-  <div button class="ion-padding" style="padding-top: 0.5rem; padding-bottom: 0.5rem;" (click)="OpenPermohonanInformasi()">
-    <ion-grid style="background: white; padding: 0px; margin: 0px; border-radius: 10px;">
-      <ion-row class="ion-align-items-center">
-        <ion-col size="2" style="padding: 0px; margin: 0px">
-          <ion-img style="border-radius: 10px  !important; overflow: hidden;" src="../../assets/images/img-4.png"></ion-img>
-        </ion-col>
-        <ion-col size="8.5" style="font-size: 14px; font-style: normal; font-weight: bold">
-          <div class="ion-pading" style="margin-left: 10px">
-            <ion-text color="hk-darkgrey">Buat</ion-text>
-            <br>
-            <ion-text color="hk-darkgrey">Pengajuan Informasi</ion-text>
-          </div>
-        </ion-col>
-        <ion-col size="1.5">
-          <ion-icon name="chevron-forward-outline" style="font-size: 30px; color: #EBF1F7"></ion-icon>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+  <!-- <div button class="ion-padding" style="padding-top: 0.5rem; padding-bottom: 0.5rem;" (click)="OpenPermohonanInformasi()"> -->
+  <div button class="ion-padding" style="padding-top: 0.5rem; padding-bottom: 0.5rem;">
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfmV28Lij0pHPbSUPkVjwGVI9Do9J8aFGuaV9gH_w42vm1CcQ/viewform">
+      <ion-grid style="background: white; padding: 0px; margin: 0px; border-radius: 10px;">
+        <ion-row class="ion-align-items-center">
+          <ion-col size="2" style="padding: 0px; margin: 0px">
+            <ion-img style="border-radius: 10px  !important; overflow: hidden;" src="../../assets/images/img-4.png"></ion-img>
+          </ion-col>
+          <ion-col size="8.5" style="font-size: 14px; font-style: normal; font-weight: bold">
+            <div class="ion-pading" style="margin-left: 10px">
+              <ion-text color="hk-darkgrey">Buat</ion-text>
+              <br>
+              <ion-text color="hk-darkgrey">Pengajuan Informasi</ion-text>
+            </div>
+          </ion-col>
+          <ion-col size="1.5">
+            <ion-icon name="chevron-forward-outline" style="font-size: 30px; color: #EBF1F7"></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </a>
   </div>
 
-  <div button class="ion-padding" style="padding-top: 0px; padding-bottom: 20px" (click)="OpenPengajuanKeberatan()">
-    <ion-grid button style="background: white; padding: 0px; margin: 0px; border-radius: 10px;">
-      <ion-row class="ion-align-items-center">
-        <ion-col size="2" style="padding: 0px; margin: 0px">
-          <ion-img style="border-radius: 10px 10px 10px 10px !important; overflow: hidden;" src="../../assets/images/img-5.png"></ion-img>
-        </ion-col>
-        <ion-col size="8.5" style="font-size: 14px; font-style: normal; font-weight: bold">
-          <div class="ion-pading" style="margin-left: 10px">
-            <ion-text color="hk-darkgrey">Ajukan</ion-text>
-            <br>
-            <ion-text color="hk-darkgrey">Keberatan</ion-text>
-          </div>
-        </ion-col>
-        <ion-col size="1.5">
-          <ion-icon name="chevron-forward-outline" style="font-size: 30px; color: #EBF1F7"></ion-icon>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+  <!-- <div button class="ion-padding" style="padding-top: 0px; padding-bottom: 20px" (click)="OpenPengajuanKeberatan()"> -->
+  <div button class="ion-padding" style="padding-top: 0px; padding-bottom: 20px">
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSetAWwad5RxAxd0n3kx-N1IobgInT7qbRN_rPqKyXiHGgMidw/viewform">
+      <ion-grid button style="background: white; padding: 0px; margin: 0px; border-radius: 10px;">
+        <ion-row class="ion-align-items-center">
+          <ion-col size="2" style="padding: 0px; margin: 0px">
+            <ion-img style="border-radius: 10px 10px 10px 10px !important; overflow: hidden;" src="../../assets/images/img-5.png"></ion-img>
+          </ion-col>
+          <ion-col size="8.5" style="font-size: 14px; font-style: normal; font-weight: bold">
+            <div class="ion-pading" style="margin-left: 10px">
+              <ion-text color="hk-darkgrey">Ajukan</ion-text>
+              <br>
+              <ion-text color="hk-darkgrey">Keberatan</ion-text>
+            </div>
+          </ion-col>
+          <ion-col size="1.5">
+            <ion-icon name="chevron-forward-outline" style="font-size: 30px; color: #EBF1F7"></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </a>
   </div>
 
   <!-- <ion-card>
@@ -111,12 +123,30 @@
 
   <div style="padding-top: 0.5rem;">
     <ion-card style="margin-top: 0px" mode="ios">
-      <ion-item detail button Lines="inset" color="hk-white-ppid">Profil KIP</ion-item>
-      <ion-item detail button color="hk-white-ppid" (click)="UpdatePassword()">Informasi Berkala</ion-item>
-      <ion-item detail button Lines="inset" color="hk-white-ppid">Informasi Serta Merta</ion-item>
-      <ion-item detail button Lines="inset" color="hk-white-ppid">Informasi Tersedia Setiap Saat</ion-item>
-      <ion-item detail button Lines="inset" color="hk-white-ppid">Laporan Layanan Informasi Publik</ion-item>
-      <ion-item detail button Lines="full" color="hk-white-ppid">Download Formulir</ion-item>
+      <!-- <ion-item detail button color="hk-white-ppid" (click)="ShowInformation(0)">Profil PPID</ion-item>
+      <ion-item detail button color="hk-white-ppid" (click)="ShowInformation(1)">Regulas PPID</ion-item>
+      <ion-item detail button color="hk-white-ppid" (click)="ShowInformation(2)">Informasi Berkala</ion-item>
+      <ion-item detail button color="hk-white-ppid" (click)="ShowInformation(3)">Informasi Serta Merta</ion-item>
+      <ion-item detail button color="hk-white-ppid" (click)="ShowInformation(4)">Informasi Tersedia Setiap Saat</ion-item>
+      <ion-item detail button color="hk-white-ppid" (click)="ShowInformation(5)">Laporan Layanan Informasi Publik</ion-item>
+      <ion-item detail button color="hk-white-ppid" (click)="ShowInformation(6)">Download Formulir</ion-item> -->
+      <!-- <ion-item detail button color="hk-white-ppid" href="https://ionicframework.com/docs/components">Klik</ion-item>
+      <ion-item detail button color="hk-white-ppid" target="_blank" href="https://ionicframework.com/docs/components">Klik w/ Blank</ion-item>
+      <ion-item detail button color="hk-white-ppid" target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">Klik w/ Blank and Noopener</ion-item>
+      <ion-item detail button color="hk-white-ppid" href="https://kip.hutamakarya.com/profile-kip">Klik</ion-item>
+      <ion-item detail button color="hk-white-ppid" target="_blank" href="https://kip.hutamakarya.com/profile-kip">Klik w/ Blank</ion-item> -->
+      <ion-item detail button color="hk-white-ppid" href="https://kip.hutamakarya.com/profile-kip">Profil PPID</ion-item>
+      <ion-item detail button color="hk-white-ppid" href="https://kip.hutamakarya.com/regulasi-kip">Regulasi PPID</ion-item>
+      <ion-item detail button color="hk-white-ppid" href="https://kip.hutamakarya.com/informasi-yang-diumumkan-secara-berkala">Informasi
+        Berkala</ion-item>
+      <ion-item detail button color="hk-white-ppid" href="https://kip.hutamakarya.com/informasi-yang-diumumkan-serta-merta">Informasi
+        Serta Merta</ion-item>
+      <ion-item detail button color="hk-white-ppid" href="https://kip.hutamakarya.com/informasi-tersedia-setiap-saat">Informasi
+        Tersedia Setiap Saat</ion-item>
+      <ion-item detail button color="hk-white-ppid" href="https://kip.hutamakarya.com/laporan-layanan-informasi-publik">Laporan
+        Layanan Informasi Publik</ion-item>
+      <ion-item detail button color="hk-white-ppid" href="https://kip.hutamakarya.com/download-formulir">Download
+        Formulir</ion-item>
     </ion-card>
   </div>
 

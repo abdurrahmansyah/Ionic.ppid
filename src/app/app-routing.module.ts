@@ -14,6 +14,10 @@ const routes: Routes = [
     path: 'pengajuan-keberatan',
     loadChildren: () => import('./pages/pengajuan-keberatan/pengajuan-keberatan.module').then( m => m.PengajuanKeberatanPageModule)
   },
+  {
+    path: 'information',
+    loadChildren: () => import('./pages/information/information.module').then( m => m.InformationPageModule)
+  },
   // {
   //   path: 'tabs',
   //   loadChildren: () => import('./tabs/tabs.module').then( m => m.TabsPageModule)
