@@ -1,9 +1,10 @@
 ion-content {
-  --ion-background-color: #eaebef;
+  // --ion-background-color: #eaebef;
+  --ion-background-color: #ffffff;
 }
 
 #title strong {
-  font-size: 32px;
+  font-size: 24px;
   padding: auto;
 }
 
@@ -12,9 +13,9 @@ ion-content {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
-  overflow-x: auto;
+  overflow-x: hidden; //auto
   overflow-y: hidden;
-  padding-left: 5%;
+  // padding-left: 5%;
   // padding-top: 5%;
   // padding-bottom: 5%;
   ::-webkit-scrollbar {
@@ -23,13 +24,13 @@ ion-content {
 }
 .card {
   /*float: left;*/
-  max-width: 70%;
-  margin-bottom: 1rem;
+  max-width: 50%;
+  // margin-bottom: 1rem;
   border: 0;
   flex-basis: 80%;
   flex-grow: 0;
   flex-shrink: 0;
-  padding-right: 5%;
+  // padding-right: 5%;
 }
 
 .card > img {

@@ -1,57 +1,84 @@
-<ion-header class="ion-no-border" [translucent]="true" mode="ios">
+<!-- <ion-header class="ion-no-border" [translucent]="true" mode="ios">
   <ion-toolbar color="#eaebef">
     <ion-title>
       PPID Hutama Karya
     </ion-title>
   </ion-toolbar>
-</ion-header>
+</ion-header> -->
 
 <ion-content [fullscreen]="true">
   <!-- <br> -->
-  <ion-header class="ion-no-border" collapse="condense" mode="ios">
+  <!-- <ion-header class="ion-no-border" collapse="condense" mode="ios">
     <ion-toolbar color="#eaebef">
       <ion-button mode="ios" fill="clear">
         <ion-icon slot="icon-only" name="stats-chart" style="color:#2c365a"></ion-icon>
       </ion-button>
     </ion-toolbar>
-  </ion-header>
+  </ion-header> -->
 
-
-  <!-- <br>
-  <ion-button mode="ios" fill="clear">
+  <br>
+  <!-- <ion-button mode="ios" fill="clear">
     <ion-icon slot="start" name="stats-chart" style="color:#2c365a"></ion-icon>
   </ion-button> -->
 
   <!-- ------------------------------------------------->
 
-  <div id="title" class="ion-padding" style="padding-top: 0px">
-    <strong style="color: #2c365a">What Information Do You Need?</strong>
-    <br> <br>
-    <ion-text style="font-size: 20px; font-weight: 700; color: #2c365a">Tata Cara</ion-text>
-  </div>
+  <div id="title" style="padding-top: 0px">
+    <ion-grid>
+      <ion-row class="ion-align-items-center">
+        <ion-col size="9">
+          <div class="ion-pading" style="margin-left: 10px">
+            <strong style="color: #2c365a">Apa Informasi yang infrabuddies butuhkan?</strong>
+          </div>
+        </ion-col>
+        <ion-col size="3" style="padding: 0px; margin: 0px;">
+          <ion-img src="../../assets/images/ppid-logo.png"></ion-img>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 
-  <div>
-    <div class="row">
-      <div class="card">
-        <!-- <img button style="border-radius: 10px; box-shadow: 0px 3px 15px #dddddd;" src="../../assets/images/img-1.png" (click)="ShowInformation(7)"> -->
-        <a href="https://kip.hutamakarya.com/tata-cara-permohonan-informasi">
-          <img button style="border-radius: 10px; box-shadow: 0px 3px 15px #dddddd;" src="../../assets/images/img-1.png">
-        </a>
-        <p class="card-text" style="color: #2c365a">Permohonan Informasi</p>
-      </div>
-      <div class="card">
-        <!-- <img button style="border-radius: 10px; box-shadow: 0px 3px 15px #dddddd;" src="../../assets/images/img-2.png" (click)="ShowInformation(8)"> -->
-        <a href="https://kip.hutamakarya.com/tara-cara-pengajuan-keberatan">
-          <img button style="border-radius: 10px; box-shadow: 0px 3px 15px #dddddd;" src="../../assets/images/img-2.png">
-        </a>
-        <p class="card-text" style="color: #2c365a">Pengajuan Keberatan</p>
-      </div>
-    </div>
+    <!-- <strong style="color: #2c365a">Apa Informasi yang infrabuddies butuhkan?</strong>
+    <br> <br>
+    <ion-text style="font-size: 20px; font-weight: 700; color: #2c365a">Tata Cara</ion-text> -->
   </div>
 
   <!-- ------------------------------------------------->
 
-  <ion-text style="font-size: 20px; font-weight: 700; color: #2c365a" class="ion-padding">Important Notice</ion-text>
+  <ion-text style="font-size: 20px; font-weight: 700; color: #2c365a" class="ion-padding">Tata Cara</ion-text>
+
+  <div>
+    <div class="row ion-padding" style="padding-top: 0.5rem; padding-bottom: 20px;">
+      <div class="card" style="padding-right: 5px">
+        <img button style="border-radius: 10px; box-shadow: 0px 3px 10px #dddddd;" src="../../assets/images/img-1.png"
+          (click)="ShowInformation(7)">
+        <!-- <p class="card-text" style="color: #2c365a">Permohonan Informasi</p> -->
+      </div>
+      <div class="card" style="padding-left: 5px">
+        <img button style="border-radius: 10px; box-shadow: 0px 3px 10px #dddddd;" src="../../assets/images/img-2.png"
+          (click)="ShowInformation(8)">
+        <!-- <p class="card-text" style="color: #2c365a">Pengajuan Keberatan</p> -->
+      </div>
+    </div>
+  </div>
+
+  <!-- <div>
+    <div class="row">
+      <div class="card">
+        <img button style="border-radius: 10px; box-shadow: 0px 3px 15px #dddddd;" src="../../assets/images/img-1.png"
+          (click)="ShowInformation(7)">
+        <p class="card-text" style="color: #2c365a">Permohonan Informasi</p>
+      </div>
+      <div class="card">
+        <img button style="border-radius: 10px; box-shadow: 0px 3px 15px #dddddd;" src="../../assets/images/img-2.png"
+          (click)="ShowInformation(8)">
+        <p class="card-text" style="color: #2c365a">Pengajuan Keberatan</p>
+      </div>
+    </div>
+  </div> -->
+
+  <!-- ------------------------------------------------->
+
+  <ion-text style="font-size: 20px; font-weight: 700; color: #2c365a" class="ion-padding">Perlu Infrabuddies ingat</ion-text>
 
   <div class="ion-padding" style="padding-top: 0.5rem;">
     <img style="border-radius: 10px; box-shadow: 0px 3px 15px #dddddd;" src="../../assets/images/img-3.png">
@@ -61,8 +88,23 @@
 
   <ion-text style="font-size: 20px; font-weight: 700; color: #2c365a" class="ion-padding">Ajukan Sekarang</ion-text>
 
+  <div>
+    <div class="row ion-padding" style="padding-top: 0.5rem; padding-bottom: 20px;">
+      <div class="card" style="padding-right: 5px">
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfmV28Lij0pHPbSUPkVjwGVI9Do9J8aFGuaV9gH_w42vm1CcQ/viewform">
+          <img style="border-radius: 10px; box-shadow: 0px 3px 10px #dddddd;" src="../../assets/images/img-8.png">
+        </a>
+      </div>
+      <div class="card" style="padding-left: 5px">
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSetAWwad5RxAxd0n3kx-N1IobgInT7qbRN_rPqKyXiHGgMidw/viewform">
+          <img style="border-radius: 10px; box-shadow: 0px 3px 10px #dddddd;" src="../../assets/images/img-9.png">
+        </a>
+      </div>
+    </div>
+  </div>
+
   <!-- <div button class="ion-padding" style="padding-top: 0.5rem; padding-bottom: 0.5rem;" (click)="OpenPermohonanInformasi()"> -->
-  <div button class="ion-padding" style="padding-top: 0.5rem; padding-bottom: 0.5rem;">
+  <!-- <div button class="ion-padding" style="padding-top: 0.5rem; padding-bottom: 0.5rem;">
     <a href="https://docs.google.com/forms/d/e/1FAIpQLSfmV28Lij0pHPbSUPkVjwGVI9Do9J8aFGuaV9gH_w42vm1CcQ/viewform">
       <ion-grid style="background: white; padding: 0px; margin: 0px; border-radius: 10px;">
         <ion-row class="ion-align-items-center">
@@ -82,10 +124,10 @@
         </ion-row>
       </ion-grid>
     </a>
-  </div>
+  </div> -->
 
   <!-- <div button class="ion-padding" style="padding-top: 0px; padding-bottom: 20px" (click)="OpenPengajuanKeberatan()"> -->
-  <div button class="ion-padding" style="padding-top: 0px; padding-bottom: 20px">
+  <!-- <div button class="ion-padding" style="padding-top: 0px; padding-bottom: 20px">
     <a href="https://docs.google.com/forms/d/e/1FAIpQLSetAWwad5RxAxd0n3kx-N1IobgInT7qbRN_rPqKyXiHGgMidw/viewform">
       <ion-grid button style="background: white; padding: 0px; margin: 0px; border-radius: 10px;">
         <ion-row class="ion-align-items-center">
@@ -105,7 +147,7 @@
         </ion-row>
       </ion-grid>
     </a>
-  </div>
+  </div> -->
 
   <!-- <ion-card>
     <ion-item button detail color="hk-ppid" lines="none" (click)="OpenPermohonanInformasi()">Permohonan Informasi</ion-item>
@@ -119,7 +161,7 @@
 
   <!-- ------------------------------------------------->
 
-  <ion-text style="font-size: 20px; font-weight: 700; color: #2c365a" class="ion-padding">May You Need</ion-text>
+  <ion-text style="font-size: 20px; font-weight: 700; color: #2c365a" class="ion-padding">Mungkin kalian butuh ini</ion-text>
 
   <div style="padding-top: 0.5rem;">
     <ion-card style="margin-top: 0px" mode="ios">

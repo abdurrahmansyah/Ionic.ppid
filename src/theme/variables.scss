@@ -291,3 +291,27 @@
     --ion-card-background: #1e1e1e;
   }
 }
+
+ion-alert {
+  &.alert-notification {
+    --min-width: 90vw; // calc(100% - 20px);
+    --border-spacing: 10px; // DELETE LATER
+    --letter-spacing: 10px; // DELETE LATER
+    --word-spacing: 10px; // DELETE LATER
+
+    .alert-head {
+      min-height: 54.399vw;
+      background-image: url("../assets/images/img-14.png");
+      background-size: 100% 100%;
+      color: #fff;
+    }
+    .alert-message {
+      height: 0px;
+      padding: 0px;
+    }
+    .alert-button {
+      min-height: 50px;
+      color: var(--ion-color-hk-ppid);
+    }
+  }
+}

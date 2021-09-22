@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
 import { GlobalService, IndexPage } from '../services/global.service';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -9,8 +10,36 @@ import { GlobalService, IndexPage } from '../services/global.service';
 })
 export class HomePage {
 
-  constructor(public router: Router, private globalService: GlobalService) {
+  constructor(public router: Router,
+    private globalService: GlobalService,
+    private alertController: AlertController) {
   }
+
+  async ngOnInit() {
+    await this.alertController.create({
+      mode: 'ios',
+      message: 'This is an alert message.',
+      backdropDismiss: true,
+      cssClass: 'alert-notification',
+      // buttons: [{
+      //   text: 'WFO - Proyek',
+      //   handler: () => {
+      //     this.ByPassDoingAbsenWfoNewNormal(reportData, true);
+      //   }        // role: 'Cancel'
+      // }, {
+      //   text: 'WFH',
+      //   handler: () => {
+      //     this.globalService.dateRequest = reportData.dateAbsen;
+      //     this.globalService.timeRequest = reportData.timeAbsen;
+      //     this.globalService.diluarKantor = reportData.szActivityId;
+      //     this.router.navigate(['form-request'], navigationExtras);
+      //   }
+      // }]
+    }).then(alert => {
+      return alert.present();
+    });
+  }
+
 
   public OpenPermohonanInformasi() {
     this.router.navigate(['permohonan-informasi']);
@@ -79,7 +108,7 @@ export class HomePage {
       this.router.navigate(['information'], navigationExtras);
     } else if (index == 7) {
       console.log("ini 7");
-      
+
       let navigationExtras: NavigationExtras = {
         state: {
           indexForm: this.globalService.IndexPageData.PermohonanInformasi
