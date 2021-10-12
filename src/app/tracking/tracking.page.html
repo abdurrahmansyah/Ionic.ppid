@@ -1,11 +1,147 @@
-<ion-header class="ion-no-border" [translucent]="true" mode="ios">
+<!-- <ion-header class="ion-no-border" [translucent]="true" mode="ios">
   <ion-toolbar color="#eaebef">
     <ion-title>Tracking Your Ticket</ion-title>
   </ion-toolbar>
-</ion-header>
+</ion-header> -->
 
 <ion-content>
-  <!-- <iframe src="https://script.google.com/macros/s/AKfycbwRyQAr5gMQ1xg6qeSSNjxGH57daBuGc09sUCR6Tyru737evzzXr7dEtADZTlgFaNnH9w/exec" style="width:100%;height:100%" scrolling="yes"></iframe> -->
-  <br>
-  <ion-button expand="full" shape="round" color="hk-ppid" href="https://script.google.com/macros/s/AKfycbwRyQAr5gMQ1xg6qeSSNjxGH57daBuGc09sUCR6Tyru737evzzXr7dEtADZTlgFaNnH9w/exec">Tracking Ticket</ion-button>
+  <div style="position: absolute; width: 100%; top: 10%; text-align: center;">
+    <ion-text style="font-weight: 700; font-size: 24px;" color="hk-white-ppid">Tracking Your Ticket</ion-text>
+  </div>
+
+  <div style="position: absolute; height: 80%; width: 100%; top: 20%; background-color: #ffffff; ">
+    <div style="position: absolute; left: 5%; margin-top: 8%;">
+      <ion-text>Email</ion-text>
+    </div>
+
+    <div
+      style="position: absolute; left: 5%; height: 60px; width: 90%; background-color: #ffffff; border: 5px solid var(--ion-color-hk-ppid); margin-top: 15%; border-radius: 10px; padding-top: 0; padding-bottom: 0;">
+      <ion-input color="hk-ppid" style="font-size: 20px; position: absolute; left: 0; right: 0; text-align: center;"
+        type="email" placeholder="Contoh : infrabuddies@gmail.com" [(ngModel)]="email" name="email" required>
+      </ion-input>
+    </div>
+
+    <div style="position: absolute; left: 5%; margin-top: 35%;">
+      <ion-text>ID Ticket</ion-text>
+    </div>
+
+    <div
+      style="position: absolute; left: 5%; height: 60px; width: 90%; background-color: #ffffff; border: 5px solid var(--ion-color-hk-ppid); margin-top: 42%; border-radius: 10px; padding-top: 0; padding-bottom: 0;">
+      <ion-input color="hk-ppid" style="font-size: 20px; position: absolute; left: 0; right: 0; text-align: center;"
+        type="text" placeholder="Contoh : KIPHK/INFO/12771" [(ngModel)]="idTicket" name="idTicket" required>
+      </ion-input>
+    </div>
+
+    <div
+      style="position: absolute; left: 5%; height: 60px; width: 90%;  margin-top: 62%; border-radius: 10px; padding-top: 0; padding-bottom: 0;">
+      <ion-button expand="full" shape="round" color="success" (click)="TrackingTicket()"
+        style="height: 100%; margin: 0; padding: 0; font-weight: 700;">Track Ticket
+      </ion-button>
+    </div>
+  </div>
+
+  <div style="position: absolute; height: 45%; width: 100%; top: 62%;" *ngIf="isTicket">
+    <!-- <ion-card>
+      <ion-item detail button Lines="none">
+        <ion-label>Nama Pemohon</ion-label>
+        <ion-label class="ion-text-right" style="color: grey;">{{txtNamaPemohon}}</ion-label>
+      </ion-item>
+      <ion-item detail button Lines="none">
+        <ion-label>Nama Pemohon</ion-label>
+        <ion-label class="ion-text-right" style="color: grey;">{{txtNamaPemohon}}</ion-label>
+      </ion-item>
+      <ion-item detail button Lines="none">
+        <ion-label>Nama Pemohon</ion-label>
+        <ion-label class="ion-text-right" style="color: grey;">{{txtNamaPemohon}}</ion-label>
+      </ion-item>
+      <ion-item detail button Lines="none">
+        <ion-label>Nama Pemohon</ion-label>
+        <ion-label class="ion-text-right" style="color: grey;">{{txtNamaPemohon}}</ion-label>
+      </ion-item>
+      <ion-item detail button Lines="none">
+        <ion-label>Nama Pemohon</ion-label>
+        <ion-label class="ion-text-right" style="color: grey;">{{txtNamaPemohon}}</ion-label>
+      </ion-item>
+      <ion-item detail button Lines="none">
+        <ion-label>Nama Pemohon</ion-label>
+        <ion-label class="ion-text-right" style="color: grey;">{{txtNamaPemohon}}</ion-label>
+      </ion-item>
+    </ion-card> -->
+
+    <ion-card style="margin-top: 0px;">
+      <ion-item lines="none" color="hk-ppid-three">
+        <ion-label style="font-size: 16px; color: whitesmoke;">
+          <p>{{ txtIDTicket }} - {{ txtStatusTicket }}</p>
+          <p>{{ txtTipeTicket }}</p>
+        </ion-label>
+      </ion-item>
+      <div class="ion-text-start ion-padding"
+        style="padding-top: 0px; padding-bottom: 0px; line-height: 150%; background-color: white;">
+        <!-- <ion-text color="dark">{{ activityData.workCondition }}</ion-text>
+        <ion-text> - </ion-text>
+        <ion-text>{{ activityData.szLocation }}</ion-text> <br> -->
+        <ion-row>
+          <ion-col size="5">
+            <div class="ion-text-nowrap" style="overflow: hidden; text-overflow: ellipsis;">
+              <ion-text (click)="PresentNotif('Nama Pemohon', txtNamaPemohon)">Nama Pemohon</ion-text> <br>
+              <ion-text (click)="PresentNotif('Email Pemohon', txtEmail)">Email Pemohon</ion-text> <br>
+              <ion-text (click)="PresentNotif('Respon HK', txtResponHK)">Respon HK</ion-text> <br>
+              <ion-text (click)="PresentNotif('Rincian Info', txtRincianInformasi)">Rincian Info</ion-text> <br>
+            </div>
+          </ion-col>
+          <ion-col size="7">
+            <div class="ion-text-nowrap" style="overflow: hidden; text-overflow: ellipsis;">
+              <ion-text (click)="PresentNotif('Nama Pemohon', txtNamaPemohon)">: {{ txtNamaPemohon }}</ion-text> <br>
+              <ion-text (click)="PresentNotif('Email Pemohon', txtEmail)">: {{ txtEmail }}</ion-text> <br>
+              <ion-text (click)="PresentNotif('Respon HK', txtResponHK)">: {{ txtResponHK }}</ion-text> <br>
+              <ion-text (click)="PresentNotif('Rincian Info', txtRincianInformasi)">: {{ txtRincianInformasi }}</ion-text> <br>
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-text (click)="OpenOutlook()" color="primary">Tiket Masuk : {{ txtTglTiketMasuk }}</ion-text> <br>
+        <ion-text (click)="OpenOutlook()" color="primary">Tiket Ditindak Lanjut : {{ txtTglTindakLanjut }}</ion-text>
+        <br>
+        <ion-text (click)="OpenOutlook()" color="primary">Tiket Selesai : {{ txtTglSelesai }}</ion-text>
+      </div>
+    </ion-card>
+  </div>
+
+
+
+
+
+
+
+
+  <!-- <div>
+
+    <ion-card mode="ios">
+      <ion-card-header>
+        <ion-card-subtitle>Form Absen Diluar</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-item Lines=" full">{{ txtTimeRequest }}</ion-item>
+        <iframe src="https://script.google.com/macros/s/AKfycbwRyQAr5gMQ1xg6qeSSNjxGH57daBuGc09sUCR6Tyru737evzzXr7dEtADZTlgFaNnH9w/exec" style="width:100%;height:100%" scrolling="yes"></iframe>
+        <br>
+        <ion-input type="text" placeholder="ID Tiket" [(ngModel)]="idTicket" name="idTicket" required>
+        </ion-input>
+        <ion-input type="text" placeholder="Email" [(ngModel)]="email" name="email" required>
+        </ion-input>
+
+        <ion-button expand="full" shape="round" color="hk-ppid"
+        href="https://script.google.com/macros/s/AKfycbwRyQAr5gMQ1xg6qeSSNjxGH57daBuGc09sUCR6Tyru737evzzXr7dEtADZTlgFaNnH9w/exec">
+        Tracking Ticket</ion-button>
+
+      </ion-card-content>
+
+      <ion-row class="ion-align-items-center">
+        <ion-col class="signup-col">
+          <ion-button shape="round" expand="block" color='hk-ppid' (click)="TrackingTicket()" type="submit">Tracking
+            Ticket
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-card>
+  </div> -->
 </ion-content>
