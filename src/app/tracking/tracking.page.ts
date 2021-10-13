@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, LoadingController, ModalController, Platform } from '@ionic/angular';
+import { AlertController, LoadingController, ModalController, Platform, ToastController } from '@ionic/angular';
 import { TicketComponent } from '../components/ticket/ticket.component';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -27,8 +27,10 @@ export class TrackingPage implements OnInit {
   isTicket: boolean = false;
 
   constructor(private platform: Platform,
-    private loadingController: LoadingController, private httpClient: HttpClient,
-    private alertController: AlertController) {
+    private loadingController: LoadingController,
+    private httpClient: HttpClient,
+    private alertController: AlertController,
+    private toastController: ToastController) {
     this.InitializeLoadingCtrl();
   }
 
@@ -45,17 +47,16 @@ export class TrackingPage implements OnInit {
       this.ValidateData();
       this.TrackingTicketData();
     } catch (e) {
-      this.loadingController.dismiss();
-      // this.PresentToast(e.message);
+      this.PresentToast(e.message);
       console.log(e.message);
     }
   }
 
   private ValidateData() {
-    if (!this.idTicket)
-      throw new Error('ID Tiket wajib diisi.');
-    else if (!this.email)
+    if (!this.email)
       throw new Error('Email wajib diisi.');
+    else if (!this.idTicket)
+      throw new Error('ID Tiket wajib diisi.');
   }
 
   private TrackingTicketData() {
@@ -81,7 +82,11 @@ export class TrackingPage implements OnInit {
         this.txtTglTindakLanjut = data.records.TANGGAL_TINDAK_LANJUT.split('T')[0];
         this.txtTglSelesai = data.records.TANGGAL_SELESAI.split('T')[0];
       }
-      else this.isTicket = false;
+      else {
+        this.PresentToast('Data tidak ditemukan. Pastikan Email dan ID Tiket benar.');
+        // throw new Error('Data tidak ditemukan.');
+        this.isTicket = false;
+      }
     });
   }
 
@@ -134,5 +139,15 @@ export class TrackingPage implements OnInit {
     }).then(alert => {
       return alert.present();
     });
+  }
+
+  private async PresentToast(msg: string) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 2000,
+      color: "dark",
+      mode: "ios"
+    });
+    toast.present();
   }
 }
