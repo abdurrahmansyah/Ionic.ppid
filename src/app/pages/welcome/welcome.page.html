@@ -1,0 +1,43 @@
+<ion-content>
+  <ion-slides pager="true">
+
+    <!-- Slide 1 -->
+    <ion-slide>
+      <!-- <ion-text color="light"> -->
+      <ion-text>
+        <img src="../../../assets/images/img-31.png">
+        <h1>Hey there!</h1>
+        <p>ppid hutamakarya</p>
+        <ion-button (click)="next()" fill="outline">Next</ion-button>
+        <!-- <ion-button (click)="next()" fill="outline" color="light">Next</ion-button> -->
+      </ion-text>
+    </ion-slide>
+
+    <!-- Slide 2 -->
+    <ion-slide>
+      <ion-text>
+        <img src="../../../assets/images/img-32.png">
+        <h1>Hey again!</h1>
+        <p>This is an epic app because...</p>
+        <ion-button (click)="next()" fill="outline">Next</ion-button>
+      </ion-text>
+    </ion-slide>
+
+    <!-- Slide 3 -->
+    <ion-slide>
+      <ion-text>
+        <img src="../../../assets/images/img-33.png">
+        <!-- <img style="border-radius: 10px; box-shadow: 0px 3px 10px #dddddd;" src="../../assets/images/img-8.png"> -->
+
+        <h1>It's PPID HK!</h1>
+        <p>... it shows all the basics you need!</p>
+        <ion-button (click)="start()" fill="outline">Start</ion-button>
+      </ion-text>
+    </ion-slide>
+
+  </ion-slides>
+
+  <div class="overlay">
+    <ion-text style="font-size: small;">Version : {{versionNumber}}</ion-text>
+  </div>
+</ion-content>

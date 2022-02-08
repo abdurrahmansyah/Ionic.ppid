@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar color="hk-ppid">
+    <ion-buttons slot="start">
+      <ion-back-button color="hk-white-ppid"></ion-back-button>
+    </ion-buttons>
+    <ion-title>register</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <form (ngSubmit)="Register()" [formGroup]="credentials">
+    <div class="input-group">
+      <ion-item>
+        <ion-input type="text" placeholder="Nama Lengkap" formControlName="name"></ion-input>
+      </ion-item>
+      <div *ngIf="(name.dirty || name.touched) && name.errors" class="errors">
+        <span *ngIf="name.errors?.required">Name is required</span>
+        <span *ngIf="name.errors?.pattern">Name is invalid</span>
+      </div>
+      <ion-item>
+        <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>
+      </ion-item>
+      <div *ngIf="(email.dirty || email.touched) && email.errors" class="errors">
+        <span *ngIf="email.errors?.required">Email is required</span>
+        <span *ngIf="email.errors?.email">Email is invalid</span>
+      </div>
+      <ion-item>
+        <ion-input type="number" placeholder="No HP" formControlName="telp"></ion-input>
+      </ion-item>
+      <div *ngIf="(telp.dirty || telp.touched) && telp.errors" class="errors">
+        <span *ngIf="telp.errors?.required">Telp is required</span>
+        <span *ngIf="telp.errors?.pattern">Telp is invalid</span>
+      </div>
+      <ion-item>
+        <ion-input [type]="passwordType" placeholder="Password" formControlName="password"></ion-input>
+        <ion-icon name="{{iconName}}" item-end (click)="togglePass()"></ion-icon>
+      </ion-item>
+      <div *ngIf="(password.dirty || password.touched) && password.errors" class="errors">
+        <span *ngIf="password.errors?.required">Password tidak boleh kosong</span>
+        <span *ngIf="password.errors?.minlength">Password needs to be 5 characters</span>
+      </div>
+    </div>
+
+    <ion-button type="submit" expand="block" [disabled]="!credentials.valid">Register</ion-button>
+    <ion-button type="button" expand="block" color="light" fill="clear" (click)="Login()">Have an account? Sign in!
+    </ion-button>
+
+    <ion-button type="button" expand="block" color="tertiary">
+      <ion-icon name="logo-google" slot="start"></ion-icon>
+      Sign up with Google
+    </ion-button>
+    <ion-button type="button" expand="block" color="tertiary">
+      <ion-icon name="logo-apple" slot="start"></ion-icon>
+      Sign up with Apple
+    </ion-button>
+  </form>
+</ion-content>

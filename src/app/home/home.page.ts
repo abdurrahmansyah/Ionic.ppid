@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
 import { GlobalService, IndexPage } from '../services/global.service';
 import { AlertController } from '@ionic/angular';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +13,13 @@ export class HomePage {
 
   constructor(public router: Router,
     private globalService: GlobalService,
-    private alertController: AlertController) {
+    private alertController: AlertController,
+    private authService: AuthenticationService) {
+      this.InitializeData();
+  }
+
+  async InitializeData() {
+    await this.globalService.GetUserDataFromStorage();
   }
 
   async ngOnInit() {
@@ -125,5 +132,10 @@ export class HomePage {
 
       this.router.navigate(['information'], navigationExtras);
     }
+  }
+
+  async logout() {
+    await this.authService.logout();
+    this.router.navigateByUrl('/', { replaceUrl: true });
   }
 }
