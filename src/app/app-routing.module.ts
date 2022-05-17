@@ -12,17 +12,17 @@ const routes: Routes = [
   },
   {
     path: 'register',
-    loadChildren: () => import('./pages/register/register.module').then( m => m.RegisterPageModule)
+    loadChildren: () => import('./pages/register/register.module').then(m => m.RegisterPageModule)
   },
   {
     path: 'welcome',
     loadChildren: () => import('./pages/welcome/welcome.module').then(m => m.WelcomePageModule),
-    canLoad:  [AuthGuard]
+    // canLoad:  [AuthGuard]
   },
   {
     path: 'tabs',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule),
-    canLoad:  [AuthGuard]
+    canLoad: [AuthGuard]
   },
   {
     path: 'permohonan-informasi',
@@ -37,10 +37,15 @@ const routes: Routes = [
     loadChildren: () => import('./pages/information/information.module').then(m => m.InformationPageModule)
   },
   {
+    path: 'update-user-data',
+    loadChildren: () => import('./pages/update-user-data/update-user-data.module').then(m => m.UpdateUserDataPageModule)
+  },
+  {
     path: '',
     redirectTo: '/login',
     pathMatch: 'full'
-  }
+  },
+
 
 
   // {

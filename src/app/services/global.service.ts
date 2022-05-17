@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { LoadingController, ToastController } from '@ionic/angular';
+import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { Storage } from '@capacitor/storage';
 import { HttpClient } from '@angular/common/http';
 import { AuthenticationService } from './authentication.service';
 import { NavigationExtras, Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { InjectorInstance } from '../app.module';
 
 const TOKEN_KEY = 'my-token';
 
@@ -16,9 +18,17 @@ export class GlobalService {
   private token: any;
   public userData: UserData;
   public statusUserData = new StatusUserData;
+  public statusTransaksiData = new StatusTransaksiData;
+  public ticketTypeData = new TicketTypeData;
+  public isSeenAlertPPID: boolean = false;
+  urlDEVDACTIC = 'http://localhost:3000';
+
+  httpClient = InjectorInstance.get<HttpClient>(HttpClient);
+  public pekerjaanDataList = [];
 
   constructor(private authService: AuthenticationService,
     private toastController: ToastController,
+    private alertController: AlertController,
     private loadingController: LoadingController,
     private router: Router,
     private http: HttpClient) {
@@ -37,8 +47,6 @@ export class GlobalService {
 
     this.http.post(url, postdata).subscribe(
       async (data: any) => {
-        console.log(data);
-        
         if (!data.error) {
           // var userDataFromDb = data.result;//.find(x => x);
           // var userData = this.MappingUserData(userDataFromDb);
@@ -49,7 +57,7 @@ export class GlobalService {
           await Storage.set({ key: 'md_user_telp', value: data.result[3] });
           await Storage.set({ key: 'md_user_ktp', value: data.result[4] });
           await Storage.set({ key: 'md_user_npwp', value: data.result[5] });
-          await Storage.set({ key: 'md_pekerjaan_id', value: data.result[6] });
+          await Storage.set({ key: 'md_user_pekerjaan_id', value: data.result[6] == null ? "" : data.result[6] });
           await Storage.set({ key: 'md_user_address', value: data.result[7] });
           await Storage.set({ key: 'md_user_instution', value: data.result[8] });
           await Storage.set({ key: 'md_user_password', value: data.result[9] });
@@ -59,10 +67,10 @@ export class GlobalService {
           await Storage.set({ key: 'md_user_date_modified', value: data.result[13] });
           await Storage.set({ key: 'md_user_last_login', value: data.result[14] });
 
-          this.authService.login()
+          this.authService.login();
           await loading.dismiss();
           this.PresentToast("Login Berhasil");
-          this.router.navigateByUrl('/tabs', { replaceUrl: true });
+          this.router.navigate(['tabs']);
         }
         else {
           this.loadingController.dismiss();
@@ -70,6 +78,19 @@ export class GlobalService {
         }
       }
     );
+  }
+
+  public TestAPIABSEN() {
+    var url = 'https://absensi.hutamakarya.com/api/list/activity';
+
+    var data: any = this.httpClient.get(url);
+    this.PresentAlert(data.toString());
+    console.log(data);
+
+    data.subscribe(data => {
+      this.PresentAlert(data[0].id);
+      console.log(data);
+    });
   }
 
   public async Register(credentials: { name, email, telp, password }) {
@@ -82,7 +103,7 @@ export class GlobalService {
     postdata.append('md_user_telp', credentials.telp);
     postdata.append('md_user_password', credentials.password);
     postdata.append('md_user_admin', 'FALSE');
-    postdata.append('md_user_status', this.statusUserData.notActive);
+    postdata.append('md_user_status', this.statusUserData.KYCNEEDAPPROVAL);
 
     var url = 'http://sihk.hutamakarya.com/apippid/registerppid.php';
 
@@ -109,6 +130,153 @@ export class GlobalService {
     );
   }
 
+  public async UpdateAccount(credentials: { telp, ktp, npwp, pekerjaan, alamat, institusi }) {
+    const loading = await this.loadingController.create();
+    await loading.present();
+
+    let postdata = new FormData();
+    postdata.append('md_user_email', this.userData.md_user_email);
+    postdata.append('md_user_password', this.userData.md_user_password);
+    postdata.append('md_user_telp', credentials.telp);
+    postdata.append('md_user_ktp', credentials.ktp);
+    postdata.append('md_user_npwp', credentials.npwp);
+    postdata.append('md_user_pekerjaan_id', credentials.pekerjaan);
+    postdata.append('md_user_address', credentials.alamat);
+    postdata.append('md_user_instution', credentials.institusi);
+    postdata.append('md_user_admin', this.userData.md_user_admin);
+    postdata.append('md_user_status', this.statusUserData.KYCNEEDAPPROVAL);
+
+    var url = 'http://sihk.hutamakarya.com/apippid/updateAccount.php';
+
+    this.http.post(url, postdata).subscribe(
+      async (data: any) => {
+        console.log(data);
+        if (!data.error) {
+
+          await Storage.set({ key: 'md_user_id', value: data.result[0] });
+          await Storage.set({ key: 'md_user_name', value: data.result[1] });
+          await Storage.set({ key: 'md_user_email', value: data.result[2] });
+          await Storage.set({ key: 'md_user_telp', value: data.result[3] });
+          await Storage.set({ key: 'md_user_ktp', value: data.result[4] });
+          await Storage.set({ key: 'md_user_npwp', value: data.result[5] });
+          await Storage.set({ key: 'md_user_pekerjaan_id', value: data.result[6] == null ? "" : data.result[6] });
+          await Storage.set({ key: 'md_user_address', value: data.result[7] });
+          await Storage.set({ key: 'md_user_instution', value: data.result[8] });
+          await Storage.set({ key: 'md_user_password', value: data.result[9] });
+          await Storage.set({ key: 'md_user_admin', value: data.result[10] });
+          await Storage.set({ key: 'md_user_status', value: data.result[11] });
+          await Storage.set({ key: 'md_user_date_created', value: data.result[12] });
+          await Storage.set({ key: 'md_user_date_modified', value: data.result[13] });
+          await Storage.set({ key: 'md_user_last_login', value: data.result[14] });
+
+          await loading.dismiss();
+          await this.GetUserDataFromStorage();
+          this.PresentToast("Update Akun Berhasil");
+          this.router.navigateByUrl('/tabs', { replaceUrl: true });
+        }
+        else {
+          this.loadingController.dismiss();
+          this.PresentToast(data.error_msg);
+        }
+      }
+    );
+  }
+
+  public async CreatePermohonanInformasi(credentials: { tujuan, rincian, cara, lampiran }) {
+    const loading = await this.loadingController.create();
+    await loading.present();
+
+    let postdata = new FormData();
+    postdata.append('trx_ticket_user_id', this.userData.md_user_id);
+    postdata.append('trx_ticket_tipe', this.ticketTypeData.PERMOHONANINFORMASI);
+    postdata.append('trx_ticket_tujuan_alasan', credentials.tujuan);
+    postdata.append('trx_ticket_rincian', credentials.rincian);
+    postdata.append('trx_ticket_cara', credentials.cara);
+    postdata.append('trx_ticket_lampiran', credentials.lampiran);
+    postdata.append('trx_ticket_status', this.statusTransaksiData.OPEN);
+
+    var url = 'http://sihk.hutamakarya.com/apippid/createPermohonan.php';
+
+    this.http.post(url, postdata).subscribe(
+      async (data: any) => {
+        if (!data.error) {
+
+          await loading.dismiss();
+          this.PresentToast("Permohonan Informasi Berhasil");
+          this.router.navigate(['tabs']);
+        }
+        else {
+          this.loadingController.dismiss();
+          this.PresentToast(data.error_msg);
+        }
+      }
+    );
+  }
+
+  public getListPekerjaan() {
+    let postdata = new FormData();
+
+    var url = 'http://sihk.hutamakarya.com/apippid/getListPekerjaan.php';
+
+    var data: any = this.httpClient.post(url, postdata);
+    data.subscribe(data => {
+      data.result.forEach(pekerjaanDataFromDb => {
+        var pekerjaanData = new PekerjaanData();
+
+        pekerjaanData.md_pekerjaan_id = pekerjaanDataFromDb.md_pekerjaan_id;
+        pekerjaanData.md_pekerjaan_name = pekerjaanDataFromDb.md_pekerjaan_name;
+        this.pekerjaanDataList.push(pekerjaanData);
+      });
+    });
+  }
+
+  public GetTicketDataListByUser(): Observable<any> {
+    let postdata = new FormData();
+    postdata.append('trx_ticket_user_id', this.userData.md_user_id);
+
+    var url = 'http://sihk.hutamakarya.com/apippid/getTicketDataListByUser.php';
+
+    return this.httpClient.post(url, postdata);
+  }
+
+  public CancelTicket(ticketData: TicketData): Observable<any> {
+    let postdata = new FormData();
+    postdata.append('trx_ticket_id', ticketData.trx_ticket_id);
+    postdata.append('trx_ticket_user_id', ticketData.trx_ticket_user_id);
+    postdata.append('trx_ticket_replyadmin', "SELF CANCEL BY USER AUTHORIZED");
+    postdata.append('trx_ticket_status', this.statusTransaksiData.CLOSE);
+
+    var url = 'http://sihk.hutamakarya.com/apippid/cancelPermohonan.php';
+
+    return this.httpClient.post(url, postdata);
+  }
+
+  // public async GetTicketDataListByUser() {
+  //   const loading = await this.loadingController.create();
+  //   await loading.present();
+
+  //   let postdata = new FormData();
+  //   postdata.append('trx_ticket_user_id', this.userData.md_user_id);
+
+  //   var url = 'http://sihk.hutamakarya.com/apippid/getTicketDataListByUser.php';
+
+  //   return this.httpClient.post(url, postdata);
+  //   // this.http.post(url, postdata).subscribe(
+  //   //   async (data: any) => {
+  //   //     if (!data.error) {
+  //   //       console.log(data.result);
+
+  //   //       await loading.dismiss();
+  //   //       // this.router.navigate(['tabs']);
+  //   //     }
+  //   //     else {
+  //   //       this.loadingController.dismiss();
+  //   //       this.PresentToast(data.error_msg);
+  //   //     }
+  //   //   }
+  //   // );
+  // }
+
   private MappingUserData(userDataFromDb: any) {
     var userData = new UserData();
     userData.md_user_id = userDataFromDb.md_user_id;
@@ -117,7 +285,7 @@ export class GlobalService {
     userData.md_user_telp = userDataFromDb.md_user_telp;
     userData.md_user_ktp = userDataFromDb.md_user_ktp;
     userData.md_user_npwp = userDataFromDb.md_user_npwp;
-    userData.md_pekerjaan_id = userDataFromDb.md_pekerjaan_id;
+    userData.md_user_pekerjaan_id = userDataFromDb.md_user_pekerjaan_id;
     userData.md_user_address = userDataFromDb.md_user_address;
     userData.md_user_instution = userDataFromDb.md_user_instution;
     userData.md_user_password = userDataFromDb.md_user_password;
@@ -140,7 +308,7 @@ export class GlobalService {
     userData.md_user_telp = (await Storage.get({ key: 'md_user_telp' })).value;
     userData.md_user_ktp = (await Storage.get({ key: 'md_user_ktp' })).value;
     userData.md_user_npwp = (await Storage.get({ key: 'md_user_npwp' })).value;
-    userData.md_pekerjaan_id = (await Storage.get({ key: 'md_pekerjaan_id' })).value;
+    userData.md_user_pekerjaan_id = (await Storage.get({ key: 'md_user_pekerjaan_id' })).value;
     userData.md_user_address = (await Storage.get({ key: 'md_user_address' })).value;
     userData.md_user_instution = (await Storage.get({ key: 'md_user_instution' })).value;
     userData.md_user_password = (await Storage.get({ key: 'md_user_password' })).value;
@@ -161,6 +329,51 @@ export class GlobalService {
     });
     toast.present();
   }
+
+  PresentAlert(msg: string) {
+    this.alertController.create({
+      mode: 'ios',
+      message: msg,
+      buttons: ['OK']
+    }).then(alert => {
+      return alert.present();
+    });
+  }
+
+  // -------------------------------------------------------------------------------------------
+
+  getImages() {
+    return this.http.get<ApiImage[]>(`${this.urlDEVDACTIC}/image`);
+  }
+
+  uploadImage(blobData, name, ext) {
+    const formData = new FormData();
+    formData.append('file', blobData, `myimage.${ext}`);
+    formData.append('name', name);
+
+    return this.http.post(`${this.urlDEVDACTIC}/image`, formData);
+  }
+
+  uploadImageFile(file: File) {
+    const ext = file.name.split('.').pop();
+    const formData = new FormData();
+    formData.append('file', file, `myimage.${ext}`);
+    formData.append('name', file.name);
+
+    return this.http.post(`${this.urlDEVDACTIC}/image`, formData);
+  }
+
+  deleteImage(id) {
+    return this.http.delete(`${this.urlDEVDACTIC}/image/${id}`);
+  }
+
+}
+
+export interface ApiImage {
+  _id: string;
+  name: string;
+  createdAt: Date;
+  url: string;
 }
 
 export class IndexPage {
@@ -182,7 +395,7 @@ export class UserData {
   public md_user_telp: string;
   public md_user_ktp: string;
   public md_user_npwp: string;
-  public md_pekerjaan_id: string;
+  public md_user_pekerjaan_id: string;
   public md_user_address: string;
   public md_user_instution: string;
   public md_user_password: string;
@@ -195,7 +408,45 @@ export class UserData {
   constructor() { }
 }
 
+export class TicketData {
+  public trx_ticket_id: string;
+  public trx_ticket_user_id: string;
+  public trx_ticket_date_created: string;
+  public trx_ticket_date_respond: string;
+  public trx_ticket_date_closed: string;
+  public trx_ticket_tipe: string;
+  public trx_ticket_reference_id: string;
+  public trx_ticket_tujuan_alasan: string;
+  public trx_ticket_rincian: string;
+  public trx_ticket_cara: string;
+  public trx_ticket_lampiran: string;
+  public trx_ticket_replyadmin: string;
+  public trx_ticket_rating: string;
+  public trx_ticket_status: string;
+
+  constructor() { }
+}
+
 export class StatusUserData {
-  public readonly active: string = "ACTIVE";
-  public readonly notActive: string = "NOT ACTIVE";
+  // public readonly ACTIVE: string = "ACTIVE";
+  // public readonly NOTACTIVE: string = "NOT ACTIVE";
+  public readonly KYCREQUIRED: string = "KYC REQUIRED";
+  public readonly KYCNEEDAPPROVAL: string = "KYC NEED APPROVAL";
+  public readonly KYCVERIFIED: string = "KYC VERIFIED";
+}
+
+export class StatusTransaksiData {
+  public readonly OPEN: string = "OPEN";
+  public readonly CLOSE: string = "CLOSE";
+  public readonly INPROGRESS: string = "IN PROGRESS";
+}
+
+export class TicketTypeData {
+  public readonly PERMOHONANINFORMASI: string = "Permohonan Informasi";
+  public readonly PENGAJUANKEBERATAN: string = "Pengajuan Keberatan";
+}
+
+export class PekerjaanData {
+  public md_pekerjaan_id: any;
+  public md_pekerjaan_name: any;
 }

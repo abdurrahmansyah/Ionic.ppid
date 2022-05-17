@@ -4,12 +4,70 @@
   </ion-toolbar>
 </ion-header> -->
 
+
 <ion-content>
-  <div style="position: absolute; width: 100%; top: 10%; text-align: center;">
-    <ion-text style="font-weight: 700; font-size: 24px;" color="hk-white-ppid">Tracking Your Ticket</ion-text>
+  <div class="ticketsaya">
+    <ion-text
+      style="margin-top: 10%; position: absolute; top: 0; left: 0; bottom: 0; right: 0; font-weight: 700; font-size: 24px;">
+      Tiket Saya</ion-text>
   </div>
 
-  <div style="position: absolute; height: 80%; width: 100%; top: 20%; background-color: #ffffff; ">
+  <ion-refresher slot="fixed" pullFactor="0.5" pullMin="100" pullMax="200" (ionRefresh)="DoRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div *ngFor="let ticketData of ticketDataList">
+    <div style="margin-top: 14px; background-color: white;" button (click)="ShowDetailTicket(ticketData)">
+      <div style="margin-left: 16px;display: block;">
+        <ion-row style="margin-right: 16px;">
+          <ion-col size="8" style="padding-left: 0px;">
+            <ion-text style="font-size: 12px;">{{ ticketData.trx_ticket_date_created }}</ion-text>
+          </ion-col>
+          <ion-col size="4" class="ion-text-end">
+            <ion-text *ngIf="ticketData.trx_ticket_status === 'OPEN'" style="font-size: 12px; color: orangered;">{{ ticketData.trx_ticket_status }}</ion-text>
+            <ion-text *ngIf="ticketData.trx_ticket_status === 'CLOSE'" style="font-size: 12px; color: green;">{{ ticketData.trx_ticket_status }}</ion-text>
+            <ion-text *ngIf="ticketData.trx_ticket_status === 'IN PROGRESS'" style="font-size: 12px; color: yellow;">{{ ticketData.trx_ticket_status }}</ion-text>
+          </ion-col>
+        </ion-row>
+
+        <ion-col style="padding-left: 0px; display: block; width: 100%;">
+          <ion-text style="font-size: 24px; font-weight: 700;">{{
+            ticketData.trx_ticket_tipe }}</ion-text><br>
+          <div style="padding: 10px 0px;">
+            <ion-text color="hk-ppid-three">Rincian</ion-text>
+            <ion-text> - {{ ticketData.trx_ticket_rincian }}</ion-text>
+          </div>
+        </ion-col>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div style="margin-top: 14px; background-color: white;" button (click)="ShowDetailTicket(ticketData)">
+    <div style="margin-left: 16px;display: block;">
+      <ion-row style="margin-right: 16px;">
+        <ion-col size="8" style="padding-left: 0px;">
+          <ion-text style="font-size: 12px;">AASDF</ion-text>
+        </ion-col>
+        <ion-col size="4" class="ion-text-end">
+          <ion-text style="font-size: 12px; color: orangered;">33</ion-text>
+        </ion-col>
+      </ion-row>
+
+      <ion-col style="padding-left: 0px; display: block; width: 100%;">
+        <ion-text style="font-size: 24px; font-weight: 700;">4</ion-text><br>
+        <div style="padding: 10px 0px;">
+          <ion-text color="hk-ppid-three">Rincian</ion-text>
+          <ion-text> - AA</ion-text>
+        </div>
+      </ion-col>
+    </div>
+  </div> -->
+
+
+
+  <!-- -------------------KODINGAN LAMA (PPID FASE I)------------------- -->
+
+  <!-- <div style="position: absolute; height: 80%; width: 100%; top: 20%; background-color: #ffffff; ">
     <div style="position: absolute; left: 5%; margin-top: 8%;">
       <ion-text>Email</ion-text>
     </div>
@@ -40,46 +98,16 @@
     </div>
   </div>
 
-  <div style="position: absolute; height: 45%; width: 100%; top: 62%;" *ngIf="isTicket">
-    <!-- <ion-card>
-      <ion-item detail button Lines="none">
-        <ion-label>Nama Pemohon</ion-label>
-        <ion-label class="ion-text-right" style="color: grey;">{{txtNamaPemohon}}</ion-label>
-      </ion-item>
-      <ion-item detail button Lines="none">
-        <ion-label>Nama Pemohon</ion-label>
-        <ion-label class="ion-text-right" style="color: grey;">{{txtNamaPemohon}}</ion-label>
-      </ion-item>
-      <ion-item detail button Lines="none">
-        <ion-label>Nama Pemohon</ion-label>
-        <ion-label class="ion-text-right" style="color: grey;">{{txtNamaPemohon}}</ion-label>
-      </ion-item>
-      <ion-item detail button Lines="none">
-        <ion-label>Nama Pemohon</ion-label>
-        <ion-label class="ion-text-right" style="color: grey;">{{txtNamaPemohon}}</ion-label>
-      </ion-item>
-      <ion-item detail button Lines="none">
-        <ion-label>Nama Pemohon</ion-label>
-        <ion-label class="ion-text-right" style="color: grey;">{{txtNamaPemohon}}</ion-label>
-      </ion-item>
-      <ion-item detail button Lines="none">
-        <ion-label>Nama Pemohon</ion-label>
-        <ion-label class="ion-text-right" style="color: grey;">{{txtNamaPemohon}}</ion-label>
-      </ion-item>
-    </ion-card> -->
-
+  <div style="position: absolute; height: 45%; width: 100%; top: 62%;">
     <ion-card mode="ios">
       <ion-item lines="none" color="hk-ppid-three">
         <ion-label style="font-size: 16px; color: whitesmoke;">
-          <p>{{ txtIDTicket }} - {{ txtStatusTicket }}</p>
-          <p>{{ txtTipeTicket }}</p>
+          <p>txtIDTicket - txtStatusTicket</p>
+          <p>txtTipeTicket</p>
         </ion-label>
       </ion-item>
       <div class="ion-text-start ion-padding"
         style="padding-top: 0px; padding-bottom: 0px; line-height: 150%; background-color: white;">
-        <!-- <ion-text color="dark">{{ activityData.workCondition }}</ion-text>
-        <ion-text> - </ion-text>
-        <ion-text>{{ activityData.szLocation }}</ion-text> <br> -->
         <ion-row>
           <ion-col size="5">
             <div class="ion-text-nowrap" style="overflow: hidden; text-overflow: ellipsis;">
@@ -103,45 +131,6 @@
         <br>
         <ion-text (click)="OpenOutlook()" color="primary">Tiket Selesai : {{ txtTglSelesai }}</ion-text>
       </div>
-    </ion-card>
-  </div>
-
-
-
-
-
-
-
-
-  <!-- <div>
-
-    <ion-card mode="ios">
-      <ion-card-header>
-        <ion-card-subtitle>Form Absen Diluar</ion-card-subtitle>
-      </ion-card-header>
-
-      <ion-card-content>
-        <ion-item Lines=" full">{{ txtTimeRequest }}</ion-item>
-        <iframe src="https://script.google.com/macros/s/AKfycbwRyQAr5gMQ1xg6qeSSNjxGH57daBuGc09sUCR6Tyru737evzzXr7dEtADZTlgFaNnH9w/exec" style="width:100%;height:100%" scrolling="yes"></iframe>
-        <br>
-        <ion-input type="text" placeholder="ID Tiket" [(ngModel)]="idTicket" name="idTicket" required>
-        </ion-input>
-        <ion-input type="text" placeholder="Email" [(ngModel)]="email" name="email" required>
-        </ion-input>
-
-        <ion-button expand="full" shape="round" color="hk-ppid"
-        href="https://script.google.com/macros/s/AKfycbwRyQAr5gMQ1xg6qeSSNjxGH57daBuGc09sUCR6Tyru737evzzXr7dEtADZTlgFaNnH9w/exec">
-        Tracking Ticket</ion-button>
-
-      </ion-card-content>
-
-      <ion-row class="ion-align-items-center">
-        <ion-col class="signup-col">
-          <ion-button shape="round" expand="block" color='hk-ppid' (click)="TrackingTicket()" type="submit">Tracking
-            Ticket
-          </ion-button>
-        </ion-col>
-      </ion-row>
     </ion-card>
   </div> -->
 </ion-content>

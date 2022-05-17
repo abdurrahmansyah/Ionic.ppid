@@ -18,7 +18,7 @@
 
   <ion-row class="ion-align-items-center">
     <ion-col size="12" class="ion-text-center">
-      <ion-text style="font-size: 20px; font-weight: 700; color: var(--ion-color-hk-ppid-main);">Create New Account
+      <ion-text style="font-size: 20px; font-weight: 700; color: var(--ion-color-hk-ppid-main);">Update Identitas Akun
       </ion-text>
     </ion-col>
   </ion-row>
@@ -30,7 +30,6 @@
       </ion-item>
       <div *ngIf="(name.dirty || name.touched) && name.errors" class="errors">
         <span *ngIf="name.errors?.required">Name is required</span>
-        <span *ngIf="name.errors?.pattern">Name is invalid</span>
       </div>
       <br>
 
@@ -60,6 +59,54 @@
         <span *ngIf="password.errors?.required">Password tidak boleh kosong</span>
         <span *ngIf="password.errors?.minlength">Password needs to be 5 characters</span>
       </div>
+      <br>
+
+      <ion-item class="border" lines="none">
+        <ion-input type="number" placeholder="No KTP" formControlName="ktp"></ion-input>
+      </ion-item>
+      <div *ngIf="(ktp.dirty || ktp.touched) && ktp.errors" class="errors">
+        <span *ngIf="ktp.errors?.required">ID Card tidak boleh kosong</span>
+        <!-- <span *ngIf="ktp.errors?.pattern">ID Card is invalid</span> -->
+        <span *ngIf="ktp.errors?.minlength">ID Card needs to be 16 characters</span>
+        <span *ngIf="ktp.errors?.maxlength">ID Card needs to be 16 characters</span>
+      </div>
+      <br>
+
+      <ion-item class="border" lines="none"> 
+        <ion-input [type]="numberType" placeholder="No NPWP" formControlName="npwp"></ion-input>
+      </ion-item>
+      <div *ngIf="(npwp.dirty || npwp.touched) && npwp.errors" class="errors">
+        <span *ngIf="npwp.errors?.required">NPWP tidak boleh kosong</span>
+        <span *ngIf="npwp.errors?.pattern">NPWP is invalid</span>
+        <span *ngIf="npwp.errors?.minlength">NPWP needs to be 15 characters</span>
+        <span *ngIf="npwp.errors?.maxlength">NPWP needs to be 15 characters</span>
+      </div>
+      <br>
+
+      <ion-item class="border" lines="none">
+        <ion-input type="text" placeholder="Pekerjaan" formControlName="pekerjaan"></ion-input>
+      </ion-item>
+      <div *ngIf="(pekerjaan.dirty || pekerjaan.touched) && pekerjaan.errors" class="errors">
+        <span *ngIf="pekerjaan.errors?.required">Pekerjaan is required</span>
+      </div>
+      <br>
+
+      <ion-item class="border" lines="none">
+        <ion-input type="text" placeholder="Alamat" formControlName="alamat"></ion-input>
+      </ion-item>
+      <div *ngIf="(alamat.dirty || alamat.touched) && alamat.errors" class="errors">
+        <span *ngIf="alamat.errors?.required">Alamat is required</span>
+      </div>
+      <br>
+
+      <ion-item class="border" lines="none">
+        <ion-input type="text" placeholder="Institusi" formControlName="institusi"></ion-input>
+      </ion-item>
+      <div *ngIf="(institusi.dirty || institusi.touched) && institusi.errors" class="errors">
+        <span *ngIf="institusi.errors?.required">Institusi is required</span>
+      </div>
+      <br>
+
     </div>
 
     <hr style="height: 12px; margin-top: 0px; margin-bottom: 0px;" no-padding>

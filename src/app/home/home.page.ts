@@ -15,7 +15,7 @@ export class HomePage {
     private globalService: GlobalService,
     private alertController: AlertController,
     private authService: AuthenticationService) {
-      this.InitializeData();
+    this.InitializeData();
   }
 
   async InitializeData() {
@@ -23,30 +23,36 @@ export class HomePage {
   }
 
   async ngOnInit() {
-    await this.alertController.create({
-      mode: 'ios',
-      message: 'This is an alert message.',
-      backdropDismiss: true,
-      cssClass: 'alert-notification',
-      // buttons: [{
-      //   text: 'WFO - Proyek',
-      //   handler: () => {
-      //     this.ByPassDoingAbsenWfoNewNormal(reportData, true);
-      //   }        // role: 'Cancel'
-      // }, {
-      //   text: 'WFH',
-      //   handler: () => {
-      //     this.globalService.dateRequest = reportData.dateAbsen;
-      //     this.globalService.timeRequest = reportData.timeAbsen;
-      //     this.globalService.diluarKantor = reportData.szActivityId;
-      //     this.router.navigate(['form-request'], navigationExtras);
-      //   }
-      // }]
-    }).then(alert => {
-      return alert.present();
-    });
+    if (!this.globalService.isSeenAlertPPID) {
+      await this.alertController.create({
+        mode: 'ios',
+        message: 'This is an alert message.',
+        backdropDismiss: true,
+        cssClass: 'alert-notification',
+        // buttons: [{
+        //   text: 'WFO - Proyek',
+        //   handler: () => {
+        //     this.ByPassDoingAbsenWfoNewNormal(reportData, true);
+        //   }        // role: 'Cancel'
+        // }, {
+        //   text: 'WFH',
+        //   handler: () => {
+        //     this.globalService.dateRequest = reportData.dateAbsen;
+        //     this.globalService.timeRequest = reportData.timeAbsen;
+        //     this.globalService.diluarKantor = reportData.szActivityId;
+        //     this.router.navigate(['form-request'], navigationExtras);
+        //   }
+        // }]
+      }).then(alert => {
+        this.globalService.isSeenAlertPPID = true;
+        return alert.present();
+      });
+    }
   }
 
+  ngOnDestroy() {
+    this.globalService.isSeenAlertPPID = false;
+  }
 
   public OpenPermohonanInformasi() {
     this.router.navigate(['permohonan-informasi']);

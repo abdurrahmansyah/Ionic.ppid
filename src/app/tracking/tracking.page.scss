@@ -1,23 +1,18 @@
 ion-content {
     // --ion-background-color: #eaebef;
-    --ion-background-color: var(--ion-color-hk-ppid-three);
-}
-
-#container {
-    text-align: center;
-
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 80%;
-    transform: translateY(-50%);
-
-    min-height: 80%;
-    height: auto;
-    background-color: coral;
+    --ion-background-color: var(--ion-color-hk-tweet);
 }
 
 .ios ion-card {
     margin-top: 5px;
     margin-bottom: 5px;
   }
+
+.ticketsaya{
+    color: white;
+    background-color: var(--ion-color-hk-ppid-three);
+    width: 100%;
+    text-align: center;
+    height: 100px;
+    margin: auto;
+}

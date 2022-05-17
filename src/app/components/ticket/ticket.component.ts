@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { AlertController, ModalController, NavParams } from '@ionic/angular';
+import { Observable } from 'rxjs';
+import { GlobalService, TicketData, UserData } from 'src/app/services/global.service';
 
 @Component({
   selector: 'app-ticket',
@@ -7,8 +10,72 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TicketComponent implements OnInit {
 
-  constructor() { }
+  // Data passed in by componentProps
+  public ticketData: TicketData;
+  public userData: UserData;
+  public isPermohonan: boolean = false;
+  public isKeberatan: boolean = false;
+  public statusColor: string;
 
-  ngOnInit() {}
+  constructor(private navParams: NavParams,
+    private globalService: GlobalService,
+    private modalController: ModalController,
+    private alertController: AlertController) {
 
+  }
+
+  ngOnInit() {
+    this.ticketData = this.navParams.get('ticketData');
+    this.userData = this.globalService.userData;
+    this.isPermohonan = this.ticketData.trx_ticket_tipe == this.globalService.ticketTypeData.PERMOHONANINFORMASI ? true : false;
+    this.isKeberatan = this.ticketData.trx_ticket_tipe == this.globalService.ticketTypeData.PENGAJUANKEBERATAN ? true : false;
+    this.statusColor = this.ticketData.trx_ticket_status == this.globalService.statusTransaksiData.OPEN ? "orangered" :
+      this.ticketData.trx_ticket_status == this.globalService.statusTransaksiData.INPROGRESS ? "yellow" :
+        this.ticketData.trx_ticket_status == this.globalService.statusTransaksiData.CLOSE ? "green" : "black";
+  }
+
+  public CloseDetailTicket() { 
+    this.modalController.dismiss(
+      { dataPassing: "JUSTCANCEL" },
+      'backdrop'
+    );
+  }
+
+  public CancelTicket() {
+    this.alertController.create({
+      mode: 'ios',
+      message: 'Apakah Anda Yakin Ingin Membatalkan Tiket Tersebut ?',
+      cssClass: 'alert-akun',
+      buttons: [{
+        text: 'YES',
+        handler: () => {
+          var data = this.globalService.CancelTicket(this.ticketData);
+          this.SubscribeCancelTicket(data);
+        }
+      }, {
+        text: 'CANCEL',
+        role: 'Cancel'
+      }]
+    }).then(alert => {
+      return alert.present();
+    });
+  }
+
+  private SubscribeCancelTicket(data: Observable<any>) {
+    data.subscribe(
+      (data: any) => {
+        console.log(data);
+        if (!data.error) {
+          this.globalService.PresentToast("Cancel Tiket Berhasil");
+          this.modalController.dismiss(
+            { dataPassing: "CANCELTICKET" },
+            'confirm'
+          );
+        }
+        else {
+          this.globalService.PresentToast(data.error_msg);
+        }
+      }
+    );
+  }
 }

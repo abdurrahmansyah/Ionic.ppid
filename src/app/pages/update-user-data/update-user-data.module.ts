@@ -4,18 +4,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { PermohonanInformasiPageRoutingModule } from './permohonan-informasi-routing.module';
+import { UpdateUserDataPageRoutingModule } from './update-user-data-routing.module';
 
-import { PermohonanInformasiPage } from './permohonan-informasi.page';
+import { UpdateUserDataPage } from './update-user-data.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    PermohonanInformasiPageRoutingModule,
+    UpdateUserDataPageRoutingModule,
     ReactiveFormsModule
   ],
-  declarations: [PermohonanInformasiPage]
+  declarations: [UpdateUserDataPage]
 })
-export class PermohonanInformasiPageModule {}
+export class UpdateUserDataPageModule {}

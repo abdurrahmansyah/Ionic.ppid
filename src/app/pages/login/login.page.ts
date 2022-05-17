@@ -13,6 +13,9 @@ const TOKEN_KEY = 'my-token';
 })
 export class LoginPage implements OnInit {
   credentials: FormGroup;
+  iconName: string = 'eye';
+  passwordType: string = 'password';
+  passwordShown: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -43,6 +46,18 @@ export class LoginPage implements OnInit {
     });
   }
 
+  public togglePass() {
+    if (this.passwordShown) {
+      this.passwordShown = false;
+      this.passwordType = 'password';
+      this.iconName = 'eye';
+    } else {
+      this.passwordShown = true;
+      this.passwordType = '';
+      this.iconName = 'eye-off';
+    }
+  }
+
   async Login() {
     this.globalService.Login(this.credentials.value);
   }
@@ -65,5 +80,9 @@ export class LoginPage implements OnInit {
 
   get password() {
     return this.credentials.get('password');
+  }
+
+  public TestAPIABSEN(){
+    this.globalService.TestAPIABSEN();
   }
 }

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { Injector, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
@@ -8,6 +8,8 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 // import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
+
+export let InjectorInstance: Injector;
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,4 +26,9 @@ import { HttpClientModule } from '@angular/common/http';
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule { 
+  constructor(private injector: Injector) 
+  {
+    InjectorInstance = this.injector;
+  }
+}

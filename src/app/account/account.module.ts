@@ -4,18 +4,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { PermohonanInformasiPageRoutingModule } from './permohonan-informasi-routing.module';
+import { AccountPageRoutingModule } from './account-routing.module';
 
-import { PermohonanInformasiPage } from './permohonan-informasi.page';
+import { AccountPage } from './account.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    PermohonanInformasiPageRoutingModule,
+    AccountPageRoutingModule,
     ReactiveFormsModule
   ],
-  declarations: [PermohonanInformasiPage]
+  declarations: [AccountPage]
 })
-export class PermohonanInformasiPageModule {}
+export class AccountPageModule {}

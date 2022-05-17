@@ -107,6 +107,7 @@ export class AuthenticationService {
 
   logout(): Promise<void> {
     this.isAuthenticated.next(false);
+    Storage.remove({ key: "welcome-seen" });
     return Storage.remove({ key: TOKEN_KEY });
   }
 }

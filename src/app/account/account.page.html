@@ -1,0 +1,188 @@
+<!-- <ion-header>
+  <ion-toolbar color="hk-ppid">
+    <ion-buttons slot="start">
+      <ion-back-button color="hk-white-ppid"></ion-back-button>
+    </ion-buttons>
+    <ion-title>register</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+
+<!-- <ion-toolbar style="position: absolute; margin-left: auto; margin-right: 0;"> -->
+<!-- <div class="ion-text-end" style="position: absolute; top: 0px;">
+  <ion-text style="background-color: blue; padding: 16px;">TEST</ion-text>
+</div> -->
+<!-- </ion-toolbar> -->
+
+<ion-content>
+  <div *ngIf="isUserDataRequired" class="status" style="background-color: #FFB194;">
+    <ion-row style="padding: 0;">
+      <ion-col size="4" style="padding: 0;">
+        <img src="../../assets/images/img-35.png" alt="img-35" class="img-status">
+      </ion-col>
+      <ion-col size="8" style="padding: 0;" class="ion-align-self-center">
+        <ion-text style="color: rgb(230, 33, 41); display: block;">Not Verified</ion-text>
+      </ion-col>
+    </ion-row>
+  </div>
+
+  <div *ngIf="isUserDataNeedApproval" class="status" style="background-color: #FFB194;">
+    <ion-row style="padding: 0;">
+      <ion-col size="4" style="padding: 0;">
+        <img src="../../assets/images/img-35.png" alt="img-35" class="img-status">
+      </ion-col>
+      <ion-col size="8" style="padding: 0;" class="ion-align-self-center">
+        <ion-text style="color: rgb(230, 33, 41); display: block;">Need Approval</ion-text>
+      </ion-col>
+    </ion-row>
+  </div>
+
+  <div *ngIf="isUserDataVerified" class="status" style="background-color: #D3F0E3;">
+    <ion-row class="ion-no-padding">
+      <ion-col size="4" class="ion-no-padding">
+        <img src="../../assets/images/img-34.png" alt="img-34" class="img-status">
+      </ion-col>
+      <ion-col size="8" style="padding: 0;" class="ion-align-self-center">
+        <ion-text style="color: rgb(16, 145, 56); display: block;">Verified</ion-text>
+      </ion-col>
+    </ion-row>
+  </div>
+
+  <ion-row class="ion-align-items-center">
+    <ion-col size="12" class="ion-text-center">
+      <ion-text *ngIf="isModeEdit" style="font-size: 20px; font-weight: 700; color: var(--ion-color-hk-ppid-main);">
+        Update Identitas Akun
+      </ion-text>
+      <ion-text *ngIf="!isModeEdit" style="font-size: 20px; font-weight: 700; color: var(--ion-color-hk-ppid-main);">Identitas Akun
+      </ion-text>
+    </ion-col>
+  </ion-row>
+
+  <form (ngSubmit)="UpdateAccount()" [formGroup]="credentials">
+    <div class="input-group" style="padding-top: 10px;">
+      <ion-item class="border" lines="none">
+        <ion-input type="text" placeholder="Nama Lengkap" formControlName="name"></ion-input>
+      </ion-item>
+      <div *ngIf="(name.dirty || name.touched) && name.errors" class="errors">
+        <span *ngIf="name.errors?.required">Name is required</span>
+      </div>
+      <br>
+
+      <ion-item class="border" lines="none">
+        <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>
+      </ion-item>
+      <div *ngIf="(email.dirty || email.touched) && email.errors" class="errors">
+        <span *ngIf="email.errors?.required">Email is required</span>
+        <span *ngIf="email.errors?.email">Email is invalid</span>
+      </div>
+      <br>
+
+      <ion-item class="border" lines="none">
+        <ion-input type="number" placeholder="No HP" formControlName="telp"></ion-input>
+      </ion-item>
+      <div *ngIf="(telp.dirty || telp.touched) && telp.errors" class="errors">
+        <span *ngIf="telp.errors?.required">Telp is required</span>
+        <span *ngIf="telp.errors?.pattern">Telp is invalid</span>
+      </div>
+      <br>
+
+      <!-- <ion-item class="border" lines="none">
+        <ion-input [type]="passwordType" placeholder="Password" formControlName="password"></ion-input>
+        <ion-icon name="{{iconName}}" item-end (click)="togglePass()"></ion-icon>
+      </ion-item>
+      <div *ngIf="(password.dirty || password.touched) && password.errors" class="errors">
+        <span *ngIf="password.errors?.required">Password tidak boleh kosong</span>
+        <span *ngIf="password.errors?.minlength">Password needs to be 5 characters</span>
+      </div>
+      <br> -->
+
+      <ion-item class="border" lines="none">
+        <ion-input [type]="numberType" placeholder="No KTP" formControlName="ktp"></ion-input>
+      </ion-item>
+      <div *ngIf="(ktp.dirty || ktp.touched) && ktp.errors" class="errors">
+        <span *ngIf="ktp.errors?.required">ID Card tidak boleh kosong</span>
+        <span *ngIf="ktp.errors?.pattern">ID Card is invalid</span>
+        <span *ngIf="ktp.errors?.minlength">ID Card needs to be 16 characters</span>
+        <span *ngIf="ktp.errors?.maxlength">ID Card needs to be 16 characters</span>
+      </div>
+      <br>
+
+      <ion-item class="border" lines="none">
+        <ion-input [type]="numberType" placeholder="No NPWP" formControlName="npwp"></ion-input>
+      </ion-item>
+      <div *ngIf="(npwp.dirty || npwp.touched) && npwp.errors" class="errors">
+        <span *ngIf="npwp.errors?.pattern">NPWP is invalid</span>
+        <span *ngIf="npwp.errors?.minlength">NPWP needs to be 15 characters</span>
+        <span *ngIf="npwp.errors?.maxlength">NPWP needs to be 15 characters</span>
+      </div>
+      <br>
+
+      <ion-item class="border" lines="none">
+        <ion-label>Pekerjaan</ion-label>
+        <ion-select mode="ios" formControlName="pekerjaan">
+          <ion-select-option *ngFor="let x of values" [value]="x.md_pekerjaan_id">{{x.md_pekerjaan_name}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <div *ngIf="(pekerjaan.dirty || pekerjaan.touched) && pekerjaan.errors" class="errors">
+        <span *ngIf="pekerjaan.errors?.required">Pekerjaan is required</span>
+      </div>
+      <br>
+
+      <ion-item class="border" lines="none">
+        <ion-input type="text" placeholder="Alamat" formControlName="alamat"></ion-input>
+      </ion-item>
+      <div *ngIf="(alamat.dirty || alamat.touched) && alamat.errors" class="errors">
+        <span *ngIf="alamat.errors?.required">Alamat is required</span>
+      </div>
+      <br>
+
+      <ion-item class="border" lines="none">
+        <ion-input type="text" placeholder="Institusi" formControlName="institusi"></ion-input>
+      </ion-item>
+      <div *ngIf="(institusi.dirty || institusi.touched) && institusi.errors" class="errors">
+        <span *ngIf="institusi.errors?.required">Institusi is required</span>
+      </div>
+      <br>
+
+    </div>
+
+    <div *ngIf="isModeEdit" style="display: inline-block;">
+      <hr style="height: 12px; margin-top: 0px; margin-bottom: 0px;" no-padding>
+
+      <ion-icon class="icon" name="stop"></ion-icon>
+      <span>&nbsp;</span>
+      <span class="text">I Agree to The </span>
+      <span>&nbsp;</span>
+      <span class="text" style="font-weight: 700;">Term and Conditions</span>
+
+      <br>
+      <br>
+    </div>
+
+    <ion-row class="ion-align-items-center">
+      <ion-col size="12" class="ion-text-center">
+        <!-- <ion-button shape="round" type="submit" [disabled]="!credentials.valid" color="hk-ppid-main">Update Account
+        </ion-button> -->
+        <ion-button *ngIf="isModeEdit" shape="round" color="danger">Batal</ion-button> <br>
+        <ion-button shape="round" type="submit" color="hk-ppid-main">{{txtButton}}</ion-button>
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>
+
+<!-- <ion-footer style="padding-left: 10%; padding-right: 10%; " class="ion-no-border" color="translucent">
+  <hr style="height: 12px; margin-top: 0px; margin-bottom: 0px;" no-padding>
+  
+  <ion-icon class="icon" name="stop"></ion-icon>
+  <span>&nbsp;</span>
+  <span class="text">I Agree to The </span>
+  <span>&nbsp;</span>
+  <span class="text" style="font-weight: 700;">Term and Conditions</span>
+
+  <br>
+  <br>
+  <ion-button expand="block" shape="round" color="hk-ppid-main" (click)="Login()">Update</ion-button>
+  <ion-toolbar></ion-toolbar>
+</ion-footer> -->
