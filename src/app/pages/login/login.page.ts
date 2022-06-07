@@ -1,10 +1,10 @@
 import { AuthenticationService } from './../../services/authentication.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController, ModalOptions } from '@ionic/angular';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { GlobalService, UserData } from 'src/app/services/global.service';
-const TOKEN_KEY = 'my-token';
+import { OtpComponent } from 'src/app/components/otp/otp.component';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +21,8 @@ export class LoginPage implements OnInit {
     private fb: FormBuilder,
     private globalService: GlobalService,
     private router: Router,
-    public activatedRoute: ActivatedRoute
+    public activatedRoute: ActivatedRoute,
+    private modalController: ModalController
   ) { }
 
   ngOnInit() {
@@ -59,6 +60,12 @@ export class LoginPage implements OnInit {
   }
 
   async Login() {
+    const options:  ModalOptions = {
+      component: OtpComponent,
+      componentProps: {
+        
+      }
+    }
     this.globalService.Login(this.credentials.value);
   }
 
@@ -80,9 +87,5 @@ export class LoginPage implements OnInit {
 
   get password() {
     return this.credentials.get('password');
-  }
-
-  public TestAPIABSEN(){
-    this.globalService.TestAPIABSEN();
   }
 }

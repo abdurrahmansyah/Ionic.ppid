@@ -10,9 +10,12 @@ import { GlobalService } from 'src/app/services/global.service';
 })
 export class RegisterPage implements OnInit {
   credentials: FormGroup;
-  iconName: string = 'eye';
+  passwordIconName: string = 'eye';
+  confirmPasswordIconName: string = 'eye';
   passwordType: string = 'password';
+  confirmPasswordType: string = 'password';
   passwordShown: boolean = false;
+  confirmPasswordShown: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -42,13 +45,17 @@ export class RegisterPage implements OnInit {
           email: [this.router.getCurrentNavigation().extras.state.emailLog, [Validators.required, Validators.email]],
           telp: ['', [Validators.required, Validators.pattern('[0-9]*')]],
           password: ['', [Validators.required, Validators.minLength(5)]],
+          confirmPassword: ['', [Validators.required, Validators.minLength(5)]],
         });
       }
     });
   }
 
   async Register() {
-    this.globalService.Register(this.credentials.value);
+    if (this.credentials.value.confirmPassword == this.credentials.value.password)
+      this.globalService.Register(this.credentials.value);
+    else
+      this.globalService.PresentToast("Password Not Match With Confirm Password");
   }
 
   public Login() {
@@ -71,15 +78,31 @@ export class RegisterPage implements OnInit {
     return this.credentials.get('password');
   }
 
+  get confirmPassword() {
+    return this.credentials.get('confirmPassword');
+  }
+
   public togglePass() {
     if (this.passwordShown) {
       this.passwordShown = false;
       this.passwordType = 'password';
-      this.iconName = 'eye';
+      this.passwordIconName = 'eye';
     } else {
       this.passwordShown = true;
       this.passwordType = '';
-      this.iconName = 'eye-off';
+      this.passwordIconName = 'eye-off';
+    }
+  }
+
+  public toggleConfirmPass() {
+    if (this.confirmPasswordShown) {
+      this.confirmPasswordShown = false;
+      this.confirmPasswordType = 'password';
+      this.confirmPasswordIconName = 'eye';
+    } else {
+      this.confirmPasswordShown = true;
+      this.confirmPasswordType = '';
+      this.confirmPasswordIconName = 'eye-off';
     }
   }
 }

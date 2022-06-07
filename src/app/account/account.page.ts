@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AlertController } from '@ionic/angular';
 import { GlobalService, UserData } from '../services/global.service';
 
 @Component({
@@ -13,16 +14,18 @@ export class AccountPage implements OnInit {
   passwordType: string = 'password';
   passwordShown: boolean = false;
   numberType: string = 'number';
-  values = this.globalService.pekerjaanDataList;
+  pekerjaanDataList = this.globalService.pekerjaanDataList;
   isUserDataRequired: boolean = false;
-  isUserDataNeedApproval: boolean = false;
+  isUserDataWaitingApproval: boolean = false;
   isUserDataVerified: boolean = false;
+  isUserDataRejected: boolean = false;
   isModeEdit: boolean = false;
   txtButton: string = 'Edit Account';
 
   constructor(
     private fb: FormBuilder,
     private globalService: GlobalService,
+    private alertController: AlertController
   ) {
     this.InitializeData();
   }
@@ -32,15 +35,21 @@ export class AccountPage implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.globalService.userData.md_user_status);
+    console.log(this.globalService.userData);
 
-    // this.statusColor = this.gl.trx_ticket_status == this.globalService.statusTransaksiData.OPEN ? "orangered" :
-    //   this.ticketData.trx_ticket_status == this.globalService.statusTransaksiData.INPROGRESS ? "yellow" :
-    //     this.ticketData.trx_ticket_status == this.globalService.statusTransaksiData.CLOSE ? "green" : "black";
+    this.SpecifyStatus();
+    this.DeclareCredentials();
+  }
 
-    this.isUserDataRequired = this.globalService.userData.md_user_status == this.globalService.statusUserData.KYCREQUIRED;
-    this.isUserDataNeedApproval = this.globalService.userData.md_user_status == this.globalService.statusUserData.KYCNEEDAPPROVAL;
+  private SpecifyStatus() {
+    this.isUserDataRequired = this.globalService.userData.md_user_status.split('_')[0] == this.globalService.statusUserData.KYCREQUIRED
+      || this.globalService.userData.md_user_status.split('_')[0] == this.globalService.statusUserData.KYCREJECTED;
+    this.isUserDataWaitingApproval = this.globalService.userData.md_user_status == this.globalService.statusUserData.KYCWAITINGAPPROVAL;
     this.isUserDataVerified = this.globalService.userData.md_user_status == this.globalService.statusUserData.KYCVERIFIED;
+    this.isUserDataRejected = this.globalService.userData.md_user_status == this.globalService.statusUserData.KYCREJECTED;
+  }
+
+  private DeclareCredentials() {
     this.credentials = this.fb.group({
       name: [{ value: this.globalService.userData.md_user_name, disabled: true }, [Validators.required]],
       email: [{ value: this.globalService.userData.md_user_email, disabled: true }, [Validators.required, Validators.email]],
@@ -52,38 +61,6 @@ export class AccountPage implements OnInit {
       alamat: [{ value: this.globalService.userData.md_user_address, disabled: true }, [Validators.required]],
       institusi: [{ value: this.globalService.userData.md_user_instution, disabled: true }, [Validators.required]],
     });
-  }
-
-  public UpdateAccount() {
-    if (this.globalService.userData.md_user_status != this.globalService.statusUserData.KYCVERIFIED) {
-      if (this.isModeEdit) {
-        if (this.credentials.valid) {
-          // this.globalService.UpdateAccount(this.credentials.value);
-  
-          this.credentials.controls['telp'].disable();
-          this.credentials.controls['ktp'].disable();
-          this.credentials.controls['npwp'].disable();
-          this.credentials.controls['pekerjaan'].disable();
-          this.credentials.controls['alamat'].disable();
-          this.credentials.controls['institusi'].disable();
-  
-          this.isModeEdit = false;
-          this.txtButton = 'Edit Account';
-        }
-      } else {
-        this.credentials.controls['telp'].enable();
-        this.credentials.controls['ktp'].enable();
-        this.credentials.controls['npwp'].enable();
-        this.credentials.controls['pekerjaan'].enable();
-        this.credentials.controls['alamat'].enable();
-        this.credentials.controls['institusi'].enable();
-  
-        this.isModeEdit = true;
-        this.txtButton = 'Confirm Update';
-      }
-    } else {
-      this.globalService.PresentAlert("Akun sudah terverifikasi, tidak dapat diedit");
-    }
   }
 
   get name() {
@@ -132,5 +109,73 @@ export class AccountPage implements OnInit {
       this.passwordType = '';
       this.iconName = 'eye-off';
     }
+  }
+
+  public Help() {
+    var txtStatusMessage = this.globalService.userData.md_user_status.split('_')[0];
+    var txtStatusMessage = 'Pastikan data diri sesuai dengan tanda pada identitas';
+
+    this.PresentAlertRejected(txtStatusMessage);
+  }
+
+  PresentAlertRejected(msg: string) {
+    this.alertController.create({
+      mode: 'ios',
+      header: 'KYC Rejected',
+      message: msg,
+      buttons: ['OK']
+    }).then(alert => {
+      return alert.present();
+    });
+  }
+
+  public UpdateAccount() {
+    if (this.globalService.userData.md_user_status != this.globalService.statusUserData.KYCVERIFIED) {
+      if (this.isModeEdit) {
+        if (this.credentials.valid) {
+          this.globalService.UpdateAccount(this.credentials.value);
+
+          this.credentials.controls['telp'].disable();
+          this.credentials.controls['ktp'].disable();
+          this.credentials.controls['npwp'].disable();
+          this.credentials.controls['pekerjaan'].disable();
+          this.credentials.controls['alamat'].disable();
+          this.credentials.controls['institusi'].disable();
+
+          this.isModeEdit = false;
+          this.txtButton = 'Edit Account';
+        }
+      } else {
+        this.credentials.controls['telp'].enable();
+        this.credentials.controls['ktp'].enable();
+        this.credentials.controls['npwp'].enable();
+        this.credentials.controls['pekerjaan'].enable();
+        this.credentials.controls['alamat'].enable();
+        this.credentials.controls['institusi'].enable();
+
+        this.isModeEdit = true;
+        this.txtButton = 'Confirm Update';
+      }
+    } else {
+      this.globalService.PresentAlert("Akun sudah terverifikasi, tidak dapat diedit");
+    }
+  }
+
+  public CancelEdit() {
+    this.credentials.controls['telp'].setValue(this.globalService.userData.md_user_telp);
+    this.credentials.controls['ktp'].setValue(this.globalService.userData.md_user_ktp);
+    this.credentials.controls['npwp'].setValue(this.globalService.userData.md_user_npwp);
+    this.credentials.controls['pekerjaan'].setValue(this.globalService.userData.md_user_pekerjaan_id);
+    this.credentials.controls['alamat'].setValue(this.globalService.userData.md_user_address);
+    this.credentials.controls['institusi'].setValue(this.globalService.userData.md_user_instution);
+    this.credentials.controls['telp'].disable();
+    this.credentials.controls['ktp'].disable();
+    this.credentials.controls['npwp'].disable();
+    this.credentials.controls['pekerjaan'].disable();
+    this.credentials.controls['alamat'].disable();
+    this.credentials.controls['institusi'].disable();
+
+    this.isModeEdit = false;
+    this.txtButton = 'Edit Account';
   }
 }

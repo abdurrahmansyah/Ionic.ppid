@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import { AlertController, LoadingController, ToastController } from '@ionic/angular';
+import { AlertController, LoadingController, ModalController, ModalOptions, ToastController } from '@ionic/angular';
 import { Storage } from '@capacitor/storage';
 import { HttpClient } from '@angular/common/http';
 import { AuthenticationService } from './authentication.service';
 import { NavigationExtras, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { InjectorInstance } from '../app.module';
+import { TicketComponent } from '../components/ticket/ticket.component';
+import { OtpComponent } from '../components/otp/otp.component';
 
 const TOKEN_KEY = 'my-token';
 
@@ -25,13 +27,15 @@ export class GlobalService {
 
   httpClient = InjectorInstance.get<HttpClient>(HttpClient);
   public pekerjaanDataList = [];
+  public approvalUserDataList = [];
 
   constructor(private authService: AuthenticationService,
     private toastController: ToastController,
     private alertController: AlertController,
     private loadingController: LoadingController,
     private router: Router,
-    private http: HttpClient) {
+    private http: HttpClient,
+    private modalController: ModalController) {
     this.IndexPageData = new IndexPage();
   }
 
@@ -41,59 +45,101 @@ export class GlobalService {
 
     let postdata = new FormData();
     postdata.append('md_user_email', credentials.email);
-    postdata.append('md_user_password', credentials.password);
+    postdata.append('password', credentials.password);
 
-    var url = 'http://sihk.hutamakarya.com/apippid/loginppid.php';
+    // var url = 'http://sihk.hutamakarya.com/apippid/loginppid.php';
+    var url = 'http://kipdev.hutamakarya.com/api/login';
 
     this.http.post(url, postdata).subscribe(
       async (data: any) => {
-        if (!data.error) {
-          // var userDataFromDb = data.result;//.find(x => x);
-          // var userData = this.MappingUserData(userDataFromDb);
+        console.log(data);
 
-          await Storage.set({ key: 'md_user_id', value: data.result[0] });
-          await Storage.set({ key: 'md_user_name', value: data.result[1] });
-          await Storage.set({ key: 'md_user_email', value: data.result[2] });
-          await Storage.set({ key: 'md_user_telp', value: data.result[3] });
-          await Storage.set({ key: 'md_user_ktp', value: data.result[4] });
-          await Storage.set({ key: 'md_user_npwp', value: data.result[5] });
-          await Storage.set({ key: 'md_user_pekerjaan_id', value: data.result[6] == null ? "" : data.result[6] });
-          await Storage.set({ key: 'md_user_address', value: data.result[7] });
-          await Storage.set({ key: 'md_user_instution', value: data.result[8] });
-          await Storage.set({ key: 'md_user_password', value: data.result[9] });
-          await Storage.set({ key: 'md_user_admin', value: data.result[10] });
-          await Storage.set({ key: 'md_user_status', value: data.result[11] });
-          await Storage.set({ key: 'md_user_date_created', value: data.result[12] });
-          await Storage.set({ key: 'md_user_date_modified', value: data.result[13] });
-          await Storage.set({ key: 'md_user_last_login', value: data.result[14] });
-
-          this.authService.login();
+        if (data.result) {
           await loading.dismiss();
-          this.PresentToast("Login Berhasil");
-          this.router.navigate(['tabs']);
+
+          if (data.data.md_user_email_verified_at) {
+            await this.MappingUserData(data);
+
+            this.authService.login(data.token);
+            this.PresentToast("Login Berhasil");
+            this.router.navigate(['tabs']);
+          } else {
+
+            // ///////////////////////////////////////////////// tes mau nambahin component otp
+            // const modal = await this.modalController.create({
+            //   component: TicketComponent,
+            //   initialBreakpoint: 0.6,
+            //   breakpoints: [0, 0.6, 0.95],
+            //   mode: 'md',
+            //   componentProps: {
+            //     'ticketData': "ticketData"
+            //   }
+            // });
+            // // modal.present();
+            // modal.onDidDismiss().then((modelData) => {
+            //   if (modelData.role == "confirm") {
+            //     if (modelData.data.dataPassing == "CANCELTICKET") {
+            //       console.log("harusnya jalanin GetTicketDataListByUser lagi");
+
+            //       this.GetTicketDataListByUser();
+            //     }
+            //   }
+            // })
+
+            // return await modal.present();
+
+            // /////////////////////////////////////////////////
+
+            // this.PresentToast("Login Berhasil");
+            // this.router.navigate(['tabs']);
+
+            /////////////////////////////////////////////////
+
+            const options: ModalOptions = {
+              component: OtpComponent,
+              initialBreakpoint: 0.95,
+              breakpoints: [0, 0.95],
+              mode: 'md',
+              componentProps: {
+                email: credentials.email
+              },
+              swipeToClose: true
+            };
+            const modal = this.modalController.create(options);
+            (await modal).present();
+            const data: any = (await modal).onWillDismiss();
+
+          }
         }
         else {
           this.loadingController.dismiss();
-          this.PresentToast(data.error_msg);
+          this.PresentToast(data.message);
         }
       }
     );
   }
 
-  public TestAPIABSEN() {
-    var url = 'https://absensi.hutamakarya.com/api/list/activity';
+  private async MappingUserData(data: any) {
+    var userDataFromDb = data.data;
 
-    var data: any = this.httpClient.get(url);
-    this.PresentAlert(data.toString());
-    console.log(data);
-
-    data.subscribe(data => {
-      this.PresentAlert(data[0].id);
-      console.log(data);
-    });
+    await Storage.set({ key: 'md_user_token', value: data.token });
+    await Storage.set({ key: 'md_user_id', value: userDataFromDb.id });
+    await Storage.set({ key: 'md_user_name', value: userDataFromDb.md_user_name });
+    await Storage.set({ key: 'md_user_email', value: userDataFromDb.md_user_email });
+    await Storage.set({ key: 'md_user_telp', value: userDataFromDb.md_user_telp });
+    await Storage.set({ key: 'md_user_ktp', value: userDataFromDb.md_user_ktp });
+    await Storage.set({ key: 'md_user_npwp', value: userDataFromDb.md_user_npwp });
+    await Storage.set({ key: 'md_user_pekerjaan_id', value: userDataFromDb.md_user_pekerjaan_id == null ? "" : userDataFromDb.md_user_pekerjaan_id });
+    await Storage.set({ key: 'md_user_address', value: userDataFromDb.md_user_address });
+    await Storage.set({ key: 'md_user_instution', value: userDataFromDb.md_user_instution });
+    await Storage.set({ key: 'md_user_admin', value: userDataFromDb.md_user_admin });
+    await Storage.set({ key: 'md_user_status', value: userDataFromDb.md_user_status });
+    await Storage.set({ key: 'md_user_date_created', value: userDataFromDb.created_at });
+    await Storage.set({ key: 'md_user_date_modified', value: userDataFromDb.updated_at });
+    await Storage.set({ key: 'md_user_last_login', value: userDataFromDb.md_user_last_login });
   }
 
-  public async Register(credentials: { name, email, telp, password }) {
+  public async Register(credentials: { name, email, telp, password, confirmPassword }) {
     const loading = await this.loadingController.create();
     await loading.present();
 
@@ -101,19 +147,20 @@ export class GlobalService {
     postdata.append('md_user_name', credentials.name);
     postdata.append('md_user_email', credentials.email);
     postdata.append('md_user_telp', credentials.telp);
-    postdata.append('md_user_password', credentials.password);
+    postdata.append('password', credentials.password);
+    postdata.append('password_confirmation', credentials.confirmPassword);
     postdata.append('md_user_admin', 'FALSE');
-    postdata.append('md_user_status', this.statusUserData.KYCNEEDAPPROVAL);
+    postdata.append('md_user_status', this.statusUserData.KYCREQUIRED);
 
-    var url = 'http://sihk.hutamakarya.com/apippid/registerppid.php';
+    // var url = 'http://sihk.hutamakarya.com/apippid/registerppid.php';
+    var url = 'http://kipdev.hutamakarya.com/api/register';
 
     this.http.post(url, postdata).subscribe(
       async (data: any) => {
-        console.log(data);
-        if (!data.error) {
+        if (data.result) {
 
           await loading.dismiss();
-          this.PresentToast("Register Berhasil");
+          this.PresentToast(data.message);
 
           let navigationExtras: NavigationExtras = {
             state: {
@@ -124,8 +171,19 @@ export class GlobalService {
         }
         else {
           this.loadingController.dismiss();
-          this.PresentToast(data.error_msg);
+          this.PresentToast(data.message);
         }
+      }, (error: any) => {
+        this.loadingController.dismiss();
+        var error_msg = error.error.md_user_email[0] ? "Gagal! Email Sudah Terdaftar" :
+          error.error.md_user_email[0] ? "Email Tidak Boleh Kosong" :
+            error.error.password[0] ? "Password Tidak Boleh Kosong" :
+              error.error.md_user_telp[0] ? "No HP Tidak Boleh Kosong" :
+                error.error.md_user_admin[0] ? "Status Admin Tidak Boleh Kosong" :
+                  error.error.md_user_status[0] ? "Status Tidak Boleh Kosong" : "BUG: Gagal Register";
+        console.log(error_msg);
+
+        this.PresentToast(error_msg);
       }
     );
   }
@@ -144,7 +202,7 @@ export class GlobalService {
     postdata.append('md_user_address', credentials.alamat);
     postdata.append('md_user_instution', credentials.institusi);
     postdata.append('md_user_admin', this.userData.md_user_admin);
-    postdata.append('md_user_status', this.statusUserData.KYCNEEDAPPROVAL);
+    postdata.append('md_user_status', this.statusUserData.KYCWAITINGAPPROVAL);
 
     var url = 'http://sihk.hutamakarya.com/apippid/updateAccount.php';
 
@@ -213,7 +271,7 @@ export class GlobalService {
     );
   }
 
-  public getListPekerjaan() {
+  public GetListPekerjaan() {
     let postdata = new FormData();
 
     var url = 'http://sihk.hutamakarya.com/apippid/getListPekerjaan.php';
@@ -226,6 +284,37 @@ export class GlobalService {
         pekerjaanData.md_pekerjaan_id = pekerjaanDataFromDb.md_pekerjaan_id;
         pekerjaanData.md_pekerjaan_name = pekerjaanDataFromDb.md_pekerjaan_name;
         this.pekerjaanDataList.push(pekerjaanData);
+      });
+    });
+  }
+
+  public GetListUserApproval() {
+    let postdata = new FormData();
+
+    var url = 'http://sihk.hutamakarya.com/apippid/getListUserApproval.php';
+
+    var data: any = this.httpClient.post(url, postdata);
+    data.subscribe(data => {
+      data.result.forEach(approvalUserDataFromDb => {
+        var userData = new UserData();
+
+        userData.md_user_id = approvalUserDataFromDb.md_user_id;
+        userData.md_user_name = approvalUserDataFromDb.md_user_name;
+        userData.md_user_email = approvalUserDataFromDb.md_user_email;
+        userData.md_user_telp = approvalUserDataFromDb.md_user_telp;
+        userData.md_user_ktp = approvalUserDataFromDb.md_user_ktp;
+        userData.md_user_npwp = approvalUserDataFromDb.md_user_npwp;
+        userData.md_user_pekerjaan_id = approvalUserDataFromDb.md_user_pekerjaan_id;
+        userData.md_user_address = approvalUserDataFromDb.md_user_address;
+        userData.md_user_instution = approvalUserDataFromDb.md_user_instution;
+        userData.md_user_password = approvalUserDataFromDb.md_user_password;
+        userData.md_user_admin = approvalUserDataFromDb.md_user_admin;
+        userData.md_user_status = approvalUserDataFromDb.md_user_status;
+        userData.md_user_date_created = approvalUserDataFromDb.md_user_date_created;
+        userData.md_user_date_modified = approvalUserDataFromDb.md_user_date_modified;
+        userData.md_user_last_login = approvalUserDataFromDb.md_user_last_login;
+
+        this.approvalUserDataList.push(userData);
       });
     });
   }
@@ -277,40 +366,20 @@ export class GlobalService {
   //   // );
   // }
 
-  private MappingUserData(userDataFromDb: any) {
-    var userData = new UserData();
-    userData.md_user_id = userDataFromDb.md_user_id;
-    userData.md_user_name = userDataFromDb.md_user_name;
-    userData.md_user_email = userDataFromDb.md_user_email;
-    userData.md_user_telp = userDataFromDb.md_user_telp;
-    userData.md_user_ktp = userDataFromDb.md_user_ktp;
-    userData.md_user_npwp = userDataFromDb.md_user_npwp;
-    userData.md_user_pekerjaan_id = userDataFromDb.md_user_pekerjaan_id;
-    userData.md_user_address = userDataFromDb.md_user_address;
-    userData.md_user_instution = userDataFromDb.md_user_instution;
-    userData.md_user_password = userDataFromDb.md_user_password;
-    userData.md_user_admin = userDataFromDb.md_user_admin;
-    userData.md_user_status = userDataFromDb.md_user_status;
-    userData.md_user_date_created = userDataFromDb.md_user_date_created;
-    userData.md_user_date_modified = userDataFromDb.md_user_date_modified;
-    userData.md_user_last_login = userDataFromDb.md_user_last_login;
-
-    return userData;
-  }
-
   public async GetUserDataFromStorage() {
-    this.token = await Storage.get({ key: TOKEN_KEY });
+    // this.token = await Storage.get({ key: TOKEN_KEY });
 
     var userData = new UserData();
+    userData.md_user_token = (await Storage.get({ key: 'md_user_token' })).value;
     userData.md_user_id = (await Storage.get({ key: 'md_user_id' })).value;
     userData.md_user_name = (await Storage.get({ key: 'md_user_name' })).value;
     userData.md_user_email = (await Storage.get({ key: 'md_user_email' })).value;
     userData.md_user_telp = (await Storage.get({ key: 'md_user_telp' })).value;
-    userData.md_user_ktp = (await Storage.get({ key: 'md_user_ktp' })).value;
-    userData.md_user_npwp = (await Storage.get({ key: 'md_user_npwp' })).value;
+    userData.md_user_ktp = (await Storage.get({ key: 'md_user_ktp' })).value ? "" : (await Storage.get({ key: 'md_user_ktp' })).value;
+    userData.md_user_npwp = (await Storage.get({ key: 'md_user_npwp' })).value ? "" : (await Storage.get({ key: 'md_user_npwp' })).value;
     userData.md_user_pekerjaan_id = (await Storage.get({ key: 'md_user_pekerjaan_id' })).value;
-    userData.md_user_address = (await Storage.get({ key: 'md_user_address' })).value;
-    userData.md_user_instution = (await Storage.get({ key: 'md_user_instution' })).value;
+    userData.md_user_address = (await Storage.get({ key: 'md_user_address' })).value ? "" : (await Storage.get({ key: 'md_user_address' })).value;
+    userData.md_user_instution = (await Storage.get({ key: 'md_user_instution' })).value ? "" : (await Storage.get({ key: 'md_user_instution' })).value;
     userData.md_user_password = (await Storage.get({ key: 'md_user_password' })).value;
     userData.md_user_admin = (await Storage.get({ key: 'md_user_admin' })).value;
     userData.md_user_status = (await Storage.get({ key: 'md_user_status' })).value;
@@ -389,6 +458,7 @@ export class IndexPage {
 }
 
 export class UserData {
+  public md_user_token: string;
   public md_user_id: string;
   public md_user_name: string;
   public md_user_email: string;
@@ -431,8 +501,9 @@ export class StatusUserData {
   // public readonly ACTIVE: string = "ACTIVE";
   // public readonly NOTACTIVE: string = "NOT ACTIVE";
   public readonly KYCREQUIRED: string = "KYC REQUIRED";
-  public readonly KYCNEEDAPPROVAL: string = "KYC NEED APPROVAL";
+  public readonly KYCWAITINGAPPROVAL: string = "KYC WAITING APPROVAL";
   public readonly KYCVERIFIED: string = "KYC VERIFIED";
+  public readonly KYCREJECTED: string = "KYC REJECTED";
 }
 
 export class StatusTransaksiData {

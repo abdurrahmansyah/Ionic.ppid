@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GlobalService } from '../services/global.service';
 
 @Component({
   selector: 'app-tabs',
@@ -6,10 +7,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./tabs.page.scss'],
 })
 export class TabsPage implements OnInit {
+  isAdmin: boolean = false;
 
-  constructor() { }
+  constructor(private globalService: GlobalService) { 
+    this.InitializeApp();
+  }
 
   ngOnInit() {
   }
 
+  InitializeApp() {
+    this.isAdmin = this.globalService.userData.md_user_admin  == "TRUE" ? true : false;
+  }
 }

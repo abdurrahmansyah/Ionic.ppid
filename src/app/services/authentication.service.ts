@@ -31,8 +31,8 @@ export class AuthenticationService {
     }
   }
 
-  login() {
-    return from(Storage.set({ key: TOKEN_KEY, value: 'token' }).then(() => {
+  login(token: string) {
+    return from(Storage.set({ key: TOKEN_KEY, value: token }).then(() => {
       this.isAuthenticated.next(true);
     }));
   }

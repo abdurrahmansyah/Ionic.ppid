@@ -7,6 +7,7 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
+import { NgOtpInputModule } from 'ng-otp-input';
 // import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 
 export let InjectorInstance: Injector;
@@ -18,7 +19,8 @@ export let InjectorInstance: Injector;
     BrowserModule, 
     IonicModule.forRoot(), 
     AppRoutingModule, 
-    HttpClientModule
+    HttpClientModule,
+    NgOtpInputModule
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

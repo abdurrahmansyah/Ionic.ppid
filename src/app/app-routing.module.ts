@@ -41,10 +41,16 @@ const routes: Routes = [
     loadChildren: () => import('./pages/update-user-data/update-user-data.module').then(m => m.UpdateUserDataPageModule)
   },
   {
+    path: 'user-approval',
+    loadChildren: () => import('./pages/user-approval/user-approval.module').then( m => m.UserApprovalPageModule)
+  },
+  {
     path: '',
     redirectTo: '/login',
     pathMatch: 'full'
   },
+
+
 
 
 

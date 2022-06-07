@@ -13,6 +13,7 @@ export class AppComponent {
 
   async InitializeData() {
     await this.globalService.GetUserDataFromStorage();
-    this.globalService.getListPekerjaan();
+    this.globalService.GetListPekerjaan();
+    this.globalService.GetListUserApproval();
   }
 }

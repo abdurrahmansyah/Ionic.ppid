@@ -98,7 +98,7 @@ export class TrackingPage implements OnInit {
       breakpoints: [0, 0.6, 0.95],
       mode: 'md',
       componentProps: {
-        'ticketData': ticketData
+        'ticketData': ticketData  
       }
     });
     // modal.present();

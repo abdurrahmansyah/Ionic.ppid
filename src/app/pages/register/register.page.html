@@ -54,11 +54,21 @@
 
       <ion-item class="border" lines="none">
         <ion-input [type]="passwordType" placeholder="Password" formControlName="password"></ion-input>
-        <ion-icon name="{{iconName}}" item-end (click)="togglePass()"></ion-icon>
+        <ion-icon name="{{passwordIconName}}" item-end (click)="togglePass()"></ion-icon>
       </ion-item>
       <div *ngIf="(password.dirty || password.touched) && password.errors" class="errors">
-        <span *ngIf="password.errors?.required">Password tidak boleh kosong</span>
-        <span *ngIf="password.errors?.minlength">Password needs to be 5 characters</span>
+        <span *ngIf="password.errors?.required">Password is required</span>
+        <span *ngIf="password.errors?.minlength">Password needs to be 5 characters minimum</span>
+      </div>
+      <br>
+
+      <ion-item class="border" lines="none">
+        <ion-input [type]="confirmPasswordType" placeholder=" Confirm Password" formControlName="confirmPassword"></ion-input>
+        <ion-icon name="{{confirmPasswordIconName}}" item-end (click)="toggleConfirmPass()"></ion-icon>
+      </ion-item>
+      <div *ngIf="(confirmPassword.dirty || confirmPassword.touched) && confirmPassword.errors" class="errors">
+        <span *ngIf="confirmPassword.errors?.required">Confirm Password tidak boleh kosong</span>
+        <span *ngIf="confirmPassword.errors?.minlength">Confirm Password needs to be 5 characters minimum</span>
       </div>
     </div>
 
