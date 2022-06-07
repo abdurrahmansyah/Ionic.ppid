@@ -58,6 +58,7 @@ export class GlobalService {
           await loading.dismiss();
 
           if (data.data.md_user_email_verified_at) {
+            // if (true) {
             await this.MappingUserData(data);
 
             this.authService.login(data.token);
@@ -115,6 +116,10 @@ export class GlobalService {
           this.loadingController.dismiss();
           this.PresentToast(data.message);
         }
+      }, async (error: any) => {
+        await loading.dismiss();
+        this.PresentToast("BUG: Error Connection");
+        // this.PresentAlert(JSON.stringify(error));
       }
     );
   }
