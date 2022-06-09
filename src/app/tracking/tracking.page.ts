@@ -57,8 +57,10 @@ export class TrackingPage implements OnInit {
   private SubscribeGetTicketDataListByUser(data: Observable<any>) {
     data.subscribe(
       (data: any) => {
-        if (!data.error) {
-          this.MappingTicketData(data.result);
+        console.log(data);
+        
+        if (data.isSuccess) {
+          this.MappingTicketData(data.data);
         }
         else {
           this.globalService.PresentToast(data.error_msg);

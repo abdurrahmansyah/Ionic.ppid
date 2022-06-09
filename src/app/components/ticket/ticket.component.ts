@@ -65,8 +65,8 @@ export class TicketComponent implements OnInit {
     data.subscribe(
       (data: any) => {
         console.log(data);
-        if (!data.error) {
-          this.globalService.PresentToast("Cancel Tiket Berhasil");
+        if (data.isSuccess) {
+          this.globalService.PresentToast("Berhasil Membatalkan Tiket");
           this.modalController.dismiss(
             { dataPassing: "CANCELTICKET" },
             'confirm'

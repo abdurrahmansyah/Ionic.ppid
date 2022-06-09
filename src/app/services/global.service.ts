@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AlertController, LoadingController, ModalController, ModalOptions, ToastController } from '@ionic/angular';
 import { Storage } from '@capacitor/storage';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticationService } from './authentication.service';
 import { NavigationExtras, Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -52,19 +52,18 @@ export class GlobalService {
 
     this.http.post(url, postdata).subscribe(
       async (data: any) => {
-        console.log(data);
+        if (data.isSuccess) {
 
-        if (data.result) {
-          await loading.dismiss();
-
-          if (data.data.md_user_email_verified_at) {
-            // if (true) {
+          // if (data.data.md_user_email_verified_at) {
+          if (true) {
             await this.MappingUserData(data);
 
             this.authService.login(data.token);
+            await loading.dismiss();
             this.PresentToast("Login Berhasil");
             this.router.navigate(['tabs']);
           } else {
+            await loading.dismiss();
 
             // ///////////////////////////////////////////////// tes mau nambahin component otp
             // const modal = await this.modalController.create({
@@ -109,7 +108,6 @@ export class GlobalService {
             const modal = this.modalController.create(options);
             (await modal).present();
             const data: any = (await modal).onWillDismiss();
-
           }
         }
         else {
@@ -131,12 +129,13 @@ export class GlobalService {
     await Storage.set({ key: 'md_user_id', value: userDataFromDb.id });
     await Storage.set({ key: 'md_user_name', value: userDataFromDb.md_user_name });
     await Storage.set({ key: 'md_user_email', value: userDataFromDb.md_user_email });
+    await Storage.set({ key: 'md_user_email_verified_at', value: userDataFromDb.md_user_email_verified_at });
     await Storage.set({ key: 'md_user_telp', value: userDataFromDb.md_user_telp });
-    await Storage.set({ key: 'md_user_ktp', value: userDataFromDb.md_user_ktp });
-    await Storage.set({ key: 'md_user_npwp', value: userDataFromDb.md_user_npwp });
+    await Storage.set({ key: 'md_user_ktp', value: userDataFromDb.md_user_ktp == null ? "" : userDataFromDb.md_user_ktp });
+    await Storage.set({ key: 'md_user_npwp', value: userDataFromDb.md_user_npwp == null ? "" : userDataFromDb.md_user_npwp });
     await Storage.set({ key: 'md_user_pekerjaan_id', value: userDataFromDb.md_user_pekerjaan_id == null ? "" : userDataFromDb.md_user_pekerjaan_id });
-    await Storage.set({ key: 'md_user_address', value: userDataFromDb.md_user_address });
-    await Storage.set({ key: 'md_user_instution', value: userDataFromDb.md_user_instution });
+    await Storage.set({ key: 'md_user_address', value: userDataFromDb.md_user_address == null ? "" : userDataFromDb.md_user_address });
+    await Storage.set({ key: 'md_user_instution', value: userDataFromDb.md_user_instution == null ? "" : userDataFromDb.md_user_instution });
     await Storage.set({ key: 'md_user_admin', value: userDataFromDb.md_user_admin });
     await Storage.set({ key: 'md_user_status', value: userDataFromDb.md_user_status });
     await Storage.set({ key: 'md_user_date_created', value: userDataFromDb.created_at });
@@ -162,7 +161,7 @@ export class GlobalService {
 
     this.http.post(url, postdata).subscribe(
       async (data: any) => {
-        if (data.result) {
+        if (data.isSuccess) {
 
           await loading.dismiss();
           this.PresentToast(data.message);
@@ -186,7 +185,6 @@ export class GlobalService {
               error.error.md_user_telp[0] ? "No HP Tidak Boleh Kosong" :
                 error.error.md_user_admin[0] ? "Status Admin Tidak Boleh Kosong" :
                   error.error.md_user_status[0] ? "Status Tidak Boleh Kosong" : "BUG: Gagal Register";
-        console.log(error_msg);
 
         this.PresentToast(error_msg);
       }
@@ -198,8 +196,8 @@ export class GlobalService {
     await loading.present();
 
     let postdata = new FormData();
-    postdata.append('md_user_email', this.userData.md_user_email);
-    postdata.append('md_user_password', this.userData.md_user_password);
+    postdata.append('md_user_token', this.userData.md_user_token);
+    postdata.append('md_user_id', this.userData.md_user_id);
     postdata.append('md_user_telp', credentials.telp);
     postdata.append('md_user_ktp', credentials.ktp);
     postdata.append('md_user_npwp', credentials.npwp);
@@ -209,28 +207,19 @@ export class GlobalService {
     postdata.append('md_user_admin', this.userData.md_user_admin);
     postdata.append('md_user_status', this.statusUserData.KYCWAITINGAPPROVAL);
 
-    var url = 'http://sihk.hutamakarya.com/apippid/updateAccount.php';
+    const requestOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + this.userData.md_user_token,
+      }),
+    };
 
-    this.http.post(url, postdata).subscribe(
+    // var url = 'http://sihk.hutamakarya.com/apippid/updateAccount.php';
+    var url = 'http://kipdev.hutamakarya.com/api/updateAccount';
+
+    this.http.post(url, postdata, requestOptions).subscribe(
       async (data: any) => {
-        console.log(data);
-        if (!data.error) {
-
-          await Storage.set({ key: 'md_user_id', value: data.result[0] });
-          await Storage.set({ key: 'md_user_name', value: data.result[1] });
-          await Storage.set({ key: 'md_user_email', value: data.result[2] });
-          await Storage.set({ key: 'md_user_telp', value: data.result[3] });
-          await Storage.set({ key: 'md_user_ktp', value: data.result[4] });
-          await Storage.set({ key: 'md_user_npwp', value: data.result[5] });
-          await Storage.set({ key: 'md_user_pekerjaan_id', value: data.result[6] == null ? "" : data.result[6] });
-          await Storage.set({ key: 'md_user_address', value: data.result[7] });
-          await Storage.set({ key: 'md_user_instution', value: data.result[8] });
-          await Storage.set({ key: 'md_user_password', value: data.result[9] });
-          await Storage.set({ key: 'md_user_admin', value: data.result[10] });
-          await Storage.set({ key: 'md_user_status', value: data.result[11] });
-          await Storage.set({ key: 'md_user_date_created', value: data.result[12] });
-          await Storage.set({ key: 'md_user_date_modified', value: data.result[13] });
-          await Storage.set({ key: 'md_user_last_login', value: data.result[14] });
+        if (data.isSuccess) {
+          await this.MappingUserData(data);
 
           await loading.dismiss();
           await this.GetUserDataFromStorage();
@@ -239,7 +228,41 @@ export class GlobalService {
         }
         else {
           this.loadingController.dismiss();
-          this.PresentToast(data.error_msg);
+          this.PresentToast(data.message);
+        }
+      }
+    );
+  }
+
+  public async GetUserById() {
+    const loading = await this.loadingController.create();
+    await loading.present();
+
+    let postdata = new FormData();
+    postdata.append('md_user_token', this.userData.md_user_token);
+    postdata.append('md_user_id', this.userData.md_user_id);
+
+    const requestOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + this.userData.md_user_token,
+      }),
+    };
+
+    var url = 'http://kipdev.hutamakarya.com/api/getUserById';
+
+    this.http.post(url, postdata, requestOptions).subscribe(
+      async (data: any) => {
+        if (data.isSuccess) {
+          await this.MappingUserData(data);
+
+          await loading.dismiss();
+          await this.GetUserDataFromStorage();
+          this.PresentToast("Refresh Akun Berhasil");
+          // this.router.navigateByUrl('/tabs', { replaceUrl: true });
+        }
+        else {
+          this.loadingController.dismiss();
+          this.PresentToast(data.message);
         }
       }
     );
@@ -258,11 +281,18 @@ export class GlobalService {
     postdata.append('trx_ticket_lampiran', credentials.lampiran);
     postdata.append('trx_ticket_status', this.statusTransaksiData.OPEN);
 
-    var url = 'http://sihk.hutamakarya.com/apippid/createPermohonan.php';
+    const requestOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + this.userData.md_user_token,
+      }),
+    };
 
-    this.http.post(url, postdata).subscribe(
+    // var url = 'http://sihk.hutamakarya.com/apippid/createPermohonan.php';
+    var url = 'http://kipdev.hutamakarya.com/api/createPermohonan';
+
+    this.http.post(url, postdata, requestOptions).subscribe(
       async (data: any) => {
-        if (!data.error) {
+        if (data.isSuccess) {
 
           await loading.dismiss();
           this.PresentToast("Permohonan Informasi Berhasil");
@@ -270,23 +300,28 @@ export class GlobalService {
         }
         else {
           this.loadingController.dismiss();
-          this.PresentToast(data.error_msg);
+          this.PresentToast(data.message);
         }
       }
     );
   }
 
   public GetListPekerjaan() {
-    let postdata = new FormData();
+    const requestOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + this.userData.md_user_token,
+      }),
+    };
 
-    var url = 'http://sihk.hutamakarya.com/apippid/getListPekerjaan.php';
+    // var url = 'http://sihk.hutamakarya.com/apippid/getListPekerjaan.php';
+    var url = 'http://kipdev.hutamakarya.com/api/getListPekerjaan';
 
-    var data: any = this.httpClient.post(url, postdata);
+    var data: any = this.httpClient.get(url, requestOptions);
     data.subscribe(data => {
-      data.result.forEach(pekerjaanDataFromDb => {
+      data.data.forEach(pekerjaanDataFromDb => {
         var pekerjaanData = new PekerjaanData();
 
-        pekerjaanData.md_pekerjaan_id = pekerjaanDataFromDb.md_pekerjaan_id;
+        pekerjaanData.md_pekerjaan_id = pekerjaanDataFromDb.id;
         pekerjaanData.md_pekerjaan_name = pekerjaanDataFromDb.md_pekerjaan_name;
         this.pekerjaanDataList.push(pekerjaanData);
       });
@@ -294,18 +329,24 @@ export class GlobalService {
   }
 
   public GetListUserApproval() {
-    let postdata = new FormData();
+    const requestOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + this.userData.md_user_token,
+      }),
+    };
 
-    var url = 'http://sihk.hutamakarya.com/apippid/getListUserApproval.php';
+    // var url = 'http://sihk.hutamakarya.com/apippid/getListUserApproval.php';
+    var url = 'http://kipdev.hutamakarya.com/api/getListUserApproval';
 
-    var data: any = this.httpClient.post(url, postdata);
+    var data: any = this.httpClient.get(url, requestOptions);
     data.subscribe(data => {
-      data.result.forEach(approvalUserDataFromDb => {
+      data.data.forEach(approvalUserDataFromDb => {
         var userData = new UserData();
 
-        userData.md_user_id = approvalUserDataFromDb.md_user_id;
+        userData.md_user_id = approvalUserDataFromDb.id;
         userData.md_user_name = approvalUserDataFromDb.md_user_name;
         userData.md_user_email = approvalUserDataFromDb.md_user_email;
+        userData.md_user_email_verified_at = approvalUserDataFromDb.md_user_email_verified_at;
         userData.md_user_telp = approvalUserDataFromDb.md_user_telp;
         userData.md_user_ktp = approvalUserDataFromDb.md_user_ktp;
         userData.md_user_npwp = approvalUserDataFromDb.md_user_npwp;
@@ -315,8 +356,8 @@ export class GlobalService {
         userData.md_user_password = approvalUserDataFromDb.md_user_password;
         userData.md_user_admin = approvalUserDataFromDb.md_user_admin;
         userData.md_user_status = approvalUserDataFromDb.md_user_status;
-        userData.md_user_date_created = approvalUserDataFromDb.md_user_date_created;
-        userData.md_user_date_modified = approvalUserDataFromDb.md_user_date_modified;
+        userData.md_user_date_created = approvalUserDataFromDb.created_at;
+        userData.md_user_date_modified = approvalUserDataFromDb.updated_at;
         userData.md_user_last_login = approvalUserDataFromDb.md_user_last_login;
 
         this.approvalUserDataList.push(userData);
@@ -328,9 +369,16 @@ export class GlobalService {
     let postdata = new FormData();
     postdata.append('trx_ticket_user_id', this.userData.md_user_id);
 
-    var url = 'http://sihk.hutamakarya.com/apippid/getTicketDataListByUser.php';
+    const requestOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + this.userData.md_user_token,
+      }),
+    };
 
-    return this.httpClient.post(url, postdata);
+    // var url = 'http://sihk.hutamakarya.com/apippid/getTicketDataListByUser.php';
+    var url = 'http://kipdev.hutamakarya.com/api/getTicketDataListByUser';
+
+    return this.httpClient.post(url, postdata, requestOptions);
   }
 
   public CancelTicket(ticketData: TicketData): Observable<any> {
@@ -340,36 +388,17 @@ export class GlobalService {
     postdata.append('trx_ticket_replyadmin', "SELF CANCEL BY USER AUTHORIZED");
     postdata.append('trx_ticket_status', this.statusTransaksiData.CLOSE);
 
-    var url = 'http://sihk.hutamakarya.com/apippid/cancelPermohonan.php';
+    const requestOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + this.userData.md_user_token,
+      }),
+    };
 
-    return this.httpClient.post(url, postdata);
+    // var url = 'http://sihk.hutamakarya.com/apippid/cancelPermohonan.php';
+    var url = 'http://kipdev.hutamakarya.com/api/cancelPermohonan';
+
+    return this.httpClient.post(url, postdata, requestOptions);
   }
-
-  // public async GetTicketDataListByUser() {
-  //   const loading = await this.loadingController.create();
-  //   await loading.present();
-
-  //   let postdata = new FormData();
-  //   postdata.append('trx_ticket_user_id', this.userData.md_user_id);
-
-  //   var url = 'http://sihk.hutamakarya.com/apippid/getTicketDataListByUser.php';
-
-  //   return this.httpClient.post(url, postdata);
-  //   // this.http.post(url, postdata).subscribe(
-  //   //   async (data: any) => {
-  //   //     if (!data.error) {
-  //   //       console.log(data.result);
-
-  //   //       await loading.dismiss();
-  //   //       // this.router.navigate(['tabs']);
-  //   //     }
-  //   //     else {
-  //   //       this.loadingController.dismiss();
-  //   //       this.PresentToast(data.error_msg);
-  //   //     }
-  //   //   }
-  //   // );
-  // }
 
   public async GetUserDataFromStorage() {
     // this.token = await Storage.get({ key: TOKEN_KEY });
@@ -379,12 +408,13 @@ export class GlobalService {
     userData.md_user_id = (await Storage.get({ key: 'md_user_id' })).value;
     userData.md_user_name = (await Storage.get({ key: 'md_user_name' })).value;
     userData.md_user_email = (await Storage.get({ key: 'md_user_email' })).value;
+    userData.md_user_email_verified_at = (await Storage.get({ key: 'md_user_email_verified_at' })).value;
     userData.md_user_telp = (await Storage.get({ key: 'md_user_telp' })).value;
-    userData.md_user_ktp = (await Storage.get({ key: 'md_user_ktp' })).value ? "" : (await Storage.get({ key: 'md_user_ktp' })).value;
-    userData.md_user_npwp = (await Storage.get({ key: 'md_user_npwp' })).value ? "" : (await Storage.get({ key: 'md_user_npwp' })).value;
+    userData.md_user_ktp = (await Storage.get({ key: 'md_user_ktp' })).value;
+    userData.md_user_npwp = (await Storage.get({ key: 'md_user_npwp' })).value;
     userData.md_user_pekerjaan_id = (await Storage.get({ key: 'md_user_pekerjaan_id' })).value;
-    userData.md_user_address = (await Storage.get({ key: 'md_user_address' })).value ? "" : (await Storage.get({ key: 'md_user_address' })).value;
-    userData.md_user_instution = (await Storage.get({ key: 'md_user_instution' })).value ? "" : (await Storage.get({ key: 'md_user_instution' })).value;
+    userData.md_user_address = (await Storage.get({ key: 'md_user_address' })).value;
+    userData.md_user_instution = (await Storage.get({ key: 'md_user_instution' })).value;
     userData.md_user_password = (await Storage.get({ key: 'md_user_password' })).value;
     userData.md_user_admin = (await Storage.get({ key: 'md_user_admin' })).value;
     userData.md_user_status = (await Storage.get({ key: 'md_user_status' })).value;
@@ -467,6 +497,7 @@ export class UserData {
   public md_user_id: string;
   public md_user_name: string;
   public md_user_email: string;
+  public md_user_email_verified_at: string;
   public md_user_telp: string;
   public md_user_ktp: string;
   public md_user_npwp: string;
@@ -512,9 +543,9 @@ export class StatusUserData {
 }
 
 export class StatusTransaksiData {
-  public readonly OPEN: string = "OPEN";
-  public readonly CLOSE: string = "CLOSE";
-  public readonly INPROGRESS: string = "IN PROGRESS";
+  public readonly OPEN: string = "BELUM DIPROSES";
+  public readonly CLOSE: string = "SELESAI";
+  public readonly INPROGRESS: string = "SEDANG DIPROSES";
 }
 
 export class TicketTypeData {

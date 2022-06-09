@@ -24,9 +24,9 @@
             <ion-text style="font-size: 12px;">{{ ticketData.trx_ticket_date_created }}</ion-text>
           </ion-col>
           <ion-col size="4" class="ion-text-end">
-            <ion-text *ngIf="ticketData.trx_ticket_status === 'OPEN'" style="font-size: 12px; color: orangered;">{{ ticketData.trx_ticket_status }}</ion-text>
-            <ion-text *ngIf="ticketData.trx_ticket_status === 'CLOSE'" style="font-size: 12px; color: green;">{{ ticketData.trx_ticket_status }}</ion-text>
-            <ion-text *ngIf="ticketData.trx_ticket_status === 'IN PROGRESS'" style="font-size: 12px; color: yellow;">{{ ticketData.trx_ticket_status }}</ion-text>
+            <ion-text *ngIf="ticketData.trx_ticket_status === 'BELUM DIPROSES'" style="font-size: 12px; color: orangered;">{{ ticketData.trx_ticket_status }}</ion-text>
+            <ion-text *ngIf="ticketData.trx_ticket_status === 'SELESAI'" style="font-size: 12px; color: green;">{{ ticketData.trx_ticket_status }}</ion-text>
+            <ion-text *ngIf="ticketData.trx_ticket_status === 'SEDANG DIPROSES'" style="font-size: 12px; color: yellow;">{{ ticketData.trx_ticket_status }}</ion-text>
           </ion-col>
         </ion-row>
 
