@@ -6,8 +6,8 @@ import { AuthenticationService } from './authentication.service';
 import { NavigationExtras, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { InjectorInstance } from '../app.module';
-import { TicketComponent } from '../components/ticket/ticket.component';
-import { OtpComponent } from '../components/otp/otp.component';
+import { AuthFirebaseService } from './auth-firebase.service';
+import { EmailVerificationComponent } from '../components/email-verification/email-verification.component';
 
 const TOKEN_KEY = 'my-token';
 
@@ -35,7 +35,8 @@ export class GlobalService {
     private loadingController: LoadingController,
     private router: Router,
     private http: HttpClient,
-    private modalController: ModalController) {
+    private modalController: ModalController,
+    private authFirebaseService: AuthFirebaseService) {
     this.IndexPageData = new IndexPage();
   }
 
@@ -53,62 +54,42 @@ export class GlobalService {
     this.http.post(url, postdata).subscribe(
       async (data: any) => {
         if (data.isSuccess) {
+          await this.authFirebaseService.signInWithEmailAndPassword(credentials.email, credentials.password).then(async (userCredential) => {
+            if (userCredential.user.emailVerified) {
+              // if (true) {
+              await this.MappingUserData(data);
 
-          // if (data.data.md_user_email_verified_at) {
-          if (true) {
-            await this.MappingUserData(data);
+              this.authService.login(data.token);
+              await loading.dismiss();
+              this.PresentToast("Login Berhasil");
+              this.router.navigate(['tabs']);
+            } else {
+              await loading.dismiss();
 
-            this.authService.login(data.token);
+              const options: ModalOptions = {
+                component: EmailVerificationComponent,
+                initialBreakpoint: 0.75,
+                breakpoints: [0, 0.75, 0.95],
+                mode: 'md',
+                componentProps: {
+                  user: userCredential.user
+                },
+                swipeToClose: true
+              };
+              const modal = this.modalController.create(options);
+              (await modal).present();
+              const data: any = (await modal).onWillDismiss();
+
+            }
+          }).catch(async (error) => {
             await loading.dismiss();
-            this.PresentToast("Login Berhasil");
-            this.router.navigate(['tabs']);
-          } else {
-            await loading.dismiss();
+            var error_msg = error.split('(')[1];
+            error_msg = error_msg.split(')')[0];
 
-            // ///////////////////////////////////////////////// tes mau nambahin component otp
-            // const modal = await this.modalController.create({
-            //   component: TicketComponent,
-            //   initialBreakpoint: 0.6,
-            //   breakpoints: [0, 0.6, 0.95],
-            //   mode: 'md',
-            //   componentProps: {
-            //     'ticketData': "ticketData"
-            //   }
-            // });
-            // // modal.present();
-            // modal.onDidDismiss().then((modelData) => {
-            //   if (modelData.role == "confirm") {
-            //     if (modelData.data.dataPassing == "CANCELTICKET") {
-            //       console.log("harusnya jalanin GetTicketDataListByUser lagi");
-
-            //       this.GetTicketDataListByUser();
-            //     }
-            //   }
-            // })
-
-            // return await modal.present();
-
-            // /////////////////////////////////////////////////
-
-            // this.PresentToast("Login Berhasil");
-            // this.router.navigate(['tabs']);
-
-            /////////////////////////////////////////////////
-
-            const options: ModalOptions = {
-              component: OtpComponent,
-              initialBreakpoint: 0.95,
-              breakpoints: [0, 0.95],
-              mode: 'md',
-              componentProps: {
-                email: credentials.email
-              },
-              swipeToClose: true
-            };
-            const modal = this.modalController.create(options);
-            (await modal).present();
-            const data: any = (await modal).onWillDismiss();
-          }
+            console.log(error);
+            console.log(error_msg);
+            this.PresentToast("Login Gagal! " + error_msg);
+          })
         }
         else {
           this.loadingController.dismiss();
@@ -162,16 +143,26 @@ export class GlobalService {
     this.http.post(url, postdata).subscribe(
       async (data: any) => {
         if (data.isSuccess) {
+          await this.authFirebaseService.createUserWithEmailAndPassword(credentials.email, credentials.password).then(async () => {
+            await loading.dismiss();
 
-          await loading.dismiss();
-          this.PresentToast(data.message);
+            this.PresentAlert("Link verifikasi telah dikirimkan ke email kamu. Segera cek email dan klik link tersebut agar bisa melanjutkan proses pendaftaran akun PPID Hutama Karya");
+            this.PresentToast(data.message);
 
-          let navigationExtras: NavigationExtras = {
-            state: {
-              emailLog: credentials.email
+            let navigationExtras: NavigationExtras = {
+              state: {
+                emailLog: credentials.email
+              }
             }
+            this.router.navigate(['login'], navigationExtras);
           }
-          this.router.navigate(['login'], navigationExtras);
+          ).catch(async (error) => {
+            //// JALANKAN PROGRAM HAPUS EMAIL YANG BARUSAN DIDAFTARKAN DARI POSTGRE
+            await this.DeleteAccountById(data.data, loading);
+            // await loading.dismiss();
+            this.PresentToast("Gagal Melakuan Registrasi!");
+          }
+          );
         }
         else {
           this.loadingController.dismiss();
@@ -189,6 +180,25 @@ export class GlobalService {
         this.PresentToast(error_msg);
       }
     );
+  }
+
+  public async DeleteAccountById(dataUser, loading) {
+    let postdata = new FormData();
+    postdata.append('md_user_id', dataUser.id);
+
+    var url = 'http://kipdev.hutamakarya.com/api/deleteAccountById';
+
+    var data: any = this.httpClient.post(url, postdata);
+    data.subscribe(async data => {
+      if (data.isSuccess) {
+        console.log("Berhasil menghapus data user baru");
+        await loading.dismiss();
+      } else {
+        console.log("Gagal menghapus data user baru");
+        await loading.dismiss();
+
+      }
+    });
   }
 
   public async UpdateAccount(credentials: { telp, ktp, npwp, pekerjaan, alamat, institusi }) {

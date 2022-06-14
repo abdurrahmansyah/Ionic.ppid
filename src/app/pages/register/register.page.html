@@ -58,7 +58,7 @@
       </ion-item>
       <div *ngIf="(password.dirty || password.touched) && password.errors" class="errors">
         <span *ngIf="password.errors?.required">Password is required</span>
-        <span *ngIf="password.errors?.minlength">Password needs to be 5 characters minimum</span>
+        <span *ngIf="password.errors?.minlength">Password needs to be 6 characters minimum</span>
       </div>
       <br>
 
@@ -68,7 +68,7 @@
       </ion-item>
       <div *ngIf="(confirmPassword.dirty || confirmPassword.touched) && confirmPassword.errors" class="errors">
         <span *ngIf="confirmPassword.errors?.required">Confirm Password tidak boleh kosong</span>
-        <span *ngIf="confirmPassword.errors?.minlength">Confirm Password needs to be 5 characters minimum</span>
+        <span *ngIf="confirmPassword.errors?.minlength">Confirm Password needs to be 6 characters minimum</span>
       </div>
     </div>
 

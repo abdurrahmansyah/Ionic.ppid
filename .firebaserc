@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "ppidhutamakarya"
+  },
+  "targets": {
+    "ppidhutamakarya": {
+      "hosting": {
+        "app": [
+          "ppidhutamakarya"
+        ]
+      }
+    }
+  }
+}

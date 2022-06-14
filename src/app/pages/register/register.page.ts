@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthFirebaseService } from 'src/app/services/auth-firebase.service';
 import { GlobalService } from 'src/app/services/global.service';
 
 @Component({
@@ -21,7 +22,8 @@ export class RegisterPage implements OnInit {
     private fb: FormBuilder,
     private globalService: GlobalService,
     private router: Router,
-    public activatedRoute: ActivatedRoute
+    public activatedRoute: ActivatedRoute,
+    private authFirebaseService: AuthFirebaseService
   ) { }
 
   ngOnInit() {
@@ -38,14 +40,12 @@ export class RegisterPage implements OnInit {
   private GetExtras() {
     this.activatedRoute.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation().extras.state) {
-        console.log("extras: " + this.router.getCurrentNavigation().extras.state.emailLog);
-
         this.credentials = this.fb.group({
           name: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
           email: [this.router.getCurrentNavigation().extras.state.emailLog, [Validators.required, Validators.email]],
           telp: ['', [Validators.required, Validators.pattern('[0-9]*')]],
-          password: ['', [Validators.required, Validators.minLength(5)]],
-          confirmPassword: ['', [Validators.required, Validators.minLength(5)]],
+          password: ['', [Validators.required, Validators.minLength(6)]],
+          confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
         });
       }
     });
