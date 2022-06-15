@@ -42,13 +42,18 @@ const routes: Routes = [
   },
   {
     path: 'user-approval',
-    loadChildren: () => import('./pages/user-approval/user-approval.module').then( m => m.UserApprovalPageModule)
+    loadChildren: () => import('./pages/user-approval/user-approval.module').then(m => m.UserApprovalPageModule)
+  },
+  {
+    path: 'blank-loading',
+    loadChildren: () => import('./pages/blank-loading/blank-loading.module').then(m => m.BlankLoadingPageModule)
   },
   {
     path: '',
     redirectTo: '/login',
     pathMatch: 'full'
   },
+
 
 
 

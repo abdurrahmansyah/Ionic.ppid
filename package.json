@@ -38,6 +38,7 @@
     "ng-otp-input": "^1.8.5",
     "rxjs": "~6.6.0",
     "tslib": "^2.2.0",
+    "update-js": "^1.9.1",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {

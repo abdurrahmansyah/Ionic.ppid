@@ -107,7 +107,28 @@ export class AuthenticationService {
 
   logout(): Promise<void> {
     this.isAuthenticated.next(false);
+    this.RemoveDataUser();
     Storage.remove({ key: "welcome-seen" });
     return Storage.remove({ key: TOKEN_KEY });
+  }
+
+  private RemoveDataUser() {
+    Storage.remove({ key: 'md_user_token' });
+    Storage.remove({ key: 'md_user_id' });
+    Storage.remove({ key: 'md_user_name' });
+    Storage.remove({ key: 'md_user_email' });
+    Storage.remove({ key: 'md_user_email_verified_at' });
+    Storage.remove({ key: 'md_user_telp' });
+    Storage.remove({ key: 'md_user_ktp' });
+    Storage.remove({ key: 'md_user_npwp' });
+    Storage.remove({ key: 'md_user_pekerjaan_id' });
+    Storage.remove({ key: 'md_user_address' });
+    Storage.remove({ key: 'md_user_instution' });
+    Storage.remove({ key: 'md_user_password' });
+    Storage.remove({ key: 'md_user_admin' });
+    Storage.remove({ key: 'md_user_status' });
+    Storage.remove({ key: 'md_user_date_created' });
+    Storage.remove({ key: 'md_user_date_modified' });
+    Storage.remove({ key: 'md_user_last_login' });
   }
 }

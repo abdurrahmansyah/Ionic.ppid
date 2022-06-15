@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { GlobalService } from './services/global.service';
+import { Storage } from '@capacitor/storage';
 
 @Component({
   selector: 'app-root',
@@ -12,8 +13,10 @@ export class AppComponent {
   }
 
   async InitializeData() {
-    await this.globalService.GetUserDataFromStorage();
-    this.globalService.GetListPekerjaan();
-    this.globalService.GetListUserApproval();
+    if ((await Storage.get({ key: 'md_user_token' })).value) {
+      await this.globalService.GetUserDataFromStorage();
+      this.globalService.GetListPekerjaan();
+      this.globalService.GetListUserApproval();
+    }
   }
 }

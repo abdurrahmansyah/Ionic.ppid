@@ -62,7 +62,7 @@ export class GlobalService {
               this.authService.login(data.token);
               await loading.dismiss();
               this.PresentToast("Login Berhasil");
-              this.router.navigate(['tabs']);
+              this.router.navigate(['blank-loading']);
             } else {
               await loading.dismiss();
 
@@ -336,6 +336,8 @@ export class GlobalService {
         this.pekerjaanDataList.push(pekerjaanData);
       });
     });
+
+    return true;
   }
 
   public GetListUserApproval() {
@@ -373,6 +375,8 @@ export class GlobalService {
         this.approvalUserDataList.push(userData);
       });
     });
+
+    return true;
   }
 
   public GetTicketDataListByUser(): Observable<any> {
@@ -410,7 +414,7 @@ export class GlobalService {
     return this.httpClient.post(url, postdata, requestOptions);
   }
 
-  public async GetUserDataFromStorage() {
+  public async GetUserDataFromStorage(): Promise<Boolean> {
     // this.token = await Storage.get({ key: TOKEN_KEY });
 
     var userData = new UserData();
@@ -432,6 +436,8 @@ export class GlobalService {
     userData.md_user_date_modified = (await Storage.get({ key: 'md_user_date_modified' })).value;
     userData.md_user_last_login = (await Storage.get({ key: 'md_user_last_login' })).value;
     this.userData = userData;
+
+    return true;
   }
 
   async PresentToast(msg: string) {

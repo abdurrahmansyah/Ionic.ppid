@@ -19,7 +19,7 @@ export class HomePage {
   }
 
   async InitializeData() {
-    await this.globalService.GetUserDataFromStorage();
+    // await this.globalService.GetUserDataFromStorage();
   }
 
   async ngOnInit() {
