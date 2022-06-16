@@ -108,14 +108,14 @@ export class GlobalService {
     var userDataFromDb = data.data;
 
     await Storage.set({ key: 'md_user_token', value: data.token });
-    await Storage.set({ key: 'md_user_id', value: userDataFromDb.id });
+    await Storage.set({ key: 'md_user_id', value: userDataFromDb.id.toString() });
     await Storage.set({ key: 'md_user_name', value: userDataFromDb.md_user_name });
     await Storage.set({ key: 'md_user_email', value: userDataFromDb.md_user_email });
     await Storage.set({ key: 'md_user_email_verified_at', value: userDataFromDb.md_user_email_verified_at });
     await Storage.set({ key: 'md_user_telp', value: userDataFromDb.md_user_telp });
     await Storage.set({ key: 'md_user_ktp', value: userDataFromDb.md_user_ktp == null ? "" : userDataFromDb.md_user_ktp });
     await Storage.set({ key: 'md_user_npwp', value: userDataFromDb.md_user_npwp == null ? "" : userDataFromDb.md_user_npwp });
-    await Storage.set({ key: 'md_user_pekerjaan_id', value: userDataFromDb.md_user_pekerjaan_id == null ? "" : userDataFromDb.md_user_pekerjaan_id });
+    await Storage.set({ key: 'md_user_pekerjaan_id', value: userDataFromDb.md_user_pekerjaan_id == null ? "" : userDataFromDb.md_user_pekerjaan_id.toString() });
     await Storage.set({ key: 'md_user_address', value: userDataFromDb.md_user_address == null ? "" : userDataFromDb.md_user_address });
     await Storage.set({ key: 'md_user_instution', value: userDataFromDb.md_user_instution == null ? "" : userDataFromDb.md_user_instution });
     await Storage.set({ key: 'md_user_admin', value: userDataFromDb.md_user_admin });
@@ -242,7 +242,6 @@ export class GlobalService {
                 await this.MappingUserData(data);
 
                 await loading.dismiss();
-                // await this.GetUserDataFromStorage();
                 this.isUpdateAccountSuccess = true;
                 this.PresentToast("Update Akun Berhasil");
 
@@ -252,22 +251,25 @@ export class GlobalService {
                   }
                 }
                 this.router.navigate(['tabs'], navigationExtras);
-                // this.router.navigateByUrl('/tabs', { replaceUrl: true });
               }
               else {
                 await loading.dismiss();
                 this.isUpdateAccountSuccess = false;
                 this.PresentToast(data.message);
               }
+            }, async (err) => {
+              await loading.dismiss();
+              this.isUpdateAccountSuccess = false;
+              this.PresentToast("BUG: " + err?.message);
             }
-          ), async (err) => {
-            await loading.dismiss();
-            this.isUpdateAccountSuccess = false;
-            this.PresentToast("BUG: " + err?.message);
-          };
+          )
         }
+      }, async (err) => {
+        await loading.dismiss();
+        this.isUpdateAccountSuccess = false;
+        this.PresentToast("BUG: " + err?.message);
       }
-    );
+    )
   }
 
   public async GetUserById() {
@@ -300,8 +302,11 @@ export class GlobalService {
           this.loadingController.dismiss();
           this.PresentToast(data.message);
         }
+      }, async (err) => {
+        await loading.dismiss();
+        this.PresentToast("BUG: " + err?.message);
       }
-    );
+    )
   }
 
   public async CreatePermohonanInformasi(credentials: { tujuan, rincian, cara, lampiran }) {
@@ -357,7 +362,7 @@ export class GlobalService {
       data.data.forEach(pekerjaanDataFromDb => {
         var pekerjaanData = new PekerjaanData();
 
-        pekerjaanData.md_pekerjaan_id = pekerjaanDataFromDb.id;
+        pekerjaanData.md_pekerjaan_id = pekerjaanDataFromDb.id.toString();
         pekerjaanData.md_pekerjaan_name = pekerjaanDataFromDb.md_pekerjaan_name;
         this.pekerjaanDataList.push(pekerjaanData);
       });
@@ -381,14 +386,14 @@ export class GlobalService {
       data.data.forEach(approvalUserDataFromDb => {
         var userData = new UserData();
 
-        userData.md_user_id = approvalUserDataFromDb.id;
+        userData.md_user_id = approvalUserDataFromDb.id.toString();
         userData.md_user_name = approvalUserDataFromDb.md_user_name;
         userData.md_user_email = approvalUserDataFromDb.md_user_email;
         userData.md_user_email_verified_at = approvalUserDataFromDb.md_user_email_verified_at;
         userData.md_user_telp = approvalUserDataFromDb.md_user_telp;
         userData.md_user_ktp = approvalUserDataFromDb.md_user_ktp;
         userData.md_user_npwp = approvalUserDataFromDb.md_user_npwp;
-        userData.md_user_pekerjaan_id = approvalUserDataFromDb.md_user_pekerjaan_id;
+        userData.md_user_pekerjaan_id = approvalUserDataFromDb.md_user_pekerjaan_id.toString();
         userData.md_user_address = approvalUserDataFromDb.md_user_address;
         userData.md_user_instution = approvalUserDataFromDb.md_user_instution;
         userData.md_user_password = approvalUserDataFromDb.md_user_password;

@@ -9,7 +9,7 @@ import { GlobalService } from '../services/global.service';
 export class TabsPage implements OnInit {
   isAdmin: boolean = false;
 
-  constructor(private globalService: GlobalService) { 
+  constructor(private globalService: GlobalService) {
     this.InitializeApp();
   }
 
@@ -17,6 +17,7 @@ export class TabsPage implements OnInit {
   }
 
   InitializeApp() {
-    this.isAdmin = this.globalService.userData.md_user_admin  == "TRUE" ? true : false;
+    if (this.globalService.userData) this.isAdmin = this.globalService.userData.md_user_admin == "TRUE" ? true : false;
+    else this.isAdmin = false;
   }
 }

@@ -57,7 +57,7 @@ export class AccountPage implements OnInit {
       // password: ['', [Validators.required, Validators.minLength(5)]],
       ktp: [{ value: this.globalService.userData.md_user_ktp, disabled: true }, [Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(16), Validators.maxLength(16)]],
       npwp: [{ value: this.globalService.userData.md_user_npwp, disabled: true }, [Validators.pattern('[0-9]*'), Validators.minLength(15), Validators.maxLength(15)]],
-      pekerjaan: [{ value: +this.globalService.userData.md_user_pekerjaan_id, disabled: true }, [Validators.required]],
+      pekerjaan: [{ value: this.globalService.userData.md_user_pekerjaan_id, disabled: true }, [Validators.required]],
       alamat: [{ value: this.globalService.userData.md_user_address, disabled: true }, [Validators.required]],
       institusi: [{ value: this.globalService.userData.md_user_instution, disabled: true }, [Validators.required]],
     });

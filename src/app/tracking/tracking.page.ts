@@ -74,7 +74,7 @@ export class TrackingPage implements OnInit {
 
     for (let i = length - 1; i >= -0; i--) {
       var ticketData = new TicketData;
-      ticketData.trx_ticket_id = result[i].trx_ticket_id;
+      ticketData.trx_ticket_id = result[i].trx_ticket_id.toString();
       ticketData.trx_ticket_user_id = result[i].trx_ticket_user_id;
       ticketData.trx_ticket_date_created = result[i].trx_ticket_date_created ? result[i].trx_ticket_date_created.split(' ')[0] : "-";
       ticketData.trx_ticket_date_respond = result[i].trx_ticket_date_respond ? result[i].trx_ticket_date_respond.split(' ')[0] : "-";
