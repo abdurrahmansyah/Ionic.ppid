@@ -23,19 +23,19 @@
 
   <div *ngIf="isUserDataRequired" class="posisiStatus">
     <ion-row>
-      <ion-col size="2" style="padding: 0;" class="ion-align-self-center">
+      <ion-col size="1" style="padding: 0;" class="ion-align-self-center">
         <ion-icon *ngIf="isUserDataRejected" class="help" name="help-circle-outline" (click)="Help()"></ion-icon>
         <ion-icon *ngIf="!isUserDataRejected" class="help"></ion-icon>
       </ion-col>
       <ion-col size="1"></ion-col>
-      <ion-col size="9" style="padding: 0;">
+      <ion-col size="10" style="padding: 0;">
         <div style="background-color: #FFB194;" class="jacob">
           <ion-row style="padding: 0;">
             <ion-col size="3" style="padding: 0;">
               <img src="../../assets/images/img-35.png" alt="img-35" class="img-status">
             </ion-col>
             <ion-col size="9" style="padding: 0;" class="ion-align-self-center">
-              <ion-text style="color: rgb(230, 33, 41); display: block;">Not Verified</ion-text>
+              <ion-text style="color: rgb(230, 33, 41); display: block;">Belum Terverifikasi</ion-text>
             </ion-col>
           </ion-row>
         </div>
@@ -45,22 +45,22 @@
 
   <div *ngIf="isUserDataWaitingApproval" class="status2" style="background-color: #FFB194;">
     <ion-row style="padding: 0;">
-      <ion-col size="3" style="padding: 0;">
+      <ion-col size="2" style="padding: 0;">
         <img src="../../assets/images/img-35.png" alt="img-35" class="img-status">
       </ion-col>
-      <ion-col size="9" style="padding: 0;" class="ion-align-self-center">
-        <ion-text style="color: rgb(230, 33, 41); display: block;">Waiting Approval</ion-text>
+      <ion-col size="10" style="padding: 0;" class="ion-align-self-center">
+        <ion-text style="color: rgb(230, 33, 41); display: block;">Menunggu Persetujuan</ion-text>
       </ion-col>
     </ion-row>
   </div>
 
   <div *ngIf="isUserDataVerified" class="status3" style="background-color: #D3F0E3;">
     <ion-row class="ion-no-padding">
-      <ion-col size="4" class="ion-no-padding">
+      <ion-col size="2.5" class="ion-no-padding">
         <img src="../../assets/images/img-34.png" alt="img-34" class="img-status">
       </ion-col>
-      <ion-col size="8" style="padding: 0;" class="ion-align-self-center">
-        <ion-text style="color: rgb(16, 145, 56); display: block;">Verified</ion-text>
+      <ion-col size="9.5" style="padding: 0;" class="ion-align-self-center">
+        <ion-text style="color: rgb(16, 145, 56); display: block;">Sudah Terverifikasi</ion-text>
       </ion-col>
     </ion-row>
   </div>

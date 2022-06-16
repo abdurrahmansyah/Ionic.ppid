@@ -28,6 +28,7 @@ export class GlobalService {
   httpClient = InjectorInstance.get<HttpClient>(HttpClient);
   public pekerjaanDataList = [];
   public approvalUserDataList = [];
+  public isUpdateAccountSuccess: boolean;
 
   constructor(private authService: AuthenticationService,
     private toastController: ToastController,
@@ -165,10 +166,10 @@ export class GlobalService {
           );
         }
         else {
-          this.loadingController.dismiss();
+          await loading.dismiss();
           this.PresentToast(data.message);
         }
-      }, (error: any) => {
+      }, async (error: any) => {
         this.loadingController.dismiss();
         var error_msg = error.error.md_user_email[0] ? "Gagal! Email Sudah Terdaftar" :
           error.error.md_user_email[0] ? "Email Tidak Boleh Kosong" :
@@ -177,6 +178,7 @@ export class GlobalService {
                 error.error.md_user_admin[0] ? "Status Admin Tidak Boleh Kosong" :
                   error.error.md_user_status[0] ? "Status Tidak Boleh Kosong" : "BUG: Gagal Register";
 
+        await loading.dismiss();
         this.PresentToast(error_msg);
       }
     );
@@ -196,7 +198,6 @@ export class GlobalService {
       } else {
         console.log("Gagal menghapus data user baru");
         await loading.dismiss();
-
       }
     });
   }
@@ -223,22 +224,47 @@ export class GlobalService {
       }),
     };
 
-    // var url = 'http://sihk.hutamakarya.com/apippid/updateAccount.php';
-    var url = 'http://kipdev.hutamakarya.com/api/updateAccount';
+    var url = 'http://kipdev.hutamakarya.com/api/checkIsNikExist';
 
     this.http.post(url, postdata, requestOptions).subscribe(
       async (data: any) => {
         if (data.isSuccess) {
-          await this.MappingUserData(data);
-
           await loading.dismiss();
-          await this.GetUserDataFromStorage();
-          this.PresentToast("Update Akun Berhasil");
-          this.router.navigateByUrl('/tabs', { replaceUrl: true });
-        }
-        else {
-          this.loadingController.dismiss();
-          this.PresentToast(data.message);
+          this.isUpdateAccountSuccess = false;
+          this.PresentToast("Update akun gagal! " + data.message);
+        } else {
+          // var url = 'http://sihk.hutamakarya.com/apippid/updateAccount.php';
+          var url = 'http://kipdev.hutamakarya.com/api/updateAccount';
+
+          this.http.post(url, postdata, requestOptions).subscribe(
+            async (data: any) => {
+              if (data.isSuccess) {
+                await this.MappingUserData(data);
+
+                await loading.dismiss();
+                // await this.GetUserDataFromStorage();
+                this.isUpdateAccountSuccess = true;
+                this.PresentToast("Update Akun Berhasil");
+
+                let navigationExtras: NavigationExtras = {
+                  state: {
+                    isUpdateAccountSuccess: true
+                  }
+                }
+                this.router.navigate(['tabs'], navigationExtras);
+                // this.router.navigateByUrl('/tabs', { replaceUrl: true });
+              }
+              else {
+                await loading.dismiss();
+                this.isUpdateAccountSuccess = false;
+                this.PresentToast(data.message);
+              }
+            }
+          ), async (err) => {
+            await loading.dismiss();
+            this.isUpdateAccountSuccess = false;
+            this.PresentToast("BUG: " + err?.message);
+          };
         }
       }
     );

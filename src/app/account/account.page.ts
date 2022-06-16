@@ -31,7 +31,7 @@ export class AccountPage implements OnInit {
   }
 
   async InitializeData() {
-    await this.globalService.GetUserDataFromStorage();
+    // await this.globalService.GetUserDataFromStorage();
   }
 
   ngOnInit() {
@@ -112,8 +112,8 @@ export class AccountPage implements OnInit {
   }
 
   public Help() {
-    var txtStatusMessage = this.globalService.userData.md_user_status.split('_')[0];
-    var txtStatusMessage = 'Pastikan data diri sesuai dengan tanda pada identitas';
+    var txtStatusMessage = this.globalService.userData.md_user_status.split('_')[1];
+    txtStatusMessage = txtStatusMessage +  ' .Pastikan data diri sesuai dengan data pada identitas';
 
     this.PresentAlertRejected(txtStatusMessage);
   }
@@ -132,7 +132,7 @@ export class AccountPage implements OnInit {
   DoRefresh(event?: any) {
     this.globalService.GetUserById();
     this.SpecifyStatus();
-    
+
     setTimeout(() => {
       event.target.complete();
     }, 1000);
@@ -142,17 +142,15 @@ export class AccountPage implements OnInit {
     if (this.globalService.userData.md_user_status != this.globalService.statusUserData.KYCVERIFIED) {
       if (this.isModeEdit) {
         if (this.credentials.valid) {
-          this.globalService.UpdateAccount(this.credentials.value);
+          this.globalService.UpdateAccount(this.credentials.value)
+          if (this.globalService.isUpdateAccountSuccess) {
+            this.DisableCredentialControl();
 
-          this.credentials.controls['telp'].disable();
-          this.credentials.controls['ktp'].disable();
-          this.credentials.controls['npwp'].disable();
-          this.credentials.controls['pekerjaan'].disable();
-          this.credentials.controls['alamat'].disable();
-          this.credentials.controls['institusi'].disable();
-
-          this.isModeEdit = false;
-          this.txtButton = 'Edit Account';
+            this.isModeEdit = false;
+            this.txtButton = 'Edit Account';
+          } else {
+            this.CancelEdit();
+          }
         }
       } else {
         this.credentials.controls['telp'].enable();
@@ -171,20 +169,28 @@ export class AccountPage implements OnInit {
   }
 
   public CancelEdit() {
-    this.credentials.controls['telp'].setValue(this.globalService.userData.md_user_telp);
-    this.credentials.controls['ktp'].setValue(this.globalService.userData.md_user_ktp);
-    this.credentials.controls['npwp'].setValue(this.globalService.userData.md_user_npwp);
-    this.credentials.controls['pekerjaan'].setValue(this.globalService.userData.md_user_pekerjaan_id);
-    this.credentials.controls['alamat'].setValue(this.globalService.userData.md_user_address);
-    this.credentials.controls['institusi'].setValue(this.globalService.userData.md_user_instution);
+    this.SyncUserData();
+    this.DisableCredentialControl();
+
+    this.isModeEdit = false;
+    this.txtButton = 'Edit Account';
+  }
+
+  private DisableCredentialControl() {
     this.credentials.controls['telp'].disable();
     this.credentials.controls['ktp'].disable();
     this.credentials.controls['npwp'].disable();
     this.credentials.controls['pekerjaan'].disable();
     this.credentials.controls['alamat'].disable();
     this.credentials.controls['institusi'].disable();
+  }
 
-    this.isModeEdit = false;
-    this.txtButton = 'Edit Account';
+  private SyncUserData() {
+    this.credentials.controls['telp'].setValue(this.globalService.userData.md_user_telp);
+    this.credentials.controls['ktp'].setValue(this.globalService.userData.md_user_ktp);
+    this.credentials.controls['npwp'].setValue(this.globalService.userData.md_user_npwp);
+    this.credentials.controls['pekerjaan'].setValue(this.globalService.userData.md_user_pekerjaan_id);
+    this.credentials.controls['alamat'].setValue(this.globalService.userData.md_user_address);
+    this.credentials.controls['institusi'].setValue(this.globalService.userData.md_user_instution);
   }
 }
