@@ -1,4 +1,8 @@
 <ion-content>
+  <ion-refresher slot="fixed" pullFactor="0.5" pullMin="100" pullMax="200" (ionRefresh)="DoRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <div class="content-container">
 
     <div class="ion-padding">
@@ -26,7 +30,15 @@
       <ion-text style="font-size: 20px; font-weight: 700; color: #2c365a" class="ion-padding">User Approval</ion-text>
       <hr style="height: 10px; margin: 0px;">
 
-      <ion-card>
+      <div *ngFor="let approvalUserData of approvalUserDataList">
+        <ion-card>
+          <ion-item button detail color="hk-ppid" lines="none" (click)="OpenApproval(approvalUserData)">
+            {{approvalUserData.md_user_name}}
+          </ion-item>
+        </ion-card>
+      </div>
+
+      <!-- <ion-card>
         <ion-item button detail color="hk-ppid" lines="none" (click)="OpenApproval()">Anya Forger</ion-item>
       </ion-card>
       <ion-card>
@@ -39,7 +51,7 @@
       <ion-card>
         <ion-item button detail color="hk-ppid" lines="none" (click)="OpenApproval()">Georgous Bin Slamet
         </ion-item>
-      </ion-card>
+      </ion-card> -->
 
       <!-- <div style="padding-bottom: 10px"> -->
       <ion-card>

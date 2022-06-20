@@ -1,0 +1,21 @@
+.garis {
+    height: 5px;
+    width: 50px;
+    background-color: rgb(175, 174, 174);
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+
+.statusA {
+    width: 100%;
+    height: 50px;
+}
+
+.statusB {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    border-radius: 5px;
+}

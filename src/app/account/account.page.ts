@@ -20,7 +20,7 @@ export class AccountPage implements OnInit {
   isUserDataVerified: boolean = false;
   isUserDataRejected: boolean = false;
   isModeEdit: boolean = false;
-  txtButton: string = 'Edit Account';
+  txtButton: string = 'Perbarui Akun';
 
   constructor(
     private fb: FormBuilder,
@@ -46,7 +46,7 @@ export class AccountPage implements OnInit {
       || this.globalService.userData.md_user_status.split('_')[0] == this.globalService.statusUserData.KYCREJECTED;
     this.isUserDataWaitingApproval = this.globalService.userData.md_user_status == this.globalService.statusUserData.KYCWAITINGAPPROVAL;
     this.isUserDataVerified = this.globalService.userData.md_user_status == this.globalService.statusUserData.KYCVERIFIED;
-    this.isUserDataRejected = this.globalService.userData.md_user_status == this.globalService.statusUserData.KYCREJECTED;
+    this.isUserDataRejected = this.globalService.userData.md_user_status.split('_')[0] == this.globalService.statusUserData.KYCREJECTED;
   }
 
   private DeclareCredentials() {
@@ -113,7 +113,7 @@ export class AccountPage implements OnInit {
 
   public Help() {
     var txtStatusMessage = this.globalService.userData.md_user_status.split('_')[1];
-    txtStatusMessage = txtStatusMessage +  ' .Pastikan data diri sesuai dengan data pada identitas';
+    txtStatusMessage = txtStatusMessage +  ' Pastikan data diri sesuai dengan data pada identitas';
 
     this.PresentAlertRejected(txtStatusMessage);
   }
@@ -147,7 +147,7 @@ export class AccountPage implements OnInit {
             this.DisableCredentialControl();
 
             this.isModeEdit = false;
-            this.txtButton = 'Edit Account';
+            this.txtButton = 'Perbarui Akun';
           } else {
             this.CancelEdit();
           }
@@ -161,7 +161,7 @@ export class AccountPage implements OnInit {
         this.credentials.controls['institusi'].enable();
 
         this.isModeEdit = true;
-        this.txtButton = 'Confirm Update';
+        this.txtButton = 'Konfirmasi Perubahan';
       }
     } else {
       this.globalService.PresentAlert("Akun sudah terverifikasi, tidak dapat diedit");
@@ -173,7 +173,7 @@ export class AccountPage implements OnInit {
     this.DisableCredentialControl();
 
     this.isModeEdit = false;
-    this.txtButton = 'Edit Account';
+    this.txtButton = 'Perbarui Akun';
   }
 
   private DisableCredentialControl() {

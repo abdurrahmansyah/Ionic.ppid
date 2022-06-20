@@ -12,7 +12,7 @@ import { GlobalService, TicketData } from '../services/global.service';
 export class TrackingPage implements OnInit {
 
   public ticketDataList: TicketData[];
- 
+
   loading: any;
   modelData: any;
 
@@ -58,7 +58,7 @@ export class TrackingPage implements OnInit {
     data.subscribe(
       (data: any) => {
         console.log(data);
-        
+
         if (data.isSuccess) {
           this.MappingTicketData(data.data);
         }
@@ -100,7 +100,7 @@ export class TrackingPage implements OnInit {
       breakpoints: [0, 0.6, 0.95],
       mode: 'md',
       componentProps: {
-        'ticketData': ticketData  
+        'ticketData': ticketData
       }
     });
     // modal.present();
@@ -108,7 +108,7 @@ export class TrackingPage implements OnInit {
       if (modelData.role == "confirm") {
         if (modelData.data.dataPassing == "CANCELTICKET") {
           console.log("harusnya jalanin GetTicketDataListByUser lagi");
-          
+
           this.GetTicketDataListByUser();
         }
       }

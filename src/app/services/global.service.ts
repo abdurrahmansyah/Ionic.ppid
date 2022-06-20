@@ -272,6 +272,52 @@ export class GlobalService {
     )
   }
 
+  public async ApproveOrRejectUser(id: any, approvalId: number, modalController: ModalController, reasonForReject?) {
+    const loading = await this.loadingController.create();
+    await loading.present();
+
+    let postdata = new FormData();
+    postdata.append('md_user_token', this.userData.md_user_token);
+    postdata.append('md_user_id', id);
+    postdata.append('md_user_status', approvalId == 0 ? this.statusUserData.KYCVERIFIED : this.statusUserData.KYCREJECTED + "_" + reasonForReject);
+
+    const requestOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + this.userData.md_user_token,
+      }),
+    };
+
+    var url = 'http://kipdev.hutamakarya.com/api/approveOrRejectUser';
+
+    this.http.post(url, postdata, requestOptions).subscribe(
+      async (data: any) => {
+        if (data.isSuccess) {
+          await loading.dismiss();
+          this.PresentToast(approvalId == 0 ? "Berhasil melakukan persetujuan user" : "Berhasil melakukan penolakan user");
+          modalController.dismiss(
+            { dataPassing: "SUCCESSAPPROVEORREJECTUSER" },
+            'confirm'
+          );
+        }
+        else {
+          await loading.dismiss();
+          this.PresentToast(data.message);
+          modalController.dismiss(
+            { dataPassing: "JUSTCANCEL" },
+            'backdrop'
+          );
+        }
+      }, async (err) => {
+        await loading.dismiss();
+        this.PresentToast("BUG: " + err?.message);
+        modalController.dismiss(
+          { dataPassing: "JUSTCANCEL" },
+          'backdrop'
+        );
+    }
+    )
+  }
+
   public async GetUserById() {
     const loading = await this.loadingController.create();
     await loading.present();
@@ -372,6 +418,8 @@ export class GlobalService {
   }
 
   public GetListUserApproval() {
+    this.approvalUserDataList = [];
+
     const requestOptions = {
       headers: new HttpHeaders({
         'Authorization': 'Bearer ' + this.userData.md_user_token,
@@ -392,7 +440,7 @@ export class GlobalService {
         userData.md_user_email_verified_at = approvalUserDataFromDb.md_user_email_verified_at;
         userData.md_user_telp = approvalUserDataFromDb.md_user_telp;
         userData.md_user_ktp = approvalUserDataFromDb.md_user_ktp;
-        userData.md_user_npwp = approvalUserDataFromDb.md_user_npwp;
+        userData.md_user_npwp = approvalUserDataFromDb.md_user_npwp ? approvalUserDataFromDb.md_user_npwp : "-";
         userData.md_user_pekerjaan_id = approvalUserDataFromDb.md_user_pekerjaan_id.toString();
         userData.md_user_address = approvalUserDataFromDb.md_user_address;
         userData.md_user_instution = approvalUserDataFromDb.md_user_instution;
@@ -402,6 +450,8 @@ export class GlobalService {
         userData.md_user_date_created = approvalUserDataFromDb.created_at;
         userData.md_user_date_modified = approvalUserDataFromDb.updated_at;
         userData.md_user_last_login = approvalUserDataFromDb.md_user_last_login;
+        userData.pekerjaanData.md_pekerjaan_id = approvalUserDataFromDb.md_pekerjaan_id.toString();
+        userData.pekerjaanData.md_pekerjaan_name = approvalUserDataFromDb.md_pekerjaan_name;
 
         this.approvalUserDataList.push(userData);
       });
@@ -557,6 +607,7 @@ export class UserData {
   public md_user_date_created: string;
   public md_user_date_modified: string;
   public md_user_last_login: string;
+  public pekerjaanData: PekerjaanData = new PekerjaanData();
 
   constructor() { }
 }

@@ -6,10 +6,11 @@ import { IonicModule } from '@ionic/angular';
 import { OtpComponent } from './otp/otp.component';
 import { NgOtpInputModule } from 'ng-otp-input';
 import { EmailVerificationComponent } from './email-verification/email-verification.component';
+import { UserApprovalComponent } from './user-approval/user-approval.component';
 
 @NgModule({
-  declarations: [TicketComponent, OtpComponent, EmailVerificationComponent],
-  exports: [TicketComponent, OtpComponent, EmailVerificationComponent],
+  declarations: [TicketComponent, OtpComponent, EmailVerificationComponent, UserApprovalComponent],
+  exports: [TicketComponent, OtpComponent, EmailVerificationComponent, UserApprovalComponent],
   imports: [
     CommonModule,
     FormsModule,
