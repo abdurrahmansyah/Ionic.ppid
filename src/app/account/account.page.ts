@@ -164,7 +164,7 @@ export class AccountPage implements OnInit {
         this.txtButton = 'Konfirmasi Perubahan';
       }
     } else {
-      this.globalService.PresentAlert("Akun sudah terverifikasi, tidak dapat diedit");
+      this.globalService.PresentAlert("Akun sudah terverifikasi, tidak dapat diubah");
     }
   }
 

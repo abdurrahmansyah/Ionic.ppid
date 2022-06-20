@@ -36,7 +36,7 @@
       <br>
 
       <ion-item class="border" lines="none">
-        <ion-input type="text" placeholder="Tujuan Penggunaan Informasi" formControlName="tujuan"></ion-input>
+        <ion-textarea type="text" placeholder="Tujuan Penggunaan Informasi" formControlName="tujuan"></ion-textarea>
       </ion-item>
       <div *ngIf="(tujuan.dirty || tujuan.touched) && tujuan.errors" class="errors">
         <span *ngIf="tujuan.errors?.required">Tujuan Penggunaan Informasi Tidak Boleh Kosong</span>
@@ -44,7 +44,7 @@
       <br>
 
       <ion-item class="border" lines="none">
-        <ion-input type="text" placeholder="Rincian Informasi yang Dibutuhkan" formControlName="rincian"></ion-input>
+        <ion-textarea type="text" placeholder="Rincian Informasi yang Dibutuhkan" formControlName="rincian"></ion-textarea>
       </ion-item>
       <div *ngIf="(rincian.dirty || rincian.touched) && rincian.errors" class="errors">
         <span *ngIf="rincian.errors?.required">Rincian Informasi Tidak Boleh Kosong</span>
