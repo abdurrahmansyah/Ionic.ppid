@@ -63,7 +63,7 @@ export class TrackingPage implements OnInit {
           this.MappingTicketData(data.data);
         }
         else {
-          this.globalService.PresentToast(data.error_msg);
+          this.globalService.PresentToast(data.message);
         }
       }
     );

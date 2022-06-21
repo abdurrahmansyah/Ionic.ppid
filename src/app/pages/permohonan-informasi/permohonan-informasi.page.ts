@@ -103,14 +103,28 @@ export class PermohonanInformasiPage implements OnInit {
   }
 
   public async TakeAPhoto() {
-    const image = await this.photoService.TakeAPhoto();
-    this.photo = this.photoService.ConvertPhotoBase64ToImage(image.base64String);
+    this.alertController.create({
+      mode: 'ios',
+      message: 'Usahakan Foto dengan Posisi Kamera Landscape!',
+      cssClass: 'alert-akun',
+      buttons: [{
+        text: 'Batal',
+        role: 'Cancel'
+      }, {
+        text: 'Lanjut',
+        handler: async () => {
+          const image = await this.photoService.TakeAPhoto();
+          this.photo = this.photoService.ConvertPhotoBase64ToImage(image.base64String);
 
-    // var dateData = this.globalService.GetDate()
-    // var name = this.datePipe.transform(dateData.date, 'yyyy-MM-dd') + " " + this.globalService.userData.md_user_name + "." + this.image.format;
-    this.credentials.controls['lampiran'].setValue(image.base64String);
+          // var dateData = this.globalService.GetDate()
+          // var name = this.datePipe.transform(dateData.date, 'yyyy-MM-dd') + " " + this.globalService.userData.md_user_name + "." + this.image.format;
+          this.credentials.controls['lampiran'].setValue(image.base64String);
+        }
+      }]
+    }).then(alert => {
+      return alert.present();
+    });
   }
-
 
   /////////////////////////////// GAK KEPAKAI ///////////////////////////////
 

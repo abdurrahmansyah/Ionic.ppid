@@ -1,3 +1,4 @@
+<!-- <div scrollY="true" style="overflow-y: auto;"> -->
 <div>
     <br>
     <ion-item lines="none" button (click)="CloseDetailTicket()">
@@ -77,13 +78,21 @@
 
         <br>
 
+        <!-- <ion-col class="picture">
+            <img src="{{ photo }}" class="center" />
+        </ion-col> -->
+
+        <div class="ion-padding-top ion-padding-bottom">
+            <img style="max-height: 200px; " class="center" src="{{ photo }}" />
+        </div>
+
         <ion-row class="status" [style.background-color]="statusColor">
             <ion-col style="padding: 0px;" class="ion-align-self-center">
                 <ion-text>{{ticketData.trx_ticket_status}}</ion-text>
             </ion-col>
         </ion-row>
 
-        <div *ngIf="ticketData.trx_ticket_status !== 'CLOSE'">
+        <div *ngIf="ticketData.trx_ticket_status !== 'SELESAI'">
             <ion-button expand="full" fill="clear" color="hk-ppid-three" (click)="CancelTicket()">Batalkan Tiket
             </ion-button>
         </div>

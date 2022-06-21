@@ -106,9 +106,13 @@
 
     <hr style="height: 12px; margin-top: 0px; margin-bottom: 0px;" no-padding>
 
-    <ion-col class="picture">
+    <!-- <ion-col class="picture">
       <img src="{{ photo }}" class="center" />
-    </ion-col>
+    </ion-col> -->
+
+    <div class="ion-padding-top ion-padding-bottom">
+      <img style="max-height: 200px; " class="center" src="{{ photo }}" />
+    </div>
 
     <hr *ngIf="photo" style="height: 12px; margin-top: 0px; margin-bottom: 0px;" no-padding>
 
@@ -133,8 +137,8 @@
   </form>
 
   <!-- <ion-fab vertical="bottom" horizontal="end" slot="fixed"> -->
-    <!-- <input type="file" #fileInput (change)="uploadFile($event)" hidden="true" accept="image/*" /> -->
-    <!-- <ion-fab-button (click)="selectImageSource()">
+  <!-- <input type="file" #fileInput (change)="uploadFile($event)" hidden="true" accept="image/*" /> -->
+  <!-- <ion-fab-button (click)="selectImageSource()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab> -->

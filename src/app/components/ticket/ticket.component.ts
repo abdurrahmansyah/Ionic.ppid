@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { AlertController, ModalController, NavParams } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { GlobalService, TicketData, UserData } from 'src/app/services/global.service';
+import { PhotoService } from 'src/app/services/photo.service';
 
 @Component({
   selector: 'app-ticket',
@@ -16,12 +17,13 @@ export class TicketComponent implements OnInit {
   public isPermohonan: boolean = false;
   public isKeberatan: boolean = false;
   public statusColor: string;
+  public photo: any;
 
   constructor(private navParams: NavParams,
     private globalService: GlobalService,
     private modalController: ModalController,
-    private alertController: AlertController) {
-
+    private alertController: AlertController,
+    private photoService: PhotoService) {
   }
 
   ngOnInit() {
@@ -32,9 +34,10 @@ export class TicketComponent implements OnInit {
     this.statusColor = this.ticketData.trx_ticket_status == this.globalService.statusTransaksiData.OPEN ? "orangered" :
       this.ticketData.trx_ticket_status == this.globalService.statusTransaksiData.INPROGRESS ? "yellow" :
         this.ticketData.trx_ticket_status == this.globalService.statusTransaksiData.CLOSE ? "green" : "black";
+    this.photo = this.photoService.ConvertPhotoBase64ToImage(this.ticketData.trx_ticket_lampiran);
   }
 
-  public CloseDetailTicket() { 
+  public CloseDetailTicket() {
     this.modalController.dismiss(
       { dataPassing: "JUSTCANCEL" },
       'backdrop'
