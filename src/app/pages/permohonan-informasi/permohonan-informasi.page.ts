@@ -1,9 +1,11 @@
+import { DatePipe } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 import { ActionSheetController, AlertController, Platform } from '@ionic/angular';
 import { ApiImage, GlobalService } from 'src/app/services/global.service';
+import { PhotoService } from 'src/app/services/photo.service';
 
 @Component({
   selector: 'app-permohonan-informasi',
@@ -16,6 +18,7 @@ export class PermohonanInformasiPage implements OnInit {
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
   isUserDataComplete: boolean = false;
   caraMemperolehInformasiList = [];
+  public photo: any;
 
   constructor(
     private fb: FormBuilder,
@@ -23,7 +26,9 @@ export class PermohonanInformasiPage implements OnInit {
     private plt: Platform,
     private actionSheetCtrl: ActionSheetController,
     private router: Router,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private photoService: PhotoService,
+    private datePipe: DatePipe
   ) {
     if (!this.CheckUserData()) {
       this.PresentAlertAccount();
@@ -67,7 +72,7 @@ export class PermohonanInformasiPage implements OnInit {
       tujuan: ['', [Validators.required]],
       rincian: ['', [Validators.required]],
       cara: ['', [Validators.required]],
-      lampiran: ['', [Validators.required]],
+      lampiran: [{ value: '', disabled: true }, [Validators.required]],
     });
   }
 
@@ -92,10 +97,24 @@ export class PermohonanInformasiPage implements OnInit {
   }
 
   async PermohonanInformasi() {
+    this.credentials.controls['lampiran'].enable();
     this.globalService.CreatePermohonanInformasi(this.credentials.value);
+    this.credentials.controls['lampiran'].disable();
+  }
+
+  public async TakeAPhoto() {
+    const image = await this.photoService.TakeAPhoto();
+    this.photo = this.photoService.ConvertPhotoBase64ToImage(image.base64String);
+
+    // var dateData = this.globalService.GetDate()
+    // var name = this.datePipe.transform(dateData.date, 'yyyy-MM-dd') + " " + this.globalService.userData.md_user_name + "." + this.image.format;
+    this.credentials.controls['lampiran'].setValue(image.base64String);
   }
 
 
+  /////////////////////////////// GAK KEPAKAI ///////////////////////////////
+
+  //#region Code FAB BUTTON HIT ACTION SHEET
 
   async selectImageSource() {
     const buttons = [
@@ -140,50 +159,9 @@ export class PermohonanInformasiPage implements OnInit {
       resultType: CameraResultType.Base64,
       source
     });
-
-    const blobData = this.b64toBlob(image.base64String, `image/${image.format}`);
-    const imageName = 'Give me a name';
-
-    this.globalService.uploadImage(blobData, imageName, image.format).subscribe((newImage: ApiImage) => {
-      this.images.push(newImage);
-    });
   }
 
-  // Used for browser direct file upload
-  // uploadFile(event: EventTarget) {
-  //   const eventObj: MSInputMethodContext = event as MSInputMethodContext;
-  //   const target: HTMLInputElement = eventObj.target as HTMLInputElement;
-  //   const file: File = target.files[0];
-  //   this.globalService.uploadImageFile(file).subscribe((newImage: ApiImage) => {
-  //     this.images.push(newImage);
-  //   });
-  // }
+  //#endregion
 
-  deleteImage(image: ApiImage, index) {
-    this.globalService.deleteImage(image._id).subscribe(res => {
-      this.images.splice(index, 1);
-    });
-  }
-
-  // Helper function
-  // https://stackoverflow.com/questions/16245767/creating-a-blob-from-a-base64-string-in-javascript
-  b64toBlob(b64Data, contentType = '', sliceSize = 512) {
-    const byteCharacters = atob(b64Data);
-    const byteArrays = [];
-
-    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-      const slice = byteCharacters.slice(offset, offset + sliceSize);
-
-      const byteNumbers = new Array(slice.length);
-      for (let i = 0; i < slice.length; i++) {
-        byteNumbers[i] = slice.charCodeAt(i);
-      }
-
-      const byteArray = new Uint8Array(byteNumbers);
-      byteArrays.push(byteArray);
-    }
-
-    const blob = new Blob(byteArrays, { type: contentType });
-    return blob;
-  }
+  /////////////////////////////// GAK KEPAKAI ///////////////////////////////
 }

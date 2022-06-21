@@ -44,7 +44,8 @@
       <br>
 
       <ion-item class="border" lines="none">
-        <ion-textarea type="text" placeholder="Rincian Informasi yang Dibutuhkan" formControlName="rincian"></ion-textarea>
+        <ion-textarea type="text" placeholder="Rincian Informasi yang Dibutuhkan" formControlName="rincian">
+        </ion-textarea>
       </ion-item>
       <div *ngIf="(rincian.dirty || rincian.touched) && rincian.errors" class="errors">
         <span *ngIf="rincian.errors?.required">Rincian Informasi Tidak Boleh Kosong</span>
@@ -89,7 +90,8 @@
         </ion-col>
         <ion-col size="4" style="padding: 0px 0px 0px 16px;" class="ion-text-end">
           <div class="border ion-text-center" style="background-color: var(--ion-color-hk-ppid-main); height: 100%;">
-            <ion-button expand="full" color="transparent" style="height: 100%; padding: 0px; margin: 0px;">UPLOAD
+            <ion-button expand="full" color="transparent" style="height: 100%; padding: 0px; margin: 0px;"
+              (click)="TakeAPhoto()">Foto
             </ion-button>
           </div>
           <!-- <ion-item class="border" lines="none" color="hk-ppid-main">
@@ -103,6 +105,12 @@
     </div>
 
     <hr style="height: 12px; margin-top: 0px; margin-bottom: 0px;" no-padding>
+
+    <ion-col class="picture">
+      <img src="{{ photo }}" class="center" />
+    </ion-col>
+
+    <hr *ngIf="photo" style="height: 12px; margin-top: 0px; margin-bottom: 0px;" no-padding>
 
     <ion-icon class="icon" name="stop"></ion-icon>
     <span>&nbsp;</span>
@@ -124,11 +132,11 @@
     <!-- <ion-button type="submit" expand="block" [disabled]="!credentials.valid">Submit Permohonan</ion-button> -->
   </form>
 
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <!-- <ion-fab vertical="bottom" horizontal="end" slot="fixed"> -->
     <!-- <input type="file" #fileInput (change)="uploadFile($event)" hidden="true" accept="image/*" /> -->
-    <ion-fab-button (click)="selectImageSource()">
+    <!-- <ion-fab-button (click)="selectImageSource()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
-  </ion-fab>
+  </ion-fab> -->
 
 </ion-content>
