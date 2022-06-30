@@ -22,8 +22,10 @@ export class BlankLoadingPage implements OnInit {
     if (await this.globalService.GetUserDataFromStorage()) {
       if (this.globalService.GetListPekerjaan()) {
         if (this.globalService.GetListUserApproval()) {
-          await loading.dismiss();
-          this.router.navigate(['tabs']);
+          if (this.globalService.GetListTicketApproval()) {
+            await loading.dismiss();
+            this.router.navigate(['tabs']);
+          }
         }
       }
     }
@@ -38,5 +40,5 @@ export class BlankLoadingPage implements OnInit {
     return loading;
   }
 
-  async ngOnInit() {}
+  async ngOnInit() { }
 }

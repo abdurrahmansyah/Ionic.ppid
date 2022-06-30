@@ -32,7 +32,7 @@ export class TicketComponent implements OnInit {
     this.isPermohonan = this.ticketData.trx_ticket_tipe == this.globalService.ticketTypeData.PERMOHONANINFORMASI ? true : false;
     this.isKeberatan = this.ticketData.trx_ticket_tipe == this.globalService.ticketTypeData.PENGAJUANKEBERATAN ? true : false;
     this.statusColor = this.ticketData.trx_ticket_status == this.globalService.statusTransaksiData.OPEN ? "orangered" :
-      this.ticketData.trx_ticket_status == this.globalService.statusTransaksiData.INPROGRESS ? "yellow" :
+      this.ticketData.trx_ticket_status == this.globalService.statusTransaksiData.INPROGRESS ? "darkblue" :
         this.ticketData.trx_ticket_status == this.globalService.statusTransaksiData.CLOSE ? "green" : "black";
     this.photo = this.photoService.ConvertPhotoBase64ToImage(this.ticketData.trx_ticket_lampiran);
   }

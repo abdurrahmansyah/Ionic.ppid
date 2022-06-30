@@ -7,10 +7,11 @@ import { OtpComponent } from './otp/otp.component';
 import { NgOtpInputModule } from 'ng-otp-input';
 import { EmailVerificationComponent } from './email-verification/email-verification.component';
 import { UserApprovalComponent } from './user-approval/user-approval.component';
+import { TicketApprovalComponent } from './ticket-approval/ticket-approval.component';
 
 @NgModule({
-  declarations: [TicketComponent, OtpComponent, EmailVerificationComponent, UserApprovalComponent],
-  exports: [TicketComponent, OtpComponent, EmailVerificationComponent, UserApprovalComponent],
+  declarations: [TicketComponent, OtpComponent, EmailVerificationComponent, UserApprovalComponent, TicketApprovalComponent],
+  exports: [TicketComponent, OtpComponent, EmailVerificationComponent, UserApprovalComponent, TicketApprovalComponent],
   imports: [
     CommonModule,
     FormsModule,

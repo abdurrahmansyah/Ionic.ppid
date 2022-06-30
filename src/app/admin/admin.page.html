@@ -6,7 +6,7 @@
   <div class="content-container">
 
     <div class="ion-padding">
-      <ion-text style="font-size: 12px; color: #b3b8cc">Mon, 23 May 2022</ion-text>
+      <ion-text style="font-size: 12px; color: #b3b8cc">{{txtDayNow}}</ion-text>
       <br>
       <hr style="height: 10px; margin: 0px;">
 
@@ -27,70 +27,113 @@
 
     <div style="background-color: #e8edf0; border-radius: 20px 20px 0px 0px; " class="asal">
       <hr style="height: 25px; margin: 0px;">
-      <ion-text style="font-size: 20px; font-weight: 700; color: #2c365a" class="ion-padding">User Approval</ion-text>
+      <ion-text style="font-size: 20px; font-weight: 700; color: #2c365a" class="ion-padding">Persetujuan Pengguna
+      </ion-text>
       <hr style="height: 10px; margin: 0px;">
+
+      <div *ngIf="isNoUser">
+        <ion-card>
+          <ion-item button color="hk-ppid" lines="none">
+            <ion-label>Tidak Ada Persetujuan Pengguna</ion-label>
+          </ion-item>
+        </ion-card>
+      </div>
 
       <div *ngFor="let approvalUserData of approvalUserDataList">
         <ion-card>
-          <ion-item button detail color="hk-ppid" lines="none" (click)="OpenApproval(approvalUserData)">
-            {{approvalUserData.md_user_name}}
+          <ion-item button color="hk-ppid" lines="none" (click)="OpenUserApproval(approvalUserData)">
+            <ion-label>{{approvalUserData.md_user_name}}</ion-label>
+            <ion-note color="light" slot="end">{{approvalUserData.md_user_date_modified}}</ion-note>
           </ion-item>
         </ion-card>
       </div>
 
       <!-- <ion-card>
-        <ion-item button detail color="hk-ppid" lines="none" (click)="OpenApproval()">Anya Forger</ion-item>
+        <ion-item button detail color="hk-ppid" lines="none" (click)="OpenUserApproval()">Anya Forger</ion-item>
       </ion-card>
       <ion-card>
-        <ion-item button detail color="hk-ppid" lines="none" (click)="OpenApproval()">Young Lex</ion-item>
+        <ion-item button detail color="hk-ppid" lines="none" (click)="OpenUserApproval()">Young Lex</ion-item>
       </ion-card>
       <ion-card>
-        <ion-item button detail color="hk-ppid" lines="none" (click)="OpenApproval()">Abu Gosong</ion-item>
+        <ion-item button detail color="hk-ppid" lines="none" (click)="OpenUserApproval()">Abu Gosong</ion-item>
       </ion-card>
 
       <ion-card>
-        <ion-item button detail color="hk-ppid" lines="none" (click)="OpenApproval()">Georgous Bin Slamet
+        <ion-item button detail color="hk-ppid" lines="none" (click)="OpenUserApproval()">Georgous Bin Slamet
         </ion-item>
       </ion-card> -->
 
       <!-- <div style="padding-bottom: 10px"> -->
-      <ion-card>
-        <ion-item button detail color="hk-ppid" lines="none" (click)="OpenApproval()">Suzuki D. Simanjuntak
+      <!-- <ion-card>
+        <ion-item button detail color="hk-ppid" lines="none" (click)="OpenUserApproval()">Suzuki D. Simanjuntak
         </ion-item>
-      </ion-card>
+      </ion-card> -->
       <!-- </div> -->
 
+      <!-- //////////////////////////////////////// BATAS //////////////////////////////////////// -->
+
       <hr style="height: 25px; margin: 0px;">
-      <ion-text style="font-size: 20px; font-weight: 700; color: #2c365a" class="ion-padding">Ticket Request</ion-text>
+      <ion-text style="font-size: 20px; font-weight: 700; color: #2c365a" class="ion-padding">Permohonan Tiket
+      </ion-text>
       <hr style="height: 10px; margin: 0px;">
 
-      <ion-card Lines="none">
-        <div class="ion-padding">
-          <ion-text>2022-04-21</ion-text>
-          <hr style="height: 10px; margin: 0px;">
-          <ion-text style="font-size: 20px; font-weight: 700; color: #2c365a">Permohonan Informasi</ion-text>
-          <hr style="height: 10px; margin: 0px;">
-        </div>
-      </ion-card>
+      <div *ngIf="isNoTicket">
+        <ion-card button Lines="none">
+          <div class="ion-padding">
+            <ion-text>Anda Tidak Memiliki Daftar Permohonan Tiket</ion-text>
+            <hr style="height: 10px; margin: 0px;">
+            <ion-text style="font-size: 20px; font-weight: 700; color: #2c365a">Tiket Kosong</ion-text>
+            <hr style="height: 10px; margin: 0px;">
+          </div>
+        </ion-card>
+      </div>
 
-      <ion-card>
-        <div class="ion-padding">
-          <ion-text>2022-04-27</ion-text>
-          <hr style="height: 10px; margin: 0px;">
-          <ion-text style="font-size: 20px; font-weight: 700; color: #2c365a">Permohonan Informasi</ion-text>
-          <hr style="height: 10px; margin: 0px;">
-        </div>
-      </ion-card>
+      <!-- <div *ngFor="let approvalTicketDataExtend of approvalTicketDataExtendList">
+        <ion-card button Lines="none" (click)="OpenTicketApproval(approvalTicketDataExtend.ticketData)">
+          <div class="ion-padding">
+            <ion-text>{{approvalTicketDataExtend.ticketData.trx_ticket_date_created}}</ion-text>
+            <hr style="height: 10px; margin: 0px;">
+            <ion-text style="font-size: 20px; font-weight: 700; color: #2c365a">{{approvalTicketDataExtend.ticketData.trx_ticket_tipe}}</ion-text>
+            <hr style="height: 10px; margin: 0px;">
+          </div>
+        </ion-card>
+      </div> -->
 
-      <ion-card>
-        <div class="ion-padding">
-          <ion-text>2022-05-01</ion-text>
-          <hr style="height: 10px; margin: 0px;">
-          <ion-text style="font-size: 20px; font-weight: 700; color: #2c365a">Pengajuan Keberatan</ion-text>
-          <hr style="height: 10px; margin: 0px;">
-        </div>
-      </ion-card>
+      <div *ngFor="let approvalTicketDataExtend of approvalTicketDataExtendList">
+        <ion-card button Lines="none" (click)="OpenTicketApproval(approvalTicketDataExtend.ticketData)">
+          <ion-row>
+            <ion-col size="8.5" class="ion-padding">
+              <ion-text>{{approvalTicketDataExtend.ticketData.trx_ticket_date_created}}</ion-text>
+              <hr style="height: 10px; margin: 0px;">
+              <ion-text style="font-size: 20px; font-weight: 700; color: #2c365a">
+                {{approvalTicketDataExtend.ticketData.trx_ticket_tipe}}</ion-text>
+              <hr style="height: 10px; margin: 0px;">
+            </ion-col>
+            <ion-col size="3.5" class="ion-padding">
+              <ion-text style="font-size: 12px; color: #2c365a">Sisa Waktu</ion-text> <br>
+              <ion-text style="font-size: 35px; font-weight: 700; color: #2c365a; ">
+                {{approvalTicketDataExtend.sisaHari}}</ion-text>
+              <ion-text style="font-size: 12px; color: #2c365a"> hari</ion-text>
+            </ion-col>
+          </ion-row>
+        </ion-card>
+      </div>
 
+      <!-- <ion-card Lines="none">
+        <ion-row>
+          <ion-col size="8.5" class="ion-padding">
+            <ion-text>2022-04-21</ion-text>
+            <hr style="height: 10px; margin: 0px;">
+            <ion-text style="font-size: 20px; font-weight: 700; color: #2c365a">Permohonan Informasi</ion-text>
+            <hr style="height: 10px; margin: 0px;">
+          </ion-col>
+          <ion-col size="3.5" class="ion-padding">
+            <ion-text style="font-size: 12px; color: #2c365a">Sisa Waktu</ion-text> <br>
+            <ion-text style="font-size: 35px; font-weight: 700; color: #2c365a; ">9</ion-text>
+            <ion-text style="font-size: 12px; color: #2c365a"> hari</ion-text>
+          </ion-col>
+        </ion-row>
+      </ion-card> -->
     </div>
   </div>
 

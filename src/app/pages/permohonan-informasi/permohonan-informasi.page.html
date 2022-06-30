@@ -44,6 +44,18 @@
       <br>
 
       <ion-item class="border" lines="none">
+        <ion-label>Jenis Permohonan</ion-label>
+        <ion-select mode="ios" formControlName="jenis">
+          <ion-select-option value="Instansi">Instansi</ion-select-option>
+          <ion-select-option value="Perorangan">Perorangan</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <div *ngIf="(jenis.dirty || jenis.touched) && jenis.errors" class="errors">
+        <span *ngIf="jenis.errors?.required">Jenis Permohonan Tidak Boleh Kosong</span>
+      </div>
+      <br>
+
+      <ion-item class="border" lines="none">
         <ion-textarea type="text" placeholder="Rincian Informasi yang Dibutuhkan" formControlName="rincian">
         </ion-textarea>
       </ion-item>

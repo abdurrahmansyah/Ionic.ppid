@@ -17,6 +17,7 @@ export class AppComponent {
       await this.globalService.GetUserDataFromStorage();
       this.globalService.GetListPekerjaan();
       this.globalService.GetListUserApproval();
+      this.globalService.GetListTicketApproval();
     }
   }
 }

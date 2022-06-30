@@ -1,6 +1,6 @@
 <div class="vertical-align-content">
   <br>
-  <ion-item lines="none" button (click)="CloseUserApproval()">
+  <ion-item lines="none" button detail="false" (click)="CloseUserApproval()">
     <ion-icon color="hk-ppid-main" name="close"></ion-icon>
   </ion-item>
 
@@ -61,7 +61,8 @@
 
     <ion-text style="font-size: 12px; color: #2c365a; line-height: 25px;">Pekerjaan</ion-text>
     <br>
-    <ion-text style="font-size: 16px; font-weight: 700; color: #2c365a">{{ approvalUserData.pekerjaanData.md_pekerjaan_name }}
+    <ion-text style="font-size: 16px; font-weight: 700; color: #2c365a">{{
+      approvalUserData.pekerjaanData.md_pekerjaan_name }}
     </ion-text> <br>
 
     <hr style="height: 10px; margin: 0px;">
@@ -75,32 +76,42 @@
     <ion-text style="font-size: 16px; font-weight: 700; color: #2c365a">{{ approvalUserData.md_user_instution }}
     </ion-text> <br>
 
-    <br>
+    <div *ngIf="!isJustView">
+      <!-- <br *ngIf="!photo"> -->
+      <hr style="height: 10px; margin: 0px;">
+      <hr style="height: 0.5px; background-color: #e6e6e6; margin: 0px;">
+      <!-- <hr style="height: 10px; margin: 0px;"> -->
 
-    <ion-row class="statusA">
-      <ion-col size="5.75" class="statusB" style="background-color: #F2E8E9;" button (click)="RejectUser(approvalUserData)">
-        <ion-text style="color: #B87781;">Tolak</ion-text>
-        <!-- <ion-select mode="ios" [(ngModel)]="jenisOlahraga">
-          <ion-select-option value="Jogging/Jalan/Lari" selected>Jogging/Jalan/Lari</ion-select-option>
-          <ion-select-option value="Workout/Zumba/Yoga/Senam">Workout/Zumba/Yoga/Senam</ion-select-option>
-          <ion-select-option value="Bersepeda">Bersepeda</ion-select-option>
-          <ion-select-option value="Renang">Renang</ion-select-option>
-          <ion-select-option value="Badminton/Tenis Lapangan">Badminton/Tenis Lapangan</ion-select-option>
-          <ion-select-option value="Tenis Meja">Tenis Meja</ion-select-option>
-          <ion-select-option value="Basket/Voli">Basket/Voli</ion-select-option>
-          <ion-select-option value="Futsal/Sepak Bola">Futsal/Sepak Bola</ion-select-option>
-          <ion-select-option value="Golf">Golf</ion-select-option>
-          <ion-select-option value="Lain-Lain">Lain-Lain</ion-select-option>
-        </ion-select> -->
+      <div class="ion-padding-top ion-padding-bottom">
+        <img style="max-height: 200px; " class="center" src="{{ photo }}" />
+      </div>
 
-      </ion-col>
-      <ion-col size="0.5"></ion-col>
-      <ion-col size="5.75" class="statusB" style="background-color: #E2EDEB;" button (click)="ApproveUser(approvalUserData)">
-        <ion-text style="color: #647F79;">Setujui</ion-text>
-      </ion-col>
-    </ion-row>
+      <ion-row class="statusA">
+        <ion-col size="5.75" class="statusB" style="background-color: #F2E8E9;" button
+          (click)="RejectUser(approvalUserData)">
+          <ion-text style="color: #B87781;">Tolak</ion-text>
+        </ion-col>
+        <ion-col size="0.5"></ion-col>
+        <ion-col size="5.75" class="statusB" style="background-color: #E2EDEB;" button
+          (click)="ApproveUser(approvalUserData)">
+          <ion-text style="color: #647F79;">Setujui</ion-text>
+        </ion-col>
+      </ion-row>
+    </div>
+
+    <div *ngIf="isJustView">
+      <hr style="height: 10px; margin: 0px;">
+      <hr style="height: 0.5px; background-color: #e6e6e6; margin: 0px;">
+      <hr style="height: 10px; margin: 0px;">
+
+      <ion-text style="font-size: 12px; color: #2c365a; line-height: 25px;">Alamat</ion-text>
+      <br>
+      <ion-text style="font-size: 16px; font-weight: 700; color: #2c365a">{{
+        approvalUserData.md_user_address }}
+      </ion-text> <br>
+    </div>
   </div>
 </div>
 
-/// UNTUK DI ROW ion-align-items-center
-/// UNTUK DI COL class="ion-align-self-center"
+<!-- /// UNTUK DI ROW ion-align-items-center -->
+<!-- /// UNTUK DI COL class="ion-align-self-center" -->

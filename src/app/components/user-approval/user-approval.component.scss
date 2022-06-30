@@ -19,3 +19,19 @@
     align-items: center !important;
     border-radius: 5px;
 }
+
+.picture {
+    .center {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+    }
+}
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}

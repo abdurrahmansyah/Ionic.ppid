@@ -57,7 +57,7 @@ export class TrackingPage implements OnInit {
   private SubscribeGetTicketDataListByUser(data: Observable<any>) {
     data.subscribe(
       (data: any) => {
-        console.log(data);
+        // console.log(data);
 
         if (data.isSuccess) {
           this.MappingTicketData(data.data);

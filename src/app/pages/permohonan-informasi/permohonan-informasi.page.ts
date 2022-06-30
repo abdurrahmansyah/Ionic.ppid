@@ -70,6 +70,7 @@ export class PermohonanInformasiPage implements OnInit {
     this.credentials = this.fb.group({
       name: [{ value: this.globalService.userData.md_user_name, disabled: true }, [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
       tujuan: ['', [Validators.required]],
+      jenis: ['', [Validators.required]],
       rincian: ['', [Validators.required]],
       cara: ['', [Validators.required]],
       lampiran: [{ value: '', disabled: true }, [Validators.required]],
@@ -82,6 +83,10 @@ export class PermohonanInformasiPage implements OnInit {
 
   get tujuan() {
     return this.credentials.get('tujuan');
+  }
+
+  get jenis() {
+    return this.credentials.get('jenis');
   }
 
   get rincian() {

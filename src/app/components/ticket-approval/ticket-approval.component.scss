@@ -1,0 +1,72 @@
+.statusTicket {
+    position: absolute;
+    top: 20px;
+    right: 0px;
+    width: fit-content;
+    padding: 8px 16px 8px 20px;
+    border-radius: 20px 0px 0px 20px;
+    font-size: 14px;
+    // display: block;
+    height: 40px;
+}
+
+.centerOnAll {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+// .img-status{
+//     display: block;
+//     height: 25px;
+//     padding: 0px;
+//     margin-right: 22px;
+// }
+
+.garis {
+    height: 5px;
+    width: 50px;
+    background-color: rgb(175, 174, 174);
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+
+.statusA {
+    width: 100%;
+    height: 50px;
+}
+
+.statusB {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    border-radius: 5px;
+}
+
+.status {
+    color: white;
+    // background-color: var(--ion-color-hk-ppid-three);
+    width: 100%;
+    text-align: center;
+    height: 50px;
+    margin: auto;
+    border-radius: 5px;
+}
+
+.picture {
+    .center {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+    }
+}
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}

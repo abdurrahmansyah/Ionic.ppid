@@ -92,7 +92,7 @@
             </ion-col>
         </ion-row>
 
-        <div *ngIf="ticketData.trx_ticket_status !== 'SELESAI'">
+        <div *ngIf="ticketData.trx_ticket_status == 'Belum Diproses' || ticketData.trx_ticket_status == 'Sedang Diproses'">
             <ion-button expand="full" fill="clear" color="hk-ppid-three" (click)="CancelTicket()">Batalkan Tiket
             </ion-button>
         </div>

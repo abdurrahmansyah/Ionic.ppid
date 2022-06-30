@@ -22,13 +22,19 @@ export class GlobalService {
   public statusUserData = new StatusUserData;
   public statusTransaksiData = new StatusTransaksiData;
   public ticketTypeData = new TicketTypeData;
+  public optionRejectUserApprovalData = new OptionRejectUserApprovalData;
+  public optionRejectTicketPermohonanData = new OptionRejectTicketPermohonanData;
   public isSeenAlertPPID: boolean = false;
   urlDEVDACTIC = 'http://localhost:3000';
 
   httpClient = InjectorInstance.get<HttpClient>(HttpClient);
   public pekerjaanDataList = [];
   public approvalUserDataList = [];
+  public approvalTicketDataList = [];
+  public approvalTicketDataExtendList = [];
   public isUpdateAccountSuccess: boolean;
+  public isNoUser: boolean = false;
+  public isNoTicket: boolean = false;
 
   constructor(private authService: AuthenticationService,
     private toastController: ToastController,
@@ -75,6 +81,8 @@ export class GlobalService {
 
     this.http.post(url, postdata).subscribe(
       async (data: any) => {
+        console.log("Log : Run Api login...");
+
         if (data.isSuccess) {
           await this.authFirebaseService.signInWithEmailAndPassword(credentials.email, credentials.password).then(async (userCredential) => {
             if (userCredential.user.emailVerified) {
@@ -85,6 +93,7 @@ export class GlobalService {
               await loading.dismiss();
               this.PresentToast("Login Berhasil");
               this.router.navigate(['blank-loading']);
+              console.log("Log : Login Berhasil");
             } else {
               await loading.dismiss();
 
@@ -108,8 +117,8 @@ export class GlobalService {
             var error_msg = error.split('(')[1];
             error_msg = error_msg.split(')')[0];
 
-            console.log(error);
-            console.log(error_msg);
+            console.log("Log : " + error);
+            console.log("Log : " + error_msg);
             this.PresentToast("Login Gagal! " + error_msg);
           })
         }
@@ -214,16 +223,16 @@ export class GlobalService {
     var data: any = this.httpClient.post(url, postdata);
     data.subscribe(async data => {
       if (data.isSuccess) {
-        console.log("Berhasil menghapus data user baru");
+        console.log("Log : Berhasil menghapus data user baru");
         await loading.dismiss();
       } else {
-        console.log("Gagal menghapus data user baru");
+        console.log("Log : Gagal menghapus data user baru");
         await loading.dismiss();
       }
     });
   }
 
-  public async UpdateAccount(credentials: { telp, ktp, npwp, pekerjaan, alamat, institusi }) {
+  public async UpdateAccount(credentials: { telp, ktp, ktp_data, npwp, pekerjaan, alamat, institusi }) {
     const loading = await this.loadingController.create();
     await loading.present();
 
@@ -232,6 +241,7 @@ export class GlobalService {
     postdata.append('md_user_id', this.userData.md_user_id);
     postdata.append('md_user_telp', credentials.telp);
     postdata.append('md_user_ktp', credentials.ktp);
+    postdata.append('md_user_ktp_data', credentials.ktp_data);
     postdata.append('md_user_npwp', credentials.npwp);
     postdata.append('md_user_pekerjaan_id', credentials.pekerjaan);
     postdata.append('md_user_address', credentials.alamat);
@@ -376,7 +386,7 @@ export class GlobalService {
     )
   }
 
-  public async CreatePermohonanInformasi(credentials: { tujuan, rincian, cara, lampiran }) {
+  public async CreatePermohonanInformasi(credentials: { tujuan, jenis, rincian, cara, lampiran }) {
     const loading = await this.loadingController.create();
     await loading.present();
 
@@ -384,6 +394,7 @@ export class GlobalService {
     postdata.append('trx_ticket_user_id', this.userData.md_user_id);
     postdata.append('trx_ticket_tipe', this.ticketTypeData.PERMOHONANINFORMASI);
     postdata.append('trx_ticket_tujuan_alasan', credentials.tujuan);
+    postdata.append('trx_ticket_jenis', credentials.jenis);
     postdata.append('trx_ticket_rincian', credentials.rincian);
     postdata.append('trx_ticket_cara', credentials.cara);
     postdata.append('trx_ticket_lampiran', credentials.lampiran);
@@ -439,6 +450,7 @@ export class GlobalService {
   }
 
   public GetListUserApproval() {
+    console.log("Log : Run Api getListUserApproval...");
     this.approvalUserDataList = [];
 
     const requestOptions = {
@@ -452,30 +464,40 @@ export class GlobalService {
 
     var data: any = this.httpClient.get(url, requestOptions);
     data.subscribe(data => {
-      data.data.forEach(approvalUserDataFromDb => {
-        var userData = new UserData();
+      if (data.isSuccess) {
+        console.log("Log : Run Api getListUserApproval berhasil");
 
-        userData.md_user_id = approvalUserDataFromDb.id.toString();
-        userData.md_user_name = approvalUserDataFromDb.md_user_name;
-        userData.md_user_email = approvalUserDataFromDb.md_user_email;
-        userData.md_user_email_verified_at = approvalUserDataFromDb.md_user_email_verified_at;
-        userData.md_user_telp = approvalUserDataFromDb.md_user_telp;
-        userData.md_user_ktp = approvalUserDataFromDb.md_user_ktp;
-        userData.md_user_npwp = approvalUserDataFromDb.md_user_npwp ? approvalUserDataFromDb.md_user_npwp : "-";
-        userData.md_user_pekerjaan_id = approvalUserDataFromDb.md_user_pekerjaan_id.toString();
-        userData.md_user_address = approvalUserDataFromDb.md_user_address;
-        userData.md_user_instution = approvalUserDataFromDb.md_user_instution;
-        userData.md_user_password = approvalUserDataFromDb.md_user_password;
-        userData.md_user_admin = approvalUserDataFromDb.md_user_admin;
-        userData.md_user_status = approvalUserDataFromDb.md_user_status;
-        userData.md_user_date_created = approvalUserDataFromDb.created_at;
-        userData.md_user_date_modified = approvalUserDataFromDb.updated_at;
-        userData.md_user_last_login = approvalUserDataFromDb.md_user_last_login;
-        userData.pekerjaanData.md_pekerjaan_id = approvalUserDataFromDb.md_pekerjaan_id.toString();
-        userData.pekerjaanData.md_pekerjaan_name = approvalUserDataFromDb.md_pekerjaan_name;
+        data.data.forEach(approvalUserDataFromDb => {
+          var userData = new UserData();
 
-        this.approvalUserDataList.push(userData);
-      });
+          userData.md_user_id = approvalUserDataFromDb.id.toString();
+          userData.md_user_name = approvalUserDataFromDb.md_user_name;
+          userData.md_user_email = approvalUserDataFromDb.md_user_email;
+          userData.md_user_email_verified_at = approvalUserDataFromDb.md_user_email_verified_at;
+          userData.md_user_telp = approvalUserDataFromDb.md_user_telp;
+          userData.md_user_ktp = approvalUserDataFromDb.md_user_ktp;
+          userData.md_user_ktp_data = approvalUserDataFromDb.md_user_ktp_data;
+          userData.md_user_npwp = approvalUserDataFromDb.md_user_npwp ? approvalUserDataFromDb.md_user_npwp : "-";
+          userData.md_user_pekerjaan_id = approvalUserDataFromDb.md_user_pekerjaan_id.toString();
+          userData.md_user_address = approvalUserDataFromDb.md_user_address;
+          userData.md_user_instution = approvalUserDataFromDb.md_user_instution;
+          userData.md_user_password = approvalUserDataFromDb.md_user_password;
+          userData.md_user_admin = approvalUserDataFromDb.md_user_admin;
+          userData.md_user_status = approvalUserDataFromDb.md_user_status;
+          userData.md_user_date_created = approvalUserDataFromDb.created_at.split(' ')[0];
+          userData.md_user_date_modified = approvalUserDataFromDb.updated_at.split(' ')[0];
+          userData.md_user_last_login = approvalUserDataFromDb.md_user_last_login;
+          userData.pekerjaanData.md_pekerjaan_id = approvalUserDataFromDb.md_pekerjaan_id.toString();
+          userData.pekerjaanData.md_pekerjaan_name = approvalUserDataFromDb.md_pekerjaan_name;
+
+          this.approvalUserDataList.push(userData);
+        });
+        this.isNoUser = false;
+      }
+      else {
+        console.log(data.message);
+        this.isNoUser = true;
+      }
     });
 
     return true;
@@ -497,12 +519,95 @@ export class GlobalService {
     return this.httpClient.post(url, postdata, requestOptions);
   }
 
+  public GetListTicketApproval() {
+    console.log("Log : Run Api getListTicketApproval...");
+    this.approvalTicketDataList = [];
+    this.approvalTicketDataExtendList = [];
+
+    const requestOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + this.userData.md_user_token,
+      }),
+    };
+
+    var url = 'http://kipdev.hutamakarya.com/api/getListTicketApproval';
+
+    var data: any = this.httpClient.get(url, requestOptions);
+    data.subscribe(data => {
+      if (data.isSuccess) {
+        console.log("Log : Run Api getListTicketApproval berhasil");
+
+        data.data.forEach(approvalTicketeDataFromDb => {
+          var ticketData = new TicketData();
+
+          ticketData.trx_ticket_id = approvalTicketeDataFromDb.trx_ticket_id.toString();
+          ticketData.trx_ticket_user_id = approvalTicketeDataFromDb.trx_ticket_user_id.toString();
+          ticketData.trx_ticket_date_created = approvalTicketeDataFromDb.trx_ticket_date_created ? approvalTicketeDataFromDb.trx_ticket_date_created.split(' ')[0] : "-";
+          ticketData.trx_ticket_date_respond = approvalTicketeDataFromDb.trx_ticket_date_respond ? approvalTicketeDataFromDb.trx_ticket_date_respond.split(' ')[0] : "-";
+          ticketData.trx_ticket_date_closed = approvalTicketeDataFromDb.trx_ticket_date_closed ? approvalTicketeDataFromDb.trx_ticket_date_closed.split(' ')[0] : "-";
+          ticketData.trx_ticket_tipe = approvalTicketeDataFromDb.trx_ticket_tipe;
+          ticketData.trx_ticket_reference_id = approvalTicketeDataFromDb.trx_ticket_reference_id ? approvalTicketeDataFromDb.trx_ticket_reference_id.toString() : null;
+          ticketData.trx_ticket_tujuan_alasan = approvalTicketeDataFromDb.trx_ticket_tujuan_alasan;
+          ticketData.trx_ticket_jenis = approvalTicketeDataFromDb.trx_ticket_jenis;
+          ticketData.trx_ticket_rincian = approvalTicketeDataFromDb.trx_ticket_rincian;
+          ticketData.trx_ticket_cara = approvalTicketeDataFromDb.trx_ticket_cara;
+          ticketData.trx_ticket_lampiran = approvalTicketeDataFromDb.trx_ticket_lampiran;
+          ticketData.trx_ticket_replyadmin = approvalTicketeDataFromDb.trx_ticket_replyadmin;
+          ticketData.trx_ticket_rating = approvalTicketeDataFromDb.trx_ticket_rating;
+          ticketData.trx_ticket_status = this.CapitalizeEachWord(approvalTicketeDataFromDb.trx_ticket_status);
+          ticketData.trx_ticket_user_data.md_user_id = approvalTicketeDataFromDb.id.toString();
+          ticketData.trx_ticket_user_data.md_user_name = approvalTicketeDataFromDb.md_user_name;
+          ticketData.trx_ticket_user_data.md_user_email = approvalTicketeDataFromDb.md_user_email;
+          ticketData.trx_ticket_user_data.md_user_email_verified_at = approvalTicketeDataFromDb.md_user_email_verified_at;
+          ticketData.trx_ticket_user_data.md_user_telp = approvalTicketeDataFromDb.md_user_telp;
+          ticketData.trx_ticket_user_data.md_user_ktp = approvalTicketeDataFromDb.md_user_ktp;
+          ticketData.trx_ticket_user_data.md_user_ktp_data = approvalTicketeDataFromDb.md_user_ktp_data;
+          ticketData.trx_ticket_user_data.md_user_npwp = approvalTicketeDataFromDb.md_user_npwp ? approvalTicketeDataFromDb.md_user_npwp : "-";
+          ticketData.trx_ticket_user_data.md_user_pekerjaan_id = approvalTicketeDataFromDb.md_user_pekerjaan_id.toString();
+          ticketData.trx_ticket_user_data.md_user_address = approvalTicketeDataFromDb.md_user_address;
+          ticketData.trx_ticket_user_data.md_user_instution = approvalTicketeDataFromDb.md_user_instution;
+          ticketData.trx_ticket_user_data.md_user_password = approvalTicketeDataFromDb.md_user_password;
+          ticketData.trx_ticket_user_data.md_user_admin = approvalTicketeDataFromDb.md_user_admin;
+          ticketData.trx_ticket_user_data.md_user_status = approvalTicketeDataFromDb.md_user_status;
+          ticketData.trx_ticket_user_data.md_user_date_created = approvalTicketeDataFromDb.created_at;
+          ticketData.trx_ticket_user_data.md_user_date_modified = approvalTicketeDataFromDb.updated_at;
+          ticketData.trx_ticket_user_data.md_user_last_login = approvalTicketeDataFromDb.md_user_last_login;
+          ticketData.trx_ticket_user_data.pekerjaanData.md_pekerjaan_id = approvalTicketeDataFromDb.md_pekerjaan_id.toString();
+          ticketData.trx_ticket_user_data.pekerjaanData.md_pekerjaan_name = approvalTicketeDataFromDb.md_pekerjaan_name;
+
+          var diffDays = this.GetDiffDays(ticketData);
+
+          var ticketDataExtend: TicketDataExtend = { ticketData: ticketData, sisaHari: diffDays };
+          this.approvalTicketDataExtendList.push(ticketDataExtend);
+          this.approvalTicketDataList.push(ticketData);
+        });
+        this.isNoTicket = false;
+      }
+      else {
+        console.log(data.message);
+        this.isNoTicket = true;
+      }
+    });
+
+    return true;
+  }
+
+  private GetDiffDays(ticketData: TicketData) {
+    var dateTicket = new Date(ticketData.trx_ticket_date_created);
+    var dueDate = new Date(dateTicket.getTime() + (1000 * 60 * 60 * 24 * 10));
+    var dateNow = new Date();
+
+    var diff = Math.abs(dueDate.getTime() - dateNow.getTime());
+    var diffDays = Math.ceil(diff / (1000 * 3600 * 24));
+    return diffDays;
+  }
+
   public CancelTicket(ticketData: TicketData): Observable<any> {
     let postdata = new FormData();
     postdata.append('trx_ticket_id', ticketData.trx_ticket_id);
     postdata.append('trx_ticket_user_id', ticketData.trx_ticket_user_id);
-    postdata.append('trx_ticket_replyadmin', "SELF CANCEL BY USER AUTHORIZED");
-    postdata.append('trx_ticket_status', this.statusTransaksiData.CLOSE);
+    postdata.append('trx_ticket_replyadmin', "Dibatalkan Secara Pribadi Oleh Pembuat Tiket");
+    postdata.append('trx_ticket_status', this.statusTransaksiData.DIBATALKAN);
 
     const requestOptions = {
       headers: new HttpHeaders({
@@ -514,6 +619,69 @@ export class GlobalService {
     var url = 'http://kipdev.hutamakarya.com/api/cancelPermohonan';
 
     return this.httpClient.post(url, postdata, requestOptions);
+  }
+
+  public StartProcessTicket(ticketData: TicketData): Observable<any> {
+    let postdata = new FormData();
+    postdata.append('trx_ticket_id', ticketData.trx_ticket_id);
+    postdata.append('trx_ticket_user_id', ticketData.trx_ticket_user_id);
+    postdata.append('trx_ticket_status', this.statusTransaksiData.INPROGRESS);
+
+    const requestOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + this.userData.md_user_token,
+      }),
+    };
+
+    var url = 'http://kipdev.hutamakarya.com/api/startProcessTicket';
+
+    return this.httpClient.post(url, postdata, requestOptions);
+  }
+
+  public async FinishOrRejectTicket(ticketData: TicketData, approvalId: number, modalController: ModalController, replyAdmin?) {
+    const loading = await this.loadingController.create();
+    await loading.present();
+
+    let postdata = new FormData();
+    postdata.append('trx_ticket_id', ticketData.trx_ticket_id);
+    postdata.append('trx_ticket_user_id', ticketData.trx_ticket_user_id);
+    postdata.append('trx_ticket_status', approvalId == 0 ? this.statusTransaksiData.CLOSE : this.statusTransaksiData.DITOLAK);
+    postdata.append('trx_ticket_replyadmin', replyAdmin);
+
+    const requestOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + this.userData.md_user_token,
+      }),
+    };
+
+    var url = 'http://kipdev.hutamakarya.com/api/finishOrRejectTicket';
+
+    this.http.post(url, postdata, requestOptions).subscribe(
+      async (data: any) => {
+        await loading.dismiss();
+        if (data.isSuccess) {
+          this.PresentToast(approvalId == 0 ? "Berhasil Menyelesaikan Tiket" : "Berhasil Melakukan Penolakan Tiket");
+          modalController.dismiss(
+            { dataPassing: "SUCCESSAPPROVEORREJECTTICKET" },
+            'confirm'
+          );
+        }
+        else {
+          this.PresentToast(data.message);
+          modalController.dismiss(
+            { dataPassing: "GAGALTICKET" },
+            'confirm'
+          );
+        }
+      }, async (err) => {
+        await loading.dismiss();
+        this.PresentToast("BUG: " + err?.message);
+        modalController.dismiss(
+          { dataPassing: "JUSTCANCEL" },
+          'backdrop'
+        );
+      }
+    )
   }
 
   public async GetUserDataFromStorage(): Promise<Boolean> {
@@ -540,6 +708,18 @@ export class GlobalService {
     this.userData = userData;
 
     return true;
+  }
+
+  public CapitalizeEachWord(str) {
+    var splitStr = str.toLowerCase().split(' ');
+    for (var i = 0; i < splitStr.length; i++) {
+      // You do not need to check if i is larger than splitStr length, as your for does that for you
+      // Assign it back to the array
+      splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+    }
+    // Directly return the joined string
+
+    return splitStr.join(' ');
   }
 
   async PresentToast(msg: string) {
@@ -638,6 +818,7 @@ export class UserData {
   public md_user_email_verified_at: string;
   public md_user_telp: string;
   public md_user_ktp: string;
+  public md_user_ktp_data: string;
   public md_user_npwp: string;
   public md_user_pekerjaan_id: string;
   public md_user_address: string;
@@ -662,14 +843,20 @@ export class TicketData {
   public trx_ticket_tipe: string;
   public trx_ticket_reference_id: string;
   public trx_ticket_tujuan_alasan: string;
+  public trx_ticket_jenis: string;
   public trx_ticket_rincian: string;
   public trx_ticket_cara: string;
   public trx_ticket_lampiran: string;
   public trx_ticket_replyadmin: string;
   public trx_ticket_rating: string;
   public trx_ticket_status: string;
+  public trx_ticket_user_data: UserData = new UserData();
 
   constructor() { }
+}
+
+export interface TicketDataExtend extends Record<string, any> {
+  ticketData: TicketData;
 }
 
 export class StatusUserData {
@@ -682,14 +869,28 @@ export class StatusUserData {
 }
 
 export class StatusTransaksiData {
-  public readonly OPEN: string = "BELUM DIPROSES";
-  public readonly CLOSE: string = "SELESAI";
-  public readonly INPROGRESS: string = "SEDANG DIPROSES";
+  public readonly OPEN: string = "Belum Diproses";
+  public readonly CLOSE: string = "Selesai";
+  public readonly INPROGRESS: string = "Sedang Diproses";
+  public readonly DIBATALKAN: string = "Dibatalkan";
+  public readonly DITOLAK: string = "Ditolak";
 }
 
 export class TicketTypeData {
   public readonly PERMOHONANINFORMASI: string = "Permohonan Informasi";
   public readonly PENGAJUANKEBERATAN: string = "Pengajuan Keberatan";
+}
+
+export class OptionRejectUserApprovalData {
+  public readonly 0: string = "Identitas tidak sesuai lampiran";
+  public readonly 1: string = "Foto lampiran kurang jelas";
+  public readonly 2: string = "Institusi tidak terdaftar";
+}
+
+export class OptionRejectTicketPermohonanData {
+  public readonly 0: string = "File Pendukung (Surat Pengantar Kampus/LSM) tidak sesuai lampiran";
+  public readonly 1: string = "Informasi yang diminta bukan Informasi Publik";
+  public readonly 2: string = "Informasi yang diminta merupakan Informasi yang dikecualikan";
 }
 
 export class PekerjaanData {

@@ -36,3 +36,10 @@
 .my-custom-class .alert-wrapper {
     background: #e3df15;
 }
+
+.alert-radio-label.sc-ion-alert-md,
+.alert-radio-label.sc-ion-alert-ios {
+    font-size: 14px;
+    white-space: pre-line !important;
+    line-height: 15px !important;
+}

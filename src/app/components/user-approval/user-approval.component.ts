@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController, ModalController, NavParams } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { GlobalService, TicketData, UserData } from 'src/app/services/global.service';
+import { PhotoService } from 'src/app/services/photo.service';
 
 @Component({
   selector: 'app-user-approval',
@@ -10,28 +11,27 @@ import { GlobalService, TicketData, UserData } from 'src/app/services/global.ser
 })
 export class UserApprovalComponent implements OnInit {
 
-  // Data passed in by componentProps
   public approvalUserData: UserData;
-  // public userData: UserData;
-  // public isPermohonan: boolean = false;
-  // public isKeberatan: boolean = false;
-  // public statusColor: string;
+  public approvalUserDataExtendList: UserData;
+  public isJustView: boolean = false;
+  public photo: any;
 
   constructor(private navParams: NavParams,
     private globalService: GlobalService,
     private modalController: ModalController,
-    private alertController: AlertController) {
+    private alertController: AlertController,
+    private photoService: PhotoService) {
 
   }
 
   ngOnInit() {
-    this.approvalUserData = this.navParams.get('approvalUserData');
-    // this.userData = this.globalService.userData;
-    // this.isPermohonan = this.approvalUserData.trx_ticket_tipe == this.globalService.ticketTypeData.PERMOHONANINFORMASI ? true : false;
-    // this.isKeberatan = this.approvalUserData.trx_ticket_tipe == this.globalService.ticketTypeData.PENGAJUANKEBERATAN ? true : false;
-    // this.statusColor = this.approvalUserData.trx_ticket_status == this.globalService.statusTransaksiData.OPEN ? "orangered" :
-    //   this.approvalUserData.trx_ticket_status == this.globalService.statusTransaksiData.INPROGRESS ? "yellow" :
-    //     this.approvalUserData.trx_ticket_status == this.globalService.statusTransaksiData.CLOSE ? "green" : "black";
+    if (this.navParams.get('approvalUserData')) this.approvalUserData = this.navParams.get('approvalUserData');
+    if (this.navParams.get('userData')) {
+      this.approvalUserData = this.navParams.get('userData');
+      this.isJustView = true;
+    }
+
+    this.photo = this.photoService.ConvertPhotoBase64ToImage(this.approvalUserData.md_user_ktp_data);
   }
 
   public CloseUserApproval() {
@@ -56,15 +56,15 @@ export class UserApprovalComponent implements OnInit {
         mode: 'ios',
         message: 'Apakah Anda Yakin Ingin Membatalkan Tiket Tersebut? Pilih alasannya!',
         inputs: [{
-          label: 'Identitas tidak sesuai lampiran',
-          value: 'Identitas tidak sesuai lampiran.',
+          label: this.globalService.optionRejectUserApprovalData[0],
+          value: this.globalService.optionRejectUserApprovalData[0],
           type: 'radio'
         }, {
-          label: 'Foto lampiran kurang jelas',
-          value: 'Foto lampiran kurang jelas.',
+          label: this.globalService.optionRejectUserApprovalData[1],
+          value: this.globalService.optionRejectUserApprovalData[1],
         }, {
-          label: 'Institusi tidak terdaftar',
-          value: 'Institusi tidak terdaftar.',
+          label: this.globalService.optionRejectUserApprovalData[2],
+          value: this.globalService.optionRejectUserApprovalData[2],
         },],
         buttons: [{
           text: 'OK',
