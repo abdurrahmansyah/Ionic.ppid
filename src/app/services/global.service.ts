@@ -29,9 +29,11 @@ export class GlobalService {
 
   httpClient = InjectorInstance.get<HttpClient>(HttpClient);
   public pekerjaanDataList = [];
+  public ticketDataList = [];
   public approvalUserDataList = [];
   public approvalTicketDataList = [];
   public approvalTicketDataExtendList = [];
+  public acuanTicketData: TicketData;
   public isUpdateAccountSuccess: boolean;
   public isNoUser: boolean = false;
   public isNoTicket: boolean = false;
@@ -414,7 +416,44 @@ export class GlobalService {
         if (data.isSuccess) {
 
           await loading.dismiss();
-          this.PresentToast("Permohonan Informasi Berhasil");
+          this.PresentToast(data.message);
+          this.router.navigate(['tabs']);
+        }
+        else {
+          this.loadingController.dismiss();
+          this.PresentToast(data.message);
+        }
+      }
+    );
+  }
+
+  public async CreateAjuanKeberatan(credentials: { acuan, alasan, rincian, lampiran }) {
+    const loading = await this.loadingController.create();
+    await loading.present();
+
+    let postdata = new FormData();
+    postdata.append('trx_ticket_user_id', this.userData.md_user_id);
+    postdata.append('trx_ticket_tipe', this.ticketTypeData.PENGAJUANKEBERATAN);
+    postdata.append('trx_ticket_reference_id', credentials.acuan);
+    postdata.append('trx_ticket_tujuan_alasan', credentials.alasan);
+    postdata.append('trx_ticket_rincian', credentials.rincian);
+    postdata.append('trx_ticket_lampiran', credentials.lampiran);
+    postdata.append('trx_ticket_status', this.statusTransaksiData.OPEN);
+
+    const requestOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + this.userData.md_user_token,
+      }),
+    };
+
+    var url = 'http://kipdev.hutamakarya.com/api/createAjuanKeberatan';
+
+    this.http.post(url, postdata, requestOptions).subscribe(
+      async (data: any) => {
+        if (data.isSuccess) {
+
+          await loading.dismiss();
+          this.PresentToast(data.message);
           this.router.navigate(['tabs']);
         }
         else {
@@ -503,22 +542,6 @@ export class GlobalService {
     return true;
   }
 
-  public GetTicketDataListByUser(): Observable<any> {
-    let postdata = new FormData();
-    postdata.append('trx_ticket_user_id', this.userData.md_user_id);
-
-    const requestOptions = {
-      headers: new HttpHeaders({
-        'Authorization': 'Bearer ' + this.userData.md_user_token,
-      }),
-    };
-
-    // var url = 'http://sihk.hutamakarya.com/apippid/getTicketDataListByUser.php';
-    var url = 'http://kipdev.hutamakarya.com/api/getTicketDataListByUser';
-
-    return this.httpClient.post(url, postdata, requestOptions);
-  }
-
   public GetListTicketApproval() {
     console.log("Log : Run Api getListTicketApproval...");
     this.approvalTicketDataList = [];
@@ -592,13 +615,140 @@ export class GlobalService {
     return true;
   }
 
-  private GetDiffDays(ticketData: TicketData) {
+  public GetListTicketData() {
+    console.log("Log : Run Api getListTicketData...");
+    this.ticketDataList = [];
+
+    const requestOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + this.userData.md_user_token,
+      }),
+    };
+
+    var url = 'http://kipdev.hutamakarya.com/api/getListTicketData';
+
+    var data: any = this.httpClient.get(url, requestOptions);
+    data.subscribe(data => {
+      if (data.isSuccess) {
+        console.log("Log : Run Api getListTicketData berhasil");
+
+        data.data.forEach(approvalTicketeDataFromDb => {
+          var ticketData = new TicketData();
+
+          ticketData.trx_ticket_id = approvalTicketeDataFromDb.trx_ticket_id.toString();
+          ticketData.trx_ticket_user_id = approvalTicketeDataFromDb.trx_ticket_user_id.toString();
+          ticketData.trx_ticket_date_created = approvalTicketeDataFromDb.trx_ticket_date_created ? approvalTicketeDataFromDb.trx_ticket_date_created.split(' ')[0] : "-";
+          ticketData.trx_ticket_date_respond = approvalTicketeDataFromDb.trx_ticket_date_respond ? approvalTicketeDataFromDb.trx_ticket_date_respond.split(' ')[0] : "-";
+          ticketData.trx_ticket_date_closed = approvalTicketeDataFromDb.trx_ticket_date_closed ? approvalTicketeDataFromDb.trx_ticket_date_closed.split(' ')[0] : "-";
+          ticketData.trx_ticket_tipe = approvalTicketeDataFromDb.trx_ticket_tipe;
+          ticketData.trx_ticket_reference_id = approvalTicketeDataFromDb.trx_ticket_reference_id ? approvalTicketeDataFromDb.trx_ticket_reference_id.toString() : null;
+          ticketData.trx_ticket_tujuan_alasan = approvalTicketeDataFromDb.trx_ticket_tujuan_alasan;
+          ticketData.trx_ticket_jenis = approvalTicketeDataFromDb.trx_ticket_jenis;
+          ticketData.trx_ticket_rincian = approvalTicketeDataFromDb.trx_ticket_rincian;
+          ticketData.trx_ticket_cara = approvalTicketeDataFromDb.trx_ticket_cara;
+          ticketData.trx_ticket_lampiran = approvalTicketeDataFromDb.trx_ticket_lampiran;
+          ticketData.trx_ticket_replyadmin = approvalTicketeDataFromDb.trx_ticket_replyadmin;
+          ticketData.trx_ticket_rating = approvalTicketeDataFromDb.trx_ticket_rating;
+          ticketData.trx_ticket_status = this.CapitalizeEachWord(approvalTicketeDataFromDb.trx_ticket_status);
+          ticketData.trx_ticket_user_data.md_user_id = approvalTicketeDataFromDb.id.toString();
+          ticketData.trx_ticket_user_data.md_user_name = approvalTicketeDataFromDb.md_user_name;
+          ticketData.trx_ticket_user_data.md_user_email = approvalTicketeDataFromDb.md_user_email;
+          ticketData.trx_ticket_user_data.md_user_email_verified_at = approvalTicketeDataFromDb.md_user_email_verified_at;
+          ticketData.trx_ticket_user_data.md_user_telp = approvalTicketeDataFromDb.md_user_telp;
+          ticketData.trx_ticket_user_data.md_user_ktp = approvalTicketeDataFromDb.md_user_ktp;
+          ticketData.trx_ticket_user_data.md_user_ktp_data = approvalTicketeDataFromDb.md_user_ktp_data;
+          ticketData.trx_ticket_user_data.md_user_npwp = approvalTicketeDataFromDb.md_user_npwp ? approvalTicketeDataFromDb.md_user_npwp : "-";
+          ticketData.trx_ticket_user_data.md_user_pekerjaan_id = approvalTicketeDataFromDb.md_user_pekerjaan_id.toString();
+          ticketData.trx_ticket_user_data.md_user_address = approvalTicketeDataFromDb.md_user_address;
+          ticketData.trx_ticket_user_data.md_user_instution = approvalTicketeDataFromDb.md_user_instution;
+          ticketData.trx_ticket_user_data.md_user_password = approvalTicketeDataFromDb.md_user_password;
+          ticketData.trx_ticket_user_data.md_user_admin = approvalTicketeDataFromDb.md_user_admin;
+          ticketData.trx_ticket_user_data.md_user_status = approvalTicketeDataFromDb.md_user_status;
+          ticketData.trx_ticket_user_data.md_user_date_created = approvalTicketeDataFromDb.created_at;
+          ticketData.trx_ticket_user_data.md_user_date_modified = approvalTicketeDataFromDb.updated_at;
+          ticketData.trx_ticket_user_data.md_user_last_login = approvalTicketeDataFromDb.md_user_last_login;
+          ticketData.trx_ticket_user_data.pekerjaanData.md_pekerjaan_id = approvalTicketeDataFromDb.md_pekerjaan_id.toString();
+          ticketData.trx_ticket_user_data.pekerjaanData.md_pekerjaan_name = approvalTicketeDataFromDb.md_pekerjaan_name;
+
+          this.ticketDataList.push(ticketData);
+        });
+      }
+      else {
+        console.log(data.message);
+      }
+    });
+
+    return true;
+  }
+
+  public GetTicketDataListByUser(): Observable<any> {
+    let postdata = new FormData();
+    postdata.append('trx_ticket_user_id', this.userData.md_user_id);
+
+    const requestOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + this.userData.md_user_token,
+      }),
+    };
+
+    // var url = 'http://sihk.hutamakarya.com/apippid/getTicketDataListByUser.php';
+    var url = 'http://kipdev.hutamakarya.com/api/getTicketDataListByUser';
+
+    return this.httpClient.post(url, postdata, requestOptions);
+  }
+
+  public GetAcuanTicketData(approvalTicketData: TicketData) {
+    console.log("Log : Run Api getTicketDataById berhasil");
+    this.acuanTicketData = new TicketData();
+    let postdata = new FormData();
+    postdata.append('trx_ticket_id', approvalTicketData.trx_ticket_reference_id);
+
+    const requestOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + this.userData.md_user_token,
+      }),
+    };
+
+    var url = 'http://kipdev.hutamakarya.com/api/getTicketDataById';
+
+    var data = this.httpClient.post(url, postdata, requestOptions);
+    data.subscribe((data: any) => {
+      if (data.isSuccess) {
+        console.log("Log : Run Api getTicketDataById berhasil");
+        var ticketeDataFromDb = data.data;
+
+        this.acuanTicketData.trx_ticket_id = ticketeDataFromDb.trx_ticket_id.toString();
+        this.acuanTicketData.trx_ticket_user_id = ticketeDataFromDb.trx_ticket_user_id.toString();
+        this.acuanTicketData.trx_ticket_date_created = ticketeDataFromDb.trx_ticket_date_created ? ticketeDataFromDb.trx_ticket_date_created.split(' ')[0] : "-";
+        this.acuanTicketData.trx_ticket_date_respond = ticketeDataFromDb.trx_ticket_date_respond ? ticketeDataFromDb.trx_ticket_date_respond.split(' ')[0] : "-";
+        this.acuanTicketData.trx_ticket_date_closed = ticketeDataFromDb.trx_ticket_date_closed ? ticketeDataFromDb.trx_ticket_date_closed.split(' ')[0] : "-";
+        this.acuanTicketData.trx_ticket_tipe = ticketeDataFromDb.trx_ticket_tipe;
+        this.acuanTicketData.trx_ticket_reference_id = ticketeDataFromDb.trx_ticket_reference_id ? ticketeDataFromDb.trx_ticket_reference_id.toString() : null;
+        this.acuanTicketData.trx_ticket_tujuan_alasan = ticketeDataFromDb.trx_ticket_tujuan_alasan;
+        this.acuanTicketData.trx_ticket_jenis = ticketeDataFromDb.trx_ticket_jenis;
+        this.acuanTicketData.trx_ticket_rincian = ticketeDataFromDb.trx_ticket_rincian;
+        this.acuanTicketData.trx_ticket_cara = ticketeDataFromDb.trx_ticket_cara;
+        this.acuanTicketData.trx_ticket_lampiran = ticketeDataFromDb.trx_ticket_lampiran;
+        this.acuanTicketData.trx_ticket_replyadmin = ticketeDataFromDb.trx_ticket_replyadmin;
+        this.acuanTicketData.trx_ticket_rating = ticketeDataFromDb.trx_ticket_rating;
+        this.acuanTicketData.trx_ticket_status = this.CapitalizeEachWord(ticketeDataFromDb.trx_ticket_status);
+      }
+      else {
+        this.PresentToast(data.message);
+        console.log(data.message);
+      }
+    });
+  }
+
+  public GetDiffDays(ticketData: TicketData) {
     var dateTicket = new Date(ticketData.trx_ticket_date_created);
     var dueDate = new Date(dateTicket.getTime() + (1000 * 60 * 60 * 24 * 10));
     var dateNow = new Date();
 
-    var diff = Math.abs(dueDate.getTime() - dateNow.getTime());
+    // var diff = Math.abs(dueDate.getTime() - dateNow.getTime()); // KALO MISAL PENGEN HASIL PASTI POSITIP
+    var diff = dueDate.getTime() - dateNow.getTime();
     var diffDays = Math.ceil(diff / (1000 * 3600 * 24));
+    
     return diffDays;
   }
 
@@ -857,6 +1007,26 @@ export class TicketData {
 
 export interface TicketDataExtend extends Record<string, any> {
   ticketData: TicketData;
+}
+
+export class AcuanTicketData {
+  public trx_ticket_acuan_id: string;
+  public trx_ticket_acuan_user_id: string;
+  public trx_ticket_acuan_date_created: string;
+  public trx_ticket_acuan_date_respond: string;
+  public trx_ticket_acuan_date_closed: string;
+  public trx_ticket_acuan_tipe: string;
+  public trx_ticket_acuan_reference_id: string;
+  public trx_ticket_acuan_tujuan_alasan: string;
+  public trx_ticket_acuan_jenis: string;
+  public trx_ticket_acuan_rincian: string;
+  public trx_ticket_acuan_cara: string;
+  public trx_ticket_acuan_lampiran: string;
+  public trx_ticket_acuan_replyadmin: string;
+  public trx_ticket_acuan_rating: string;
+  public trx_ticket_acuan_status: string;
+
+  constructor() { }
 }
 
 export class StatusUserData {

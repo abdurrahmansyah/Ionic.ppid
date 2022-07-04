@@ -14,13 +14,124 @@
       <br>
       <br>
 
-      <div class="analytics" padding>
+      <!-- <div class="analytics" padding>
         <div class="scroll" scrollX="true">
           <span class="container" style="background-color: #09024f;"></span>
           <span style="padding-left: 10px;"> </span>
           <span class="container" style="background-color: #063351;"></span>
           <span style="padding-left: 10px;"> </span>
           <span class="container" style="background-color: #592ebe;"></span>
+        </div>
+      </div> -->
+
+      <div class="analytics">
+        <div class="scroll" scrollX="true">
+          <div class="container2" style="background-color: #09024f; color: #ffffff;">
+            <div style="width: 100%; padding: 0px 16px;">
+              <br>
+              <ion-card class="invisible-card ion-no-padding ion-no-margin" style="color: #ffffff;">
+                <ion-row class="ion-no-padding">
+                  <ion-col size="4" class="statusB" style="font-size: x-large; background-color: #110594;">
+                    <ion-icon name="bar-chart-outline"></ion-icon>
+                  </ion-col>
+                  <ion-col size="8" class="ion-align-self-center">
+                    <!-- <ion-text style="font-size: 12px;  line-height: 25px;">This year</ion-text> -->
+                    <!-- <br> -->
+                    <ion-text style="font-size: 16px; font-weight: 700; ">This year</ion-text> <br>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col>
+                    <hr style="height: 5px; margin: 0px;">
+                    <hr style="height: 0.5px; background-color: #e6e6e6; margin: 0px;">
+                  </ion-col>
+                </ion-row>
+              </ion-card>
+              <br>
+              <!-- <br> -->
+              <br>
+              <ion-text style="font-size: 50px; font-weight: 700;">{{txtJumlahTiketSelesai}}/{{txtTotalTiket}}</ion-text>
+              <ion-text style="font-size: 12px; "> tiket</ion-text>
+              <br>
+              <ion-text style="font-size: 16px; ">Total Diproses</ion-text>
+            </div>
+          </div>
+          <span style="padding-left: 10px;"> </span>
+          <div class="container2" style="background-color: #063351; color: #ffffff;">
+            <div style="width: 100%; padding: 0px 16px;">
+              <br>
+              <ion-card class="invisible-card ion-no-padding ion-no-margin" style="color: #ffffff;">
+                <ion-row class="ion-no-padding">
+                  <ion-col size="4" class="statusB" style="font-size: x-large; background-color: #0e639c;">
+                    <ion-icon name="podium-outline"></ion-icon>
+                  </ion-col>
+                  <ion-col size="8" class="ion-align-self-center">
+                    <!-- <ion-text style="font-size: 12px;  line-height: 25px;">This year</ion-text> -->
+                    <!-- <br> -->
+                    <ion-text style="font-size: 16px; font-weight: 700; ">This year</ion-text> <br>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col>
+                    <hr style="height: 5px; margin: 0px;">
+                    <hr style="height: 0.5px; background-color: #e6e6e6; margin: 0px;">
+                  </ion-col>
+                </ion-row>
+              </ion-card>
+              <br>
+              <!-- <br> -->
+              <br>
+              <ion-text style="font-size: 50px; font-weight: 700;">{{txtPersenTiketSelesai}}</ion-text>
+              <ion-text style="font-size: 12px; "> %</ion-text>
+              <br>
+              <ion-text style="font-size: 16px; ">Tiket Selesai</ion-text>
+            </div>
+          </div>
+
+
+          <span style="padding-left: 10px;"> </span>
+          <div class="container2" style="background-color: #08137a; color: #ffffff;">
+            <div style="width: 100%; padding: 0px 5px;">
+              <br>
+              <ion-card class="invisible-card ion-no-padding ion-no-margin" style="color: #ffffff;">
+                <ion-row style="padding: 5px 5px 0px 5px; ">
+                  <ion-col size="9" class="ion-align-self-center">
+                    <ion-text style="font-size: 20px; font-weight: 700;">Ontime</ion-text> <br>
+                  </ion-col>
+                  <ion-col size="3" class="statusB ion-align-self-end" style="font-size: x-large; font-weight: 700;">
+                    <ion-icon name="ribbon-outline"></ion-icon>
+                  </ion-col>
+                </ion-row>
+                <ion-row style="padding: 0px 5px 0px 7px;">
+                  <ion-col>
+                    <ion-text style="font-size: 16px;">{{txtTiketOntime}} Tiket</ion-text> <br>
+                  </ion-col>
+                </ion-row>
+              </ion-card>
+              <ion-row>
+                <ion-col>
+                  <hr style="height: 10px; margin: 0px;">
+                  <hr style="height: 0.5px; background-color: #e6e6e6; margin: 0px;">
+                  <hr style="height: 10px; margin: 0px;">
+                </ion-col>
+              </ion-row>
+              <ion-card class="invisible-card ion-no-margin " style="color: #ffffff;">
+                <ion-row style="padding: 5px 5px 0px 5px; ">
+                  <ion-col size="9" class="ion-align-self-center">
+                    <ion-text style="font-size: 20px; font-weight: 700;">Telat</ion-text> <br>
+                  </ion-col>
+                  <ion-col size="3" class="statusB ion-align-self-end" style="font-size: x-large; font-weight: 700;">
+                    <ion-icon name="thumbs-down-outline"></ion-icon>
+                  </ion-col>
+                </ion-row>
+                <ion-row style="padding: 0px 5px 0px 7px;">
+                  <ion-col>
+                    <ion-text style="font-size: 16px;">{{txtTiketTerlambat}} Tiket</ion-text> <br>
+                  </ion-col>
+                </ion-row>
+              </ion-card>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -27,16 +27,21 @@ export class TicketComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.ticketData = this.navParams.get('ticketData');
-    this.userData = this.globalService.userData;
+    if (this.navParams.get('ticketData')) this.ticketData = this.navParams.get('ticketData');
+    if (this.navParams.get('acuanTicketData')) this.ticketData = this.navParams.get('acuanTicketData');
+    if (this.navParams.get('userData')) this.userData = this.navParams.get('userData');
+    else this.userData = this.globalService.userData;
+
     this.isPermohonan = this.ticketData.trx_ticket_tipe == this.globalService.ticketTypeData.PERMOHONANINFORMASI ? true : false;
     this.isKeberatan = this.ticketData.trx_ticket_tipe == this.globalService.ticketTypeData.PENGAJUANKEBERATAN ? true : false;
     this.statusColor = this.ticketData.trx_ticket_status == this.globalService.statusTransaksiData.OPEN ? "orangered" :
       this.ticketData.trx_ticket_status == this.globalService.statusTransaksiData.INPROGRESS ? "darkblue" :
         this.ticketData.trx_ticket_status == this.globalService.statusTransaksiData.CLOSE ? "green" : "black";
-    this.photo = this.photoService.ConvertPhotoBase64ToImage(this.ticketData.trx_ticket_lampiran);
   }
 
+  ionViewDidEnter() {
+    this.photo = this.photoService.ConvertPhotoBase64ToImage(this.ticketData.trx_ticket_lampiran);
+  }
   public CloseDetailTicket() {
     this.modalController.dismiss(
       { dataPassing: "JUSTCANCEL" },

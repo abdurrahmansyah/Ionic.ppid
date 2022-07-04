@@ -9,8 +9,8 @@ ion-content {
     display: flex;
     flex-flow: column;
     height: 100%;
-  }
-  
+}
+
 .analytics {
     padding-top: 0px;
     padding-bottom: 0px;
@@ -29,6 +29,15 @@ ion-content {
             width: 150px;
             height: 220px;
             border-radius: 8px;
+            top: 0;
+        }
+
+        .container2 {
+            display: inline-flex;
+            width: 150px;
+            height: 220px;
+            border-radius: 8px;
+            top: 0;
         }
     }
 }
@@ -40,5 +49,22 @@ ion-content {
 .ios ion-card {
     margin-top: 5px;
     margin-bottom: 10px;
-  }
-  
+}
+
+.statusB {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    border-radius: 5px;
+}
+
+.invisible-card {
+    background: transparent; 
+    box-shadow: none;
+}
+
+.border {
+    border-radius: 10px !important;
+    overflow: hidden !important;
+    border: 2px solid white !important;
+}

@@ -4,6 +4,7 @@ import { AlertController, ModalController, NavParams } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { GlobalService, TicketData } from 'src/app/services/global.service';
 import { PhotoService } from 'src/app/services/photo.service';
+import { TicketComponent } from '../ticket/ticket.component';
 import { UserApprovalComponent } from '../user-approval/user-approval.component';
 
 @Component({
@@ -19,6 +20,8 @@ export class TicketApprovalComponent implements OnInit {
   public isStatusInProgress: boolean = false;
   public isStatusClose: boolean = false;
   public statusColor: string;
+  public isPermohonan: boolean = false;
+  public isKeberatan: boolean = false;
 
   constructor(private navParams: NavParams,
     private globalService: GlobalService,
@@ -30,8 +33,8 @@ export class TicketApprovalComponent implements OnInit {
     this.approvalTicketData = this.navParams.get('approvalTicketData');
     this.photo = this.photoService.ConvertPhotoBase64ToImage(this.approvalTicketData.trx_ticket_lampiran);
     // this.userData = this.globalService.userData;
-    // this.isPermohonan = this.approvalUserData.trx_ticket_tipe == this.globalService.ticketTypeData.PERMOHONANINFORMASI ? true : false;
-    // this.isKeberatan = this.approvalUserData.trx_ticket_tipe == this.globalService.ticketTypeData.PENGAJUANKEBERATAN ? true : false;
+    this.isPermohonan = this.approvalTicketData.trx_ticket_tipe == this.globalService.ticketTypeData.PERMOHONANINFORMASI ? true : false;
+    this.isKeberatan = this.approvalTicketData.trx_ticket_tipe == this.globalService.ticketTypeData.PENGAJUANKEBERATAN ? true : false;
     this.isStatusOpen = this.approvalTicketData.trx_ticket_status == this.globalService.CapitalizeEachWord(this.globalService.statusTransaksiData.OPEN) ? true : false;
     this.isStatusInProgress = this.approvalTicketData.trx_ticket_status == this.globalService.CapitalizeEachWord(this.globalService.statusTransaksiData.INPROGRESS) ? true : false;
     this.isStatusClose = this.approvalTicketData.trx_ticket_status == this.globalService.CapitalizeEachWord(this.globalService.statusTransaksiData.CLOSE) ? true : false;
@@ -69,6 +72,31 @@ export class TicketApprovalComponent implements OnInit {
     })
 
     console.log("Log : Open Detail Identitas User");
+    return await modal.present();
+  }
+
+  public async DetailAcuanTicket(approvalTicketData: TicketData) {
+    this.globalService.GetAcuanTicketData(approvalTicketData);
+
+    const modal = await this.modalController.create({
+      component: TicketComponent,
+      initialBreakpoint: 0.6,
+      breakpoints: [0, 0.6],
+      mode: 'ios',
+      componentProps: {
+        'acuanTicketData': this.globalService.acuanTicketData,
+        'userData' : approvalTicketData.trx_ticket_user_data
+      }
+    });
+
+    // modal.present();
+    modal.onDidDismiss().then((modelData) => {
+      if (modelData.role == "backdrop") {
+        console.log("Log : Close Detail Acuan Tiket");
+      }
+    })
+
+    console.log("Log : Open Detail Acuan Tiket");
     return await modal.present();
   }
 

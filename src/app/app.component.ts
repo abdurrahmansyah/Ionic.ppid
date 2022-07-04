@@ -18,6 +18,7 @@ export class AppComponent {
       this.globalService.GetListPekerjaan();
       this.globalService.GetListUserApproval();
       this.globalService.GetListTicketApproval();
+      this.globalService.GetListTicketData();
     }
   }
 }

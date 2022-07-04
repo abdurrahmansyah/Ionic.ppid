@@ -23,8 +23,10 @@ export class BlankLoadingPage implements OnInit {
       if (this.globalService.GetListPekerjaan()) {
         if (this.globalService.GetListUserApproval()) {
           if (this.globalService.GetListTicketApproval()) {
-            await loading.dismiss();
-            this.router.navigate(['tabs']);
+            if (this.globalService.GetListTicketData()){
+              await loading.dismiss();
+              this.router.navigate(['tabs']);
+            }
           }
         }
       }

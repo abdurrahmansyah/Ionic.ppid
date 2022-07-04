@@ -18,8 +18,10 @@
 
   <ion-text style="font-size: 20px; font-weight: 700; color: #2c365a" class="ion-padding">{{
     approvalTicketData.trx_ticket_tipe }}</ion-text> <br>
-  <ion-text style="font-size: 12px; color: #B87781" class="ion-padding">oleh {{approvalTicketData.trx_ticket_jenis}}
+  <ion-text *ngIf="isPermohonan" style="font-size: 12px; color: #B87781" class="ion-padding">oleh
+    {{approvalTicketData.trx_ticket_jenis}}
   </ion-text>
+  <ion-text *ngIf="isKeberatan" style="font-size: 12px; color: #B87781" class="ion-padding" (click)="DetailAcuanTicket(approvalTicketData)">lihat acuan</ion-text>
 
   <div class="ion-padding">
     <ion-row button style="color: #2c365a;" (click)="DetailIdentitasUser()">
