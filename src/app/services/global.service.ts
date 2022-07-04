@@ -176,18 +176,33 @@ export class GlobalService {
     this.http.post(url, postdata).subscribe(
       async (data: any) => {
         if (data.isSuccess) {
-          await this.authFirebaseService.createUserWithEmailAndPassword(credentials.email, credentials.password).then(async () => {
+          await this.authFirebaseService.createUserWithEmailAndPassword(credentials.email, credentials.password).then(async (userCredential) => {
             await loading.dismiss();
-
-            this.PresentAlert("Link verifikasi telah dikirimkan ke email kamu. Segera cek email dan klik link tersebut agar bisa melanjutkan proses pendaftaran akun PPID Hutama Karya");
             this.PresentToast(data.message);
 
-            let navigationExtras: NavigationExtras = {
-              state: {
-                emailLog: credentials.email
+            const options: ModalOptions = {
+              component: EmailVerificationComponent,
+              initialBreakpoint: 0.75,
+              breakpoints: [0, 0.75, 0.95],
+              mode: 'md',
+              componentProps: {
+                user: userCredential.user
+              },
+              swipeToClose: true
+            };
+            const modal = await this.modalController.create(options);
+            modal.onDidDismiss().then((modelData) => {
+              if (modelData.role == "backdrop") {
+                let navigationExtras: NavigationExtras = {
+                  state: {
+                    emailLog: credentials.email
+                  }
+                }
+                this.router.navigate(['login'], navigationExtras);
               }
-            }
-            this.router.navigate(['login'], navigationExtras);
+            })
+
+            return await modal.present();
           }
           ).catch(async (error) => {
             //// JALANKAN PROGRAM HAPUS EMAIL YANG BARUSAN DIDAFTARKAN DARI POSTGRE
@@ -748,7 +763,7 @@ export class GlobalService {
     // var diff = Math.abs(dueDate.getTime() - dateNow.getTime()); // KALO MISAL PENGEN HASIL PASTI POSITIP
     var diff = dueDate.getTime() - dateNow.getTime();
     var diffDays = Math.ceil(diff / (1000 * 3600 * 24));
-    
+
     return diffDays;
   }
 

@@ -24,7 +24,7 @@ export class EmailVerificationComponent implements OnInit {
 
   public CloseModalEmailVerification() {
     this.modalController.dismiss(
-      { dataPassing: "JUSTCANCEL" },
+      { dataPassing: "BACKTOLOGIN" },
       'backdrop'
     );
   }
