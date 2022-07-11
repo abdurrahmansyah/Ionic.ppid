@@ -25,14 +25,14 @@
 
   <div id="title" style="padding-top: 0px">
     <ion-grid>
-      <ion-row class="ion-align-items-center">
+      <ion-row class="ion-align-items-center" style="padding-right: 5px;">
         <ion-col size="9">
           <div class="ion-pading" style="margin-left: 10px">
             <strong style="color: #2c365a">Apa Informasi yang infrabuddies butuhkan?</strong>
           </div>
         </ion-col>
-        <ion-col size="3" style="padding: 0px; margin: 0px;">
-          <ion-img src="../../assets/images/ppid-logo-highres.png"></ion-img>
+        <ion-col class="ion-no-padding ion-no-margin" size="3">
+          <ion-img src="../../assets/images/ppid-logo-new.png"></ion-img>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -46,18 +46,26 @@
 
   <ion-text style="font-size: 20px; font-weight: 700; color: #2c365a" class="ion-padding">Tata Cara</ion-text>
 
-  <div>
+  <!-- <div>
     <div class="row ion-padding" style="padding-top: 0.5rem; padding-bottom: 20px;">
       <div class="card" style="padding-right: 5px">
         <img button style="border-radius: 10px; box-shadow: 0px 3px 10px #dddddd;" src="../../assets/images/img-1.png"
           (click)="ShowInformation(7)">
-        <!-- <p class="card-text" style="color: #2c365a">Permohonan Informasi</p> -->
       </div>
       <div class="card" style="padding-left: 5px">
         <img button style="border-radius: 10px; box-shadow: 0px 3px 10px #dddddd;" src="../../assets/images/img-2.png"
           (click)="ShowInformation(8)">
-        <!-- <p class="card-text" style="color: #2c365a">Pengajuan Keberatan</p> -->
       </div>
+    </div>
+  </div> -->
+
+  <div class="container ion-padding">
+    <div class="scroll" scrollX="true">
+      <img style="width: 45%; border-radius: 10px;" (click)="ShowInformation(7)" src="../../assets/images/img-41.png" />
+      <span style="padding-left: 10px;"> </span>
+      <img style="width: 45%; border-radius: 10px;" (click)="ShowInformation(8)" src="../../assets/images/img-42.png" />
+      <span style="padding-left: 10px;"> </span>
+      <img style="width: 45%; border-radius: 10px;" (click)="ShowInformation(9)" src="../../assets/images/img-43.png" />
     </div>
   </div>
 

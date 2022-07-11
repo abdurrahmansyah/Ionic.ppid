@@ -31,8 +31,8 @@ export class HomePage {
       if (this.router.getCurrentNavigation()) {
         if (this.router.getCurrentNavigation().extras.state) {
           var isUpdateAccountSuccess = this.router.getCurrentNavigation().extras.state.isUpdateAccountSuccess
-          
-          if (isUpdateAccountSuccess){
+
+          if (isUpdateAccountSuccess) {
             window.location.reload();
             await this.globalService.GetUserDataFromStorage();
           }
@@ -126,8 +126,6 @@ export class HomePage {
 
       this.router.navigate(['information'], navigationExtras);
     } else if (index == 7) {
-      console.log("ini 7");
-
       let navigationExtras: NavigationExtras = {
         state: {
           indexForm: this.globalService.IndexPageData.PermohonanInformasi
@@ -139,6 +137,14 @@ export class HomePage {
       let navigationExtras: NavigationExtras = {
         state: {
           indexForm: this.globalService.IndexPageData.PengajuanKeberatan
+        }
+      }
+
+      this.router.navigate(['information'], navigationExtras);
+    } else if (index == 9) {
+      let navigationExtras: NavigationExtras = {
+        state: {
+          indexForm: this.globalService.IndexPageData.Disabilitas
         }
       }
 

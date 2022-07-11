@@ -8,6 +8,19 @@ ion-content {
   padding: auto;
 }
 
+.container {
+  padding-top: 0.5rem;
+  padding-bottom: 20px;
+  overflow: hidden;
+  white-space: nowrap;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  .scroll {
+    overflow: auto;
+  }
+}
+
 .row {
   align-items: stretch;
   display: flex;
@@ -22,6 +35,7 @@ ion-content {
     display: none;
   }
 }
+
 .card {
   /*float: left;*/
   max-width: 50%;

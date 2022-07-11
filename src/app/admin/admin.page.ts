@@ -8,6 +8,7 @@ import { TicketComponent } from '../components/ticket/ticket.component';
 import { UserApprovalComponent } from '../components/user-approval/user-approval.component';
 import { UpdateUserDataPage } from '../pages/update-user-data/update-user-data.page';
 import { GlobalService, TicketData, TicketDataExtend, UserData } from '../services/global.service';
+import { TabsPage } from '../tabs/tabs.page';
 
 @Component({
   selector: 'app-admin',
@@ -33,7 +34,8 @@ export class AdminPage implements OnInit {
 
   constructor(private globalService: GlobalService,
     private modalController: ModalController,
-    private loadingController: LoadingController) {
+    private loadingController: LoadingController,
+    private tabsPage: TabsPage) {
     this.InitializeData();
     this.Timer();
   }
@@ -67,8 +69,6 @@ export class AdminPage implements OnInit {
     this.txtPersenTiketSelesai = '0';
     this.txtTiketOntime = '0';
     this.txtTiketTerlambat = '0';
-
-    console.log(ticketDataList);
 
     ticketDataList.forEach(ticketData => {
       if (ticketData.trx_ticket_status != this.globalService.statusTransaksiData.DIBATALKAN) {
@@ -131,6 +131,7 @@ export class AdminPage implements OnInit {
     await loading.present();
 
     this.approvalUserDataList = [];
+    this.globalService.totalApproval = '0';
 
     const requestOptions = {
       headers: new HttpHeaders({
@@ -168,7 +169,8 @@ export class AdminPage implements OnInit {
           userData.pekerjaanData.md_pekerjaan_name = approvalUserDataFromDb.md_pekerjaan_name;
 
           this.approvalUserDataList.push(userData);
-          // this.totalApproval = (+this.totalApproval + 1).toString();
+          this.globalService.totalApproval = (+this.globalService.totalApproval + 1).toString();
+          this.tabsPage.SetTotalApproval();
         });
         this.isNoUser = false;
       }
@@ -232,7 +234,8 @@ export class AdminPage implements OnInit {
             var ticketDataExtend: TicketDataExtend = { ticketData: ticketData, sisaHari: diffDays };
             this.approvalTicketDataExtendList.push(ticketDataExtend);
             this.approvalTicketDataList.push(ticketData);
-            // this.totalApproval = (+this.totalApproval + 1).toString();
+            this.globalService.totalApproval = (+this.globalService.totalApproval + 1).toString();
+            this.tabsPage.SetTotalApproval();
           });
           this.isNoTicket = false;
         }

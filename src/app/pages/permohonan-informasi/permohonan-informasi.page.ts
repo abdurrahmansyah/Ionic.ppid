@@ -124,7 +124,7 @@ export class PermohonanInformasiPage implements OnInit {
       }, {
         text: 'Lanjut',
         handler: async () => {
-          const image = await this.photoService.ChooseFromGallery();
+          const image = await this.photoService.TakeAPhoto();
           this.photo = this.photoService.ConvertPhotoBase64ToImage(image.base64String);
 
           // var dateData = this.globalService.GetDate()

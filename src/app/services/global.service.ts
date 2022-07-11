@@ -1097,6 +1097,7 @@ export class IndexPage {
   public readonly DwnFormulir: string = "DwnFormulir";
   public readonly PermohonanInformasi: string = "PermohonanInformasi";
   public readonly PengajuanKeberatan: string = "PengajuanKeberatan";
+  public readonly Disabilitas: string = "Disabilitas";
 }
 
 export class UserData {

@@ -24,8 +24,10 @@ export class TabsPage implements OnInit {
   }
 
   ionViewDidEnter() {
-    console.log(this.globalService.totalApproval);
+    this.SetTotalApproval();
+  }
 
+  public SetTotalApproval() {
     if (this.globalService.totalApproval) {
       this.isAnyApproval = true;
       this.txtTotalApproval = this.globalService.totalApproval;
