@@ -128,7 +128,7 @@ export class TrackingPage implements OnInit {
     await this.loading.present();
   }
 
-  private async PresentNotif(headerText: string, text: string) {
+  public async PresentNotif(headerText: string, text: string) {
     await this.alertController.create({
       mode: 'ios',
       header: headerText,
