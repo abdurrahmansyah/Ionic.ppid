@@ -150,15 +150,21 @@ export class AccountPage implements OnInit {
       if (this.isModeEdit) {
         if (this.credentials.valid) {
           this.credentials.controls['ktp_data'].enable();
-          this.globalService.UpdateAccount(this.credentials.value)
-          this.credentials.controls['ktp_data'].disable();
-          if (this.globalService.isUpdateAccountSuccess) {
-            this.DisableCredentialControl();
 
-            this.isModeEdit = false;
-            this.txtButton = 'Perbarui Akun';
+          if (this.credentials.value.ktp_data == undefined || this.credentials.value.ktp_data == '') {
+            this.globalService.PresentAlert('Foto KTP tidak boleh kosong!');
+            this.credentials.controls['ktp_data'].disable();
           } else {
-            this.CancelEdit();
+            this.globalService.UpdateAccount(this.credentials.value)
+            this.credentials.controls['ktp_data'].disable();
+            if (this.globalService.isUpdateAccountSuccess) {
+              this.DisableCredentialControl();
+
+              this.isModeEdit = false;
+              this.txtButton = 'Perbarui Akun';
+            } else {
+              this.CancelEdit();
+            }
           }
         }
       } else {

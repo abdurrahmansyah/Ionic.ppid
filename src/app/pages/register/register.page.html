@@ -18,7 +18,7 @@
 
   <ion-row class="ion-align-items-center">
     <ion-col size="12" class="ion-text-center">
-      <ion-text style="font-size: 20px; font-weight: 700; color: var(--ion-color-hk-ppid-main);">Create New Account
+      <ion-text style="font-size: 20px; font-weight: 700; color: var(--ion-color-hk-ppid-main);">Buat Akun Baru
       </ion-text>
     </ion-col>
   </ion-row>
@@ -29,8 +29,8 @@
         <ion-input type="text" placeholder="Nama Lengkap" formControlName="name"></ion-input>
       </ion-item>
       <div *ngIf="(name.dirty || name.touched) && name.errors" class="errors">
-        <span *ngIf="name.errors?.required">Name is required</span>
-        <span *ngIf="name.errors?.pattern">Name is invalid</span>
+        <span *ngIf="name.errors?.required">Nama Tidak Boleh Kosong</span>
+        <span *ngIf="name.errors?.pattern">Format Nama Salah</span>
       </div>
       <br>
 
@@ -38,8 +38,8 @@
         <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>
       </ion-item>
       <div *ngIf="(email.dirty || email.touched) && email.errors" class="errors">
-        <span *ngIf="email.errors?.required">Email is required</span>
-        <span *ngIf="email.errors?.email">Email is invalid</span>
+        <span *ngIf="email.errors?.required">Email Tidak Boleh Kosong</span>
+        <span *ngIf="email.errors?.email">Format Email Salah</span>
       </div>
       <br>
 
@@ -47,8 +47,8 @@
         <ion-input type="number" placeholder="No HP" formControlName="telp"></ion-input>
       </ion-item>
       <div *ngIf="(telp.dirty || telp.touched) && telp.errors" class="errors">
-        <span *ngIf="telp.errors?.required">Telp is required</span>
-        <span *ngIf="telp.errors?.pattern">Telp is invalid</span>
+        <span *ngIf="telp.errors?.required">No HP Tidak Boleh Kosong</span>
+        <span *ngIf="telp.errors?.pattern">Format No HP Salah</span>
       </div>
       <br>
 
@@ -57,8 +57,8 @@
         <ion-icon name="{{passwordIconName}}" item-end (click)="togglePass()"></ion-icon>
       </ion-item>
       <div *ngIf="(password.dirty || password.touched) && password.errors" class="errors">
-        <span *ngIf="password.errors?.required">Password is required</span>
-        <span *ngIf="password.errors?.minlength">Password needs to be 6 characters minimum</span>
+        <span *ngIf="password.errors?.required">Password Tidak Boleh Kosong</span>
+        <span *ngIf="password.errors?.minlength">Password Minimal 6 Karakter</span>
       </div>
       <br>
 
@@ -67,8 +67,8 @@
         <ion-icon name="{{confirmPasswordIconName}}" item-end (click)="toggleConfirmPass()"></ion-icon>
       </ion-item>
       <div *ngIf="(confirmPassword.dirty || confirmPassword.touched) && confirmPassword.errors" class="errors">
-        <span *ngIf="confirmPassword.errors?.required">Confirm Password tidak boleh kosong</span>
-        <span *ngIf="confirmPassword.errors?.minlength">Confirm Password needs to be 6 characters minimum</span>
+        <span *ngIf="confirmPassword.errors?.required">Ulang Password Tidak Boleh Kosong</span>
+        <span *ngIf="confirmPassword.errors?.minlength">Ulang Password Minimal 6 Karakter</span>
       </div>
     </div>
 
@@ -85,7 +85,7 @@
 
     <ion-row class="ion-align-items-center">
       <ion-col size="12" class="ion-text-center">
-        <ion-button shape="round" type="submit" [disabled]="!credentials.valid" color="hk-ppid-main">Create Account
+        <ion-button shape="round" type="submit" [disabled]="!credentials.valid" color="hk-ppid-main">Buat Akun
         </ion-button>
       </ion-col>
     </ion-row>
@@ -106,7 +106,7 @@
 </ion-content>
 
 <ion-footer style="padding-left: 10%; padding-right: 10%; " class="ion-no-border" color="translucent">
-  <ion-button expand="block" shape="round" color="hk-ppid-main" (click)="Login()">Already a User ? Log In
+  <ion-button expand="block" shape="round" color="hk-ppid-main" (click)="Login()">Sudah Memiliki Akun ? Masuk
   </ion-button>
   <ion-toolbar></ion-toolbar>
 </ion-footer>

@@ -103,8 +103,14 @@ export class PermohonanInformasiPage implements OnInit {
 
   async PermohonanInformasi() {
     this.credentials.controls['lampiran'].enable();
-    this.globalService.CreatePermohonanInformasi(this.credentials.value);
-    this.credentials.controls['lampiran'].disable();
+
+    if (this.credentials.value.lampiran == undefined || this.credentials.value.lampiran == '') {
+      this.globalService.PresentAlert('Lampiran tidak boleh kosong!');
+      this.credentials.controls['lampiran'].disable();
+    } else {
+      this.globalService.CreatePermohonanInformasi(this.credentials.value);
+      this.credentials.controls['lampiran'].disable();
+    }
   }
 
   public async TakeAPhoto() {
@@ -118,7 +124,7 @@ export class PermohonanInformasiPage implements OnInit {
       }, {
         text: 'Lanjut',
         handler: async () => {
-          const image = await this.photoService.TakeAPhoto();
+          const image = await this.photoService.ChooseFromGallery();
           this.photo = this.photoService.ConvertPhotoBase64ToImage(image.base64String);
 
           // var dateData = this.globalService.GetDate()

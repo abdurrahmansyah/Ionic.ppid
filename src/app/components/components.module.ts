@@ -8,10 +8,11 @@ import { NgOtpInputModule } from 'ng-otp-input';
 import { EmailVerificationComponent } from './email-verification/email-verification.component';
 import { UserApprovalComponent } from './user-approval/user-approval.component';
 import { TicketApprovalComponent } from './ticket-approval/ticket-approval.component';
+import { ForgetPasswordComponent } from './forget-password/forget-password.component';
 
 @NgModule({
-  declarations: [TicketComponent, OtpComponent, EmailVerificationComponent, UserApprovalComponent, TicketApprovalComponent],
-  exports: [TicketComponent, OtpComponent, EmailVerificationComponent, UserApprovalComponent, TicketApprovalComponent],
+  declarations: [TicketComponent, OtpComponent, EmailVerificationComponent, UserApprovalComponent, TicketApprovalComponent, ForgetPasswordComponent],
+  exports: [TicketComponent, OtpComponent, EmailVerificationComponent, UserApprovalComponent, TicketApprovalComponent, ForgetPasswordComponent],
   imports: [
     CommonModule,
     FormsModule,

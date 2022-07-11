@@ -39,7 +39,12 @@ export class EmailVerificationComponent implements OnInit {
         this.globalService.PresentToast("Berhasil Mengirimkan Kode Verifikasi");
       }).catch(async (error) => {
         await loading.dismiss();
-        this.globalService.PresentAlert(error);
+        var error_msg = error.split('(')[1];
+        error_msg = error_msg.split(')')[0];
+
+        if (error_msg == "auth/too-many-requests") {
+          this.globalService.PresentAlert("Gagal mengirimkan kode verifikasi! Silahkan coba lagi nanti");
+        }
       });
     } catch (e) {
       console.log(e);

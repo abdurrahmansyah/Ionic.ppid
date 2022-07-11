@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { applyActionCode, Auth, createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, user, UserCredential } from '@angular/fire/auth';
+import { applyActionCode, Auth, confirmPasswordReset, createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, user, UserCredential } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -62,4 +62,23 @@ export class AuthFirebaseService {
       throw (e?.message);
     }
   }
+
+  async sendPasswordResetEmail(email) {
+    try {
+      const response = await sendPasswordResetEmail(this._fireAuth, email);
+      return response;
+    } catch (e) {
+      throw (e);
+    }
+  }
+  
+  async confirmPasswordReset(oobCode, newPassword) {
+    try {
+      const response = await confirmPasswordReset(this._fireAuth, oobCode, newPassword);
+      return response;
+    } catch (e) {
+      throw (e);
+    }
+  }
+
 }

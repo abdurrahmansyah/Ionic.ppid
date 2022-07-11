@@ -143,8 +143,14 @@ export class PengajuanKeberatanPage implements OnInit {
 
   async AjukanKeberatan() {
     this.credentials.controls['lampiran'].enable();
-    this.globalService.CreateAjuanKeberatan(this.credentials.value);
-    this.credentials.controls['lampiran'].disable();
+
+    if (this.credentials.value.lampiran == undefined || this.credentials.value.lampiran == '') {
+      this.globalService.PresentAlert('Lampiran tidak boleh kosong!');
+      this.credentials.controls['lampiran'].disable();
+    } else {
+      this.globalService.CreateAjuanKeberatan(this.credentials.value);
+      this.credentials.controls['lampiran'].disable();
+    }
   }
 
   public async TakeAPhoto() {
@@ -158,7 +164,7 @@ export class PengajuanKeberatanPage implements OnInit {
       }, {
         text: 'Lanjut',
         handler: async () => {
-          const image = await this.photoService.ChooseFromGallery();
+          const image = await this.photoService.TakeAPhoto();
           this.photo = this.photoService.ConvertPhotoBase64ToImage(image.base64String);
 
           this.credentials.controls['lampiran'].setValue(image.base64String);

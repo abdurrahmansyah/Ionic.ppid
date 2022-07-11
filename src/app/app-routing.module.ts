@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 import { AutoLoginGuard } from './guards/auto-login.guard';
+import { StandardGuard } from './guards/standard.guard';
 import { WelcomeGuard } from './guards/welcome.guard';
 
 const routes: Routes = [
@@ -22,7 +23,8 @@ const routes: Routes = [
   {
     path: 'tabs',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule),
-    canLoad: [AuthGuard]
+    // canLoad: [AuthGuard]
+    canLoad: [StandardGuard]
   },
   {
     path: 'permohonan-informasi',
@@ -46,13 +48,19 @@ const routes: Routes = [
   },
   {
     path: 'blank-loading',
-    loadChildren: () => import('./pages/blank-loading/blank-loading.module').then(m => m.BlankLoadingPageModule)
+    loadChildren: () => import('./pages/blank-loading/blank-loading.module').then(m => m.BlankLoadingPageModule),
+    canLoad: [AuthGuard]
   },
   {
     path: '',
     redirectTo: '/login',
     pathMatch: 'full'
   },
+  {
+    path: 'forget-password',
+    loadChildren: () => import('./pages/forget-password/forget-password.module').then( m => m.ForgetPasswordPageModule)
+  },
+
 
 
 

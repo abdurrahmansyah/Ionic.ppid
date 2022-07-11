@@ -25,6 +25,7 @@ export class GlobalService {
   public optionRejectUserApprovalData = new OptionRejectUserApprovalData;
   public optionRejectTicketPermohonanData = new OptionRejectTicketPermohonanData;
   public isSeenAlertPPID: boolean = false;
+  public totalApproval: string = '0';
   urlDEVDACTIC = 'http://localhost:3000';
 
   httpClient = InjectorInstance.get<HttpClient>(HttpClient);
@@ -70,6 +71,7 @@ export class GlobalService {
 
     return dateData;
   }
+
   public async Login(credentials: { email, password }) {
     const loading = await this.loadingController.create();
     await loading.present();
@@ -94,7 +96,7 @@ export class GlobalService {
               this.authService.login(data.token);
               await loading.dismiss();
               this.PresentToast("Login Berhasil");
-              this.router.navigate(['blank-loading']);
+              this.router.navigateByUrl('/blank-loading', { replaceUrl: true });
               console.log("Log : Login Berhasil");
             } else {
               await loading.dismiss();
@@ -121,7 +123,60 @@ export class GlobalService {
 
             console.log("Log : " + error);
             console.log("Log : " + error_msg);
-            this.PresentToast("Login Gagal! " + error_msg);
+            // if (false) {
+            if (error_msg == 'auth/wrong-password') {
+              await this.alertController.create({
+                mode: 'ios',
+                message: 'Password telah dirubah. Silahkan masukkan password terbaru!',
+                inputs: [{
+                  placeholder: 'Password Baru',
+                  type: 'password',
+                }],
+                buttons: [{
+                  text: 'CANCEL',
+                  role: 'Cancel',
+                }, {
+                  text: 'OK',
+                  handler: async (alertData) => {
+                    const loading = await this.loadingController.create();
+                    await loading.present();
+
+                    var newPassword = alertData[0] ? alertData[0] : alertData;
+                    await this.authFirebaseService.signInWithEmailAndPassword(credentials.email, newPassword).then(async (userCredential) => {
+                      let postdata = new FormData();
+                      postdata.append('md_user_email', credentials.email);
+                      postdata.append('password', newPassword);
+
+                      var url = 'http://kipdev.hutamakarya.com/api/updatePasswordByEmail';
+
+                      this.http.post(url, postdata).subscribe(
+                        async (data: any) => {
+                          if (data.isSuccess) {
+                            await loading.dismiss();
+                            this.PresentAlert("Sinkronisasi selesai! Silahkan masuk menggunakan password baru.");
+                          } else {
+                            await loading.dismiss();
+                            this.PresentAlert("Sinkronisasi gagal! " + data.message);
+                          }
+                        }, async (err) => {
+                          await loading.dismiss();
+                          this.PresentToast("BUG: " + err?.message);
+                        }
+                      )
+                    }).catch(async (error) => {
+                      if (error_msg == 'auth/wrong-password') {
+                        await loading.dismiss();
+                        this.PresentAlert("Sinkronisasi gagal! Password tidak sesuai.");
+                      }
+                    })
+                  }
+                }]
+              }).then(alert => {
+                return alert.present();
+              });
+              // this.PresentToast("Login Gagal! Password Salah");
+            } else
+              this.PresentToast("Login Gagal! " + error_msg);
           })
         }
         else {
@@ -135,6 +190,72 @@ export class GlobalService {
       }
     );
   }
+
+  // public async ForgetPassword(email) {
+  //   const loading = await this.loadingController.create();
+  //   await loading.present();
+
+  //   let postdata = new FormData();
+  //   postdata.append('md_user_email', credentials.email);
+  //   postdata.append('password', credentials.password);
+
+  //   // var url = 'http://sihk.hutamakarya.com/apippid/loginppid.php';
+  //   var url = 'http://kipdev.hutamakarya.com/api/login';
+
+  //   this.http.post(url, postdata).subscribe(
+  //     async (data: any) => {
+  //       console.log("Log : Run Api login...");
+
+  //       if (data.isSuccess) {
+  //         await this.authFirebaseService.signInWithEmailAndPassword(credentials.email, credentials.password).then(async (userCredential) => {
+  //           if (userCredential.user.emailVerified) {
+  //             // if (true) {
+  //             await this.MappingUserData(data);
+
+  //             this.authService.login(data.token);
+  //             await loading.dismiss();
+  //             this.PresentToast("Login Berhasil");
+  //             this.router.navigate(['blank-loading']);
+  //             console.log("Log : Login Berhasil");
+  //           } else {
+  //             await loading.dismiss();
+
+  //             const options: ModalOptions = {
+  //               component: EmailVerificationComponent,
+  //               initialBreakpoint: 0.75,
+  //               breakpoints: [0, 0.75, 0.95],
+  //               mode: 'md',
+  //               componentProps: {
+  //                 user: userCredential.user
+  //               },
+  //               swipeToClose: true
+  //             };
+  //             const modal = this.modalController.create(options);
+  //             (await modal).present();
+  //             const data: any = (await modal).onWillDismiss();
+
+  //           }
+  //         }).catch(async (error) => {
+  //           await loading.dismiss();
+  //           var error_msg = error.split('(')[1];
+  //           error_msg = error_msg.split(')')[0];
+
+  //           console.log("Log : " + error);
+  //           console.log("Log : " + error_msg);
+  //           this.PresentToast("Login Gagal! " + error_msg);
+  //         })
+  //       }
+  //       else {
+  //         this.loadingController.dismiss();
+  //         this.PresentToast(data.message);
+  //       }
+  //     }, async (error: any) => {
+  //       await loading.dismiss();
+  //       this.PresentToast("BUG: Error Connection");
+  //       // this.PresentAlert(JSON.stringify(error));
+  //     }
+  //   );
+  // }
 
   private async MappingUserData(data: any) {
     var userDataFromDb = data.data;
@@ -293,12 +414,13 @@ export class GlobalService {
                 this.isUpdateAccountSuccess = true;
                 this.PresentToast("Update Akun Berhasil");
 
-                let navigationExtras: NavigationExtras = {
-                  state: {
-                    isUpdateAccountSuccess: true
-                  }
-                }
-                this.router.navigate(['tabs'], navigationExtras);
+                // let navigationExtras: NavigationExtras = {
+                //   state: {
+                //     isUpdateAccountSuccess: true
+                //   }
+                // }
+                // this.router.navigate(['tabs'], navigationExtras);
+                this.router.navigateByUrl('/blank-loading', { replaceUrl: true });
               }
               else {
                 await loading.dismiss();
@@ -545,6 +667,7 @@ export class GlobalService {
           userData.pekerjaanData.md_pekerjaan_name = approvalUserDataFromDb.md_pekerjaan_name;
 
           this.approvalUserDataList.push(userData);
+          this.totalApproval = (+this.totalApproval + 1).toString();
         });
         this.isNoUser = false;
       }
@@ -618,6 +741,7 @@ export class GlobalService {
           var ticketDataExtend: TicketDataExtend = { ticketData: ticketData, sisaHari: diffDays };
           this.approvalTicketDataExtendList.push(ticketDataExtend);
           this.approvalTicketDataList.push(ticketData);
+          this.totalApproval = (+this.totalApproval + 1).toString();
         });
         this.isNoTicket = false;
       }
@@ -1067,9 +1191,9 @@ export class TicketTypeData {
 }
 
 export class OptionRejectUserApprovalData {
-  public readonly 0: string = "Identitas tidak sesuai lampiran";
-  public readonly 1: string = "Foto lampiran kurang jelas";
-  public readonly 2: string = "Institusi tidak terdaftar";
+  public readonly 0: string = "Identitas tidak sesuai lampiran.";
+  public readonly 1: string = "Foto lampiran kurang jelas.";
+  public readonly 2: string = "Institusi tidak terdaftar.";
 }
 
 export class OptionRejectTicketPermohonanData {

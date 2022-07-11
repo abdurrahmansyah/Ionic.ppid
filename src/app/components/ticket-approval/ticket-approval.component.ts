@@ -81,7 +81,7 @@ export class TicketApprovalComponent implements OnInit {
     const modal = await this.modalController.create({
       component: TicketComponent,
       initialBreakpoint: 0.6,
-      breakpoints: [0, 0.6],
+      breakpoints: [0, 0.6, 0.95],
       mode: 'ios',
       componentProps: {
         'acuanTicketData': this.globalService.acuanTicketData,

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
+import { BLANKPAGE_KEY } from 'src/app/guards/standard.guard';
 import { GlobalService } from 'src/app/services/global.service';
+import { Storage } from '@capacitor/storage';
 
 @Component({
   selector: 'app-blank-loading',
@@ -24,8 +26,9 @@ export class BlankLoadingPage implements OnInit {
         if (this.globalService.GetListUserApproval()) {
           if (this.globalService.GetListTicketApproval()) {
             if (this.globalService.GetListTicketData()){
+              await Storage.set({key: BLANKPAGE_KEY, value: 'true'});
               await loading.dismiss();
-              this.router.navigate(['tabs']);
+              this.router.navigateByUrl('/tabs', { replaceUrl:true });
             }
           }
         }

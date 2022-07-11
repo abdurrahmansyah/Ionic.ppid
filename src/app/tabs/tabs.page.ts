@@ -8,6 +8,8 @@ import { GlobalService } from '../services/global.service';
 })
 export class TabsPage implements OnInit {
   isAdmin: boolean = false;
+  isAnyApproval: boolean = false;
+  txtTotalApproval: string;
 
   constructor(private globalService: GlobalService) {
     this.InitializeApp();
@@ -19,5 +21,14 @@ export class TabsPage implements OnInit {
   InitializeApp() {
     if (this.globalService.userData) this.isAdmin = this.globalService.userData.md_user_admin == "TRUE" ? true : false;
     else this.isAdmin = false;
+  }
+
+  ionViewDidEnter() {
+    console.log(this.globalService.totalApproval);
+
+    if (this.globalService.totalApproval) {
+      this.isAnyApproval = true;
+      this.txtTotalApproval = this.globalService.totalApproval;
+    } else this.isAnyApproval = false;
   }
 }

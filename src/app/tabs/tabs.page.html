@@ -8,7 +8,6 @@
 
     <ion-tab-button tab="tracking">
       <ion-icon name="bookmarks-outline"></ion-icon>
-      <ion-badge color="danger">99</ion-badge>
       <ion-label>Cek Tiket</ion-label>
     </ion-tab-button>
 
@@ -19,6 +18,7 @@
 
     <ion-tab-button tab="admin" *ngIf="isAdmin">
       <ion-icon name="podium-outline"></ion-icon>
+      <ion-badge *ngIf="isAnyApproval" color="danger">{{txtTotalApproval}}</ion-badge>
       <ion-label>Admin</ion-label>
     </ion-tab-button>
 

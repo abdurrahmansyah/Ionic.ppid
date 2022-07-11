@@ -26,6 +26,7 @@ export class HomePage {
   async ngOnInit() {
     await this.ShowWelcomeAlertPPID();
 
+    // get extras ini tidak dipakai lagi
     this.activatedRoute.queryParams.subscribe(async () => {
       if (this.router.getCurrentNavigation()) {
         if (this.router.getCurrentNavigation().extras.state) {
@@ -38,6 +39,7 @@ export class HomePage {
         }
       }
     });
+    //
   }
 
   private async ShowWelcomeAlertPPID() {

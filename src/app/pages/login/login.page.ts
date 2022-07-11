@@ -1,13 +1,15 @@
 import { AuthenticationService } from './../../services/authentication.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AlertController, ModalController, ModalOptions } from '@ionic/angular';
+import { AlertController, IonRouterOutlet, ModalController, ModalOptions } from '@ionic/angular';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { GlobalService, UserData } from 'src/app/services/global.service';
 import { OtpComponent } from 'src/app/components/otp/otp.component';
 import { AuthFirebaseService } from 'src/app/services/auth-firebase.service';
-import { sendEmailVerification } from '@angular/fire/auth';
+import { createUserWithEmailAndPassword, sendEmailVerification, updatePassword } from '@angular/fire/auth';
 import { EmailVerificationComponent } from 'src/app/components/email-verification/email-verification.component';
+import { ForgetPasswordComponent } from 'src/app/components/forget-password/forget-password.component';
+import { ForgetPasswordPage } from '../forget-password/forget-password.page';
 
 @Component({
   selector: 'app-login',
@@ -26,7 +28,8 @@ export class LoginPage implements OnInit {
     private router: Router,
     public activatedRoute: ActivatedRoute,
     private modalController: ModalController,
-    private authFirebaseService: AuthFirebaseService
+    private authFirebaseService: AuthFirebaseService,
+    private routerOutlet: IonRouterOutlet
   ) { }
 
   ngOnInit() {
@@ -81,6 +84,30 @@ export class LoginPage implements OnInit {
     this.router.navigate(['register'], navigationExtras);
 
     // this.router.navigateByUrl('/register', { replaceUrl: false });
+  }
+
+  public async ForgetPassword(){
+    try {
+      const modal = await this.modalController.create({
+        component: ForgetPasswordComponent,
+        initialBreakpoint: 0.75,
+        breakpoints: [0, 0.75, 0.95],
+        mode: 'md',
+        componentProps: {
+          rootPage: ForgetPasswordPage,
+        },
+        swipeToClose: true
+        // presentingElement: this.routerOutlet.nativeEl,
+        // component: ForgetPasswordComponent,
+        // componentProps: {
+        //   rootPage: ForgetPasswordPage,
+        // },
+      });
+  
+      await modal.present();
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   // Easy access for form fields
