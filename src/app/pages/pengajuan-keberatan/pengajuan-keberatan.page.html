@@ -1,12 +1,103 @@
-<ion-header>
-  <ion-toolbar color="hk-ppid">
-    <ion-buttons slot="start">
-      <ion-back-button color="hk-white-ppid"></ion-back-button>
-    </ion-buttons>
-    <ion-title>Pengajuan Keberatan</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
-  <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSetAWwad5RxAxd0n3kx-N1IobgInT7qbRN_rPqKyXiHGgMidw/viewform" style="width:100%;height:100%" scrolling="yes"></iframe>
+  <!-- <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSetAWwad5RxAxd0n3kx-N1IobgInT7qbRN_rPqKyXiHGgMidw/viewform" style="width:100%;height:100%" scrolling="yes"></iframe> -->
+
+  <div class="buttonBack">
+    <ion-buttons style="font-size: 50px;">
+      <ion-back-button text="" defaultHref="home" color="hk-ppid-main" style="font-size: 20px;" mode="ios">
+      </ion-back-button>
+    </ion-buttons>
+  </div>
+
+  <ion-row class="ion-align-items-center">
+    <ion-col size="12" class="ion-text-center">
+      <ion-text style="font-size: 20px; font-weight: 700; color: var(--ion-color-hk-ppid-main);">Form Pengajuan
+        Keberatan
+      </ion-text>
+    </ion-col>
+  </ion-row>
+
+  <form (ngSubmit)="AjukanKeberatan()" [formGroup]="credentials">
+    <div class="input-group" style="padding-top: 10px;">
+      <ion-item class="border" lines="none">
+        <ion-input type="text" placeholder="Nama Lengkap" formControlName="name"></ion-input>
+      </ion-item>
+      <div *ngIf="(name.dirty || name.touched) && name.errors" class="errors">
+        <span *ngIf="name.errors?.required">Nama Tidak Boleh Kosong</span>
+      </div>
+      <br>
+
+      <ion-item class="border" lines="none">
+        <ion-label>Acuan Informasi</ion-label>
+        <ion-select mode="ios" formControlName="acuan">
+          <ion-select-option *ngFor="let x of acuanInformasiList" [value]="x.value">{{x.id}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <div *ngIf="(acuan.dirty || acuan.touched) && acuan.errors" class="errors">
+        <span *ngIf="acuan.errors?.required">Acuan Informasi Tidak Boleh Kosong</span>
+      </div>
+      <br>
+
+      <ion-item class="border" lines="none">
+        <ion-textarea type="text" placeholder="Alasan Keberatan" formControlName="alasan"></ion-textarea>
+      </ion-item>
+      <div *ngIf="(alasan.dirty || alasan.touched) && alasan.errors" class="errors">
+        <span *ngIf="alasan.errors?.required">Alasan Keberatan Tidak Boleh Kosong</span>
+      </div>
+      <br>
+
+      <ion-item class="border" lines="none">
+        <ion-textarea type="text" placeholder="Rincian Keberatan" formControlName="rincian">
+        </ion-textarea>
+      </ion-item>
+      <div *ngIf="(rincian.dirty || rincian.touched) && rincian.errors" class="errors">
+        <span *ngIf="rincian.errors?.required">Rincian Keberatan Tidak Boleh Kosong</span>
+      </div>
+      <br>
+
+      <ion-row>
+        <ion-col size="8" style="padding: 0px;">
+          <ion-item class="border" lines="none">
+            <ion-input [type]="text" placeholder="Lampiran" formControlName="lampiran"></ion-input>
+            <ion-icon name="{{iconName}}" item-end (click)="togglePass()"></ion-icon>
+          </ion-item>
+        </ion-col>
+        <ion-col size="4" style="padding: 0px 0px 0px 16px;" class="ion-text-end">
+          <div class="border ion-text-center" style="background-color: var(--ion-color-hk-ppid-main); height: 100%;">
+            <ion-button expand="full" color="transparent" style="height: 100%; padding: 0px; margin: 0px;"
+              (click)="TakeAPhoto()">Foto
+            </ion-button>
+          </div>
+        </ion-col>
+      </ion-row>
+      <div *ngIf="(lampiran.dirty || lampiran.touched) && lampiran.errors" class="errors">
+        <span *ngIf="lampiran.errors?.required">Lampiran Tidak Boleh Kosong</span>
+      </div>
+    </div>
+
+    <hr style="height: 12px; margin-top: 0px; margin-bottom: 0px;" no-padding>
+
+    <div class="ion-padding-top ion-padding-bottom">
+      <img style="max-height: 200px; " class="center" src="{{ photo }}" />
+    </div>
+
+    <hr *ngIf="photo" style="height: 12px; margin-top: 0px; margin-bottom: 0px;" no-padding>
+
+    <ion-icon class="icon" name="stop"></ion-icon>
+    <span>&nbsp;</span>
+    <span class="text">I Agree to The </span>
+    <!-- <span class="text">Informasi yang saya berikan sudah sesuai dan dapat ditindaklanjuti oleh Hutama Karya </span> -->
+    <span>&nbsp;</span>
+    <span class="text" style="font-weight: 700;">Term and Conditions</span>
+
+    <br>
+    <br>
+
+    <ion-row class="ion-align-items-center">
+      <ion-col size="12" class="ion-text-center">
+        <ion-button shape="round" type="submit" [disabled]="!credentials.valid" color="hk-ppid-main">Kirimkan Keberatan
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </form>
 </ion-content>

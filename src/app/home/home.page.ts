@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { Router, NavigationExtras } from '@angular/router';
+import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 import { GlobalService, IndexPage } from '../services/global.service';
 import { AlertController } from '@ionic/angular';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
   selector: 'app-home',
@@ -12,34 +13,52 @@ export class HomePage {
 
   constructor(public router: Router,
     private globalService: GlobalService,
-    private alertController: AlertController) {
+    private alertController: AlertController,
+    private authService: AuthenticationService,
+    private activatedRoute: ActivatedRoute) {
+    this.InitializeData();
+  }
+
+  async InitializeData() {
+    // await this.globalService.GetUserDataFromStorage();
   }
 
   async ngOnInit() {
-    await this.alertController.create({
-      mode: 'ios',
-      message: 'This is an alert message.',
-      backdropDismiss: true,
-      cssClass: 'alert-notification',
-      // buttons: [{
-      //   text: 'WFO - Proyek',
-      //   handler: () => {
-      //     this.ByPassDoingAbsenWfoNewNormal(reportData, true);
-      //   }        // role: 'Cancel'
-      // }, {
-      //   text: 'WFH',
-      //   handler: () => {
-      //     this.globalService.dateRequest = reportData.dateAbsen;
-      //     this.globalService.timeRequest = reportData.timeAbsen;
-      //     this.globalService.diluarKantor = reportData.szActivityId;
-      //     this.router.navigate(['form-request'], navigationExtras);
-      //   }
-      // }]
-    }).then(alert => {
-      return alert.present();
+    await this.ShowWelcomeAlertPPID();
+
+    // get extras ini tidak dipakai lagi
+    this.activatedRoute.queryParams.subscribe(async () => {
+      if (this.router.getCurrentNavigation()) {
+        if (this.router.getCurrentNavigation().extras.state) {
+          var isUpdateAccountSuccess = this.router.getCurrentNavigation().extras.state.isUpdateAccountSuccess
+
+          if (isUpdateAccountSuccess) {
+            window.location.reload();
+            await this.globalService.GetUserDataFromStorage();
+          }
+        }
+      }
     });
+    //
   }
 
+  private async ShowWelcomeAlertPPID() {
+    if (!this.globalService.isSeenAlertPPID) {
+      await this.alertController.create({
+        mode: 'ios',
+        message: 'This is an alert message.',
+        backdropDismiss: true,
+        cssClass: 'alert-notification',
+      }).then(alert => {
+        this.globalService.isSeenAlertPPID = true;
+        return alert.present();
+      });
+    }
+  }
+
+  ngOnDestroy() {
+    this.globalService.isSeenAlertPPID = false;
+  }
 
   public OpenPermohonanInformasi() {
     this.router.navigate(['permohonan-informasi']);
@@ -107,8 +126,6 @@ export class HomePage {
 
       this.router.navigate(['information'], navigationExtras);
     } else if (index == 7) {
-      console.log("ini 7");
-
       let navigationExtras: NavigationExtras = {
         state: {
           indexForm: this.globalService.IndexPageData.PermohonanInformasi
@@ -124,6 +141,19 @@ export class HomePage {
       }
 
       this.router.navigate(['information'], navigationExtras);
+    } else if (index == 9) {
+      let navigationExtras: NavigationExtras = {
+        state: {
+          indexForm: this.globalService.IndexPageData.Disabilitas
+        }
+      }
+
+      this.router.navigate(['information'], navigationExtras);
     }
+  }
+
+  async logout() {
+    await this.authService.logout();
+    this.router.navigateByUrl('/welcome', { replaceUrl: true });
   }
 }

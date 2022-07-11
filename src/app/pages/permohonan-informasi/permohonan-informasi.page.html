@@ -1,12 +1,158 @@
-<ion-header>
+<!-- <ion-header>
   <ion-toolbar color="hk-ppid">
     <ion-buttons slot="start">
       <ion-back-button color="hk-white-ppid"></ion-back-button>
     </ion-buttons>
-    <ion-title>Permohonan Informasi</ion-title>
+    <ion-title>Form Permohonan Informasi</ion-title>
   </ion-toolbar>
-</ion-header>
+</ion-header> -->
 
 <ion-content>
-  <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfmV28Lij0pHPbSUPkVjwGVI9Do9J8aFGuaV9gH_w42vm1CcQ/viewform" style="width:100%;height:100%" scrolling="yes"></iframe>
+  <!-- <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfmV28Lij0pHPbSUPkVjwGVI9Do9J8aFGuaV9gH_w42vm1CcQ/viewform" style="width:100%;height:100%" scrolling="yes"></iframe> -->
+
+  <div class="buttonBack">
+    <ion-buttons style="font-size: 50px;">
+      <ion-back-button text="" defaultHref="home" color="hk-ppid-main" style="font-size: 20px;" mode="ios">
+      </ion-back-button>
+    </ion-buttons>
+  </div>
+
+  <ion-row class="ion-align-items-center">
+    <ion-col size="12" class="ion-text-center">
+      <ion-text style="font-size: 20px; font-weight: 700; color: var(--ion-color-hk-ppid-main);">Form Permohonan
+        Informasi
+      </ion-text>
+    </ion-col>
+  </ion-row>
+
+  <form (ngSubmit)="PermohonanInformasi()" [formGroup]="credentials">
+    <div class="input-group" style="padding-top: 10px;">
+      <ion-item class="border" lines="none">
+        <ion-input type="text" placeholder="Nama Lengkap" formControlName="name"></ion-input>
+      </ion-item>
+      <div *ngIf="(name.dirty || name.touched) && name.errors" class="errors">
+        <span *ngIf="name.errors?.required">Nama Tidak Boleh Kosong</span>
+      </div>
+      <br>
+
+      <ion-item class="border" lines="none">
+        <ion-textarea type="text" placeholder="Tujuan Penggunaan Informasi" formControlName="tujuan"></ion-textarea>
+      </ion-item>
+      <div *ngIf="(tujuan.dirty || tujuan.touched) && tujuan.errors" class="errors">
+        <span *ngIf="tujuan.errors?.required">Tujuan Penggunaan Informasi Tidak Boleh Kosong</span>
+      </div>
+      <br>
+
+      <ion-item class="border" lines="none">
+        <ion-label>Jenis Permohonan</ion-label>
+        <ion-select mode="ios" formControlName="jenis">
+          <ion-select-option value="Instansi">Instansi</ion-select-option>
+          <ion-select-option value="Perorangan">Perorangan</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <div *ngIf="(jenis.dirty || jenis.touched) && jenis.errors" class="errors">
+        <span *ngIf="jenis.errors?.required">Jenis Permohonan Tidak Boleh Kosong</span>
+      </div>
+      <br>
+
+      <ion-item class="border" lines="none">
+        <ion-textarea type="text" placeholder="Rincian Informasi yang Dibutuhkan" formControlName="rincian">
+        </ion-textarea>
+      </ion-item>
+      <div *ngIf="(rincian.dirty || rincian.touched) && rincian.errors" class="errors">
+        <span *ngIf="rincian.errors?.required">Rincian Informasi Tidak Boleh Kosong</span>
+      </div>
+      <br>
+
+      <!-- <ion-item class="border" lines="none">
+        <ion-input type="text" placeholder="Cara Memperoleh Informasi" formControlName="cara"></ion-input>
+      </ion-item>
+      <div *ngIf="(cara.dirty || cara.touched) && cara.errors" class="errors">
+        <span *ngIf="cara.errors?.required">Cara Memperoleh Informasi Tidak Boleh Kosong</span>
+      </div>
+      <br> -->
+
+      <ion-item class="border" lines="none">
+        <ion-label>Cara Memperoleh Informasi</ion-label>
+        <ion-select mode="ios" formControlName="cara">
+          <ion-select-option *ngFor="let x of caraMemperolehInformasiList" [value]="x.id">{{x.id}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <div *ngIf="(cara.dirty || cara.touched) && cara.errors" class="errors">
+        <span *ngIf="cara.errors?.required">Cara Memperoleh Informasi Tidak Boleh Kosong</span>
+      </div>
+      <br>
+
+      <!-- <ion-item class="border" lines="none">
+        <ion-input [type]="text" placeholder="Lampiran" formControlName="lampiran"></ion-input>
+        <ion-icon name="{{iconName}}" item-end (click)="togglePass()"></ion-icon>
+      </ion-item>
+      <div *ngIf="(lampiran.dirty || lampiran.touched) && lampiran.errors" class="errors">
+        <span *ngIf="lampiran.errors?.required">Lampiran Tidak Boleh Kosong</span>
+      </div>
+      <br> -->
+
+      <ion-row>
+        <ion-col size="8" style="padding: 0px;">
+          <ion-item class="border" lines="none">
+            <ion-input [type]="text" placeholder="Lampiran" formControlName="lampiran"></ion-input>
+            <ion-icon name="{{iconName}}" item-end (click)="togglePass()"></ion-icon>
+          </ion-item>
+        </ion-col>
+        <ion-col size="4" style="padding: 0px 0px 0px 16px;" class="ion-text-end">
+          <div class="border ion-text-center" style="background-color: var(--ion-color-hk-ppid-main); height: 100%;">
+            <ion-button expand="full" color="transparent" style="height: 100%; padding: 0px; margin: 0px;"
+              (click)="TakeAPhoto()">Foto
+            </ion-button>
+          </div>
+          <!-- <ion-item class="border" lines="none" color="hk-ppid-main">
+            <ion-text>AA</ion-text>
+          </ion-item> -->
+        </ion-col>
+      </ion-row>
+      <div *ngIf="(lampiran.dirty || lampiran.touched) && lampiran.errors" class="errors">
+        <span *ngIf="lampiran.errors?.required">Lampiran Tidak Boleh Kosong</span>
+      </div>
+    </div>
+
+    <hr style="height: 12px; margin-top: 0px; margin-bottom: 0px;" no-padding>
+
+    <!-- <ion-col class="picture">
+      <img src="{{ photo }}" class="center" />
+    </ion-col> -->
+
+    <div class="ion-padding-top ion-padding-bottom">
+      <img style="max-height: 200px; " class="center" src="{{ photo }}" />
+    </div>
+
+    <hr *ngIf="photo" style="height: 12px; margin-top: 0px; margin-bottom: 0px;" no-padding>
+
+    <ion-icon class="icon" name="stop"></ion-icon>
+    <span>&nbsp;</span>
+    <span class="text">I Agree to The </span>
+    <!-- <span class="text">Informasi yang saya berikan sudah sesuai dan dapat ditindaklanjuti oleh Hutama Karya </span> -->
+    <span>&nbsp;</span>
+    <span class="text" style="font-weight: 700;">Term and Conditions</span>
+
+    <br>
+    <br>
+
+    <ion-row class="ion-align-items-center">
+      <ion-col size="12" class="ion-text-center">
+        <ion-button shape="round" type="submit" [disabled]="!credentials.valid" color="hk-ppid-main">Submit Permohonan
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+    <!-- <ion-button type="submit" expand="block" [disabled]="!credentials.valid">Submit Permohonan</ion-button> -->
+  </form>
+
+  <!-- <ion-fab vertical="bottom" horizontal="end" slot="fixed"> -->
+  <!-- <input type="file" #fileInput (change)="uploadFile($event)" hidden="true" accept="image/*" /> -->
+  <!-- <ion-fab-button (click)="selectImageSource()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab> -->
+
 </ion-content>

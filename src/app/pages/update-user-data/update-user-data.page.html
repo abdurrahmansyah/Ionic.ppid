@@ -1,0 +1,149 @@
+<!-- <ion-header>
+  <ion-toolbar color="hk-ppid">
+    <ion-buttons slot="start">
+      <ion-back-button color="hk-white-ppid"></ion-back-button>
+    </ion-buttons>
+    <ion-title>register</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content>
+
+  <div class="buttonBack">
+    <ion-buttons style="font-size: 50px;">
+      <ion-back-button text="" defaultHref="home" color="hk-ppid-main" style="font-size: 20px;" mode="ios">
+      </ion-back-button>
+    </ion-buttons>
+  </div>
+
+  <ion-row class="ion-align-items-center">
+    <ion-col size="12" class="ion-text-center">
+      <ion-text style="font-size: 20px; font-weight: 700; color: var(--ion-color-hk-ppid-main);">Update Identitas Akun
+      </ion-text>
+    </ion-col>
+  </ion-row>
+
+  <form (ngSubmit)="Register()" [formGroup]="credentials">
+    <div class="input-group" style="padding-top: 10px;">
+      <ion-item class="border" lines="none">
+        <ion-input type="text" placeholder="Nama Lengkap" formControlName="name"></ion-input>
+      </ion-item>
+      <div *ngIf="(name.dirty || name.touched) && name.errors" class="errors">
+        <span *ngIf="name.errors?.required">Name is required</span>
+      </div>
+      <br>
+
+      <ion-item class="border" lines="none">
+        <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>
+      </ion-item>
+      <div *ngIf="(email.dirty || email.touched) && email.errors" class="errors">
+        <span *ngIf="email.errors?.required">Email is required</span>
+        <span *ngIf="email.errors?.email">Email is invalid</span>
+      </div>
+      <br>
+
+      <ion-item class="border" lines="none">
+        <ion-input type="number" placeholder="No HP" formControlName="telp"></ion-input>
+      </ion-item>
+      <div *ngIf="(telp.dirty || telp.touched) && telp.errors" class="errors">
+        <span *ngIf="telp.errors?.required">Telp is required</span>
+        <span *ngIf="telp.errors?.pattern">Telp is invalid</span>
+      </div>
+      <br>
+
+      <ion-item class="border" lines="none">
+        <ion-input [type]="passwordType" placeholder="Password" formControlName="password"></ion-input>
+        <ion-icon name="{{iconName}}" item-end (click)="togglePass()"></ion-icon>
+      </ion-item>
+      <div *ngIf="(password.dirty || password.touched) && password.errors" class="errors">
+        <span *ngIf="password.errors?.required">Password tidak boleh kosong</span>
+        <span *ngIf="password.errors?.minlength">Password needs to be 6 characters</span>
+      </div>
+      <br>
+
+      <ion-item class="border" lines="none">
+        <ion-input type="number" placeholder="No KTP" formControlName="ktp"></ion-input>
+      </ion-item>
+      <div *ngIf="(ktp.dirty || ktp.touched) && ktp.errors" class="errors">
+        <span *ngIf="ktp.errors?.required">ID Card tidak boleh kosong</span>
+        <!-- <span *ngIf="ktp.errors?.pattern">ID Card is invalid</span> -->
+        <span *ngIf="ktp.errors?.minlength">ID Card needs to be 16 characters</span>
+        <span *ngIf="ktp.errors?.maxlength">ID Card needs to be 16 characters</span>
+      </div>
+      <br>
+
+      <ion-item class="border" lines="none"> 
+        <ion-input [type]="numberType" placeholder="No NPWP" formControlName="npwp"></ion-input>
+      </ion-item>
+      <div *ngIf="(npwp.dirty || npwp.touched) && npwp.errors" class="errors">
+        <span *ngIf="npwp.errors?.required">NPWP tidak boleh kosong</span>
+        <span *ngIf="npwp.errors?.pattern">NPWP is invalid</span>
+        <span *ngIf="npwp.errors?.minlength">NPWP needs to be 15 characters</span>
+        <span *ngIf="npwp.errors?.maxlength">NPWP needs to be 15 characters</span>
+      </div>
+      <br>
+
+      <ion-item class="border" lines="none">
+        <ion-input type="text" placeholder="Pekerjaan" formControlName="pekerjaan"></ion-input>
+      </ion-item>
+      <div *ngIf="(pekerjaan.dirty || pekerjaan.touched) && pekerjaan.errors" class="errors">
+        <span *ngIf="pekerjaan.errors?.required">Pekerjaan is required</span>
+      </div>
+      <br>
+
+      <ion-item class="border" lines="none">
+        <ion-input type="text" placeholder="Alamat" formControlName="alamat"></ion-input>
+      </ion-item>
+      <div *ngIf="(alamat.dirty || alamat.touched) && alamat.errors" class="errors">
+        <span *ngIf="alamat.errors?.required">Alamat is required</span>
+      </div>
+      <br>
+
+      <ion-item class="border" lines="none">
+        <ion-input type="text" placeholder="Institusi" formControlName="institusi"></ion-input>
+      </ion-item>
+      <div *ngIf="(institusi.dirty || institusi.touched) && institusi.errors" class="errors">
+        <span *ngIf="institusi.errors?.required">Institusi is required</span>
+      </div>
+      <br>
+
+    </div>
+
+    <hr style="height: 12px; margin-top: 0px; margin-bottom: 0px;" no-padding>
+
+    <ion-icon class="icon" name="stop"></ion-icon>
+    <span>&nbsp;</span>
+    <span class="text">I Agree to The </span>
+    <span>&nbsp;</span>
+    <span class="text" style="font-weight: 700;">Term and Conditions</span>
+
+    <br>
+    <br>
+
+    <ion-row class="ion-align-items-center">
+      <ion-col size="12" class="ion-text-center">
+        <ion-button shape="round" type="submit" [disabled]="!credentials.valid" color="hk-ppid-main">Create Account
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+    <!-- <ion-button type="submit" expand="block" [disabled]="!credentials.valid">Register</ion-button>
+    <ion-button type="button" expand="block" fill="clear" (click)="Login()">Have an account? Sign in!
+    </ion-button>
+
+    <ion-button type="button" expand="block" color="tertiary">
+      <ion-icon name="logo-google" slot="start"></ion-icon>
+      Sign up with Google
+    </ion-button>
+    <ion-button type="button" expand="block" color="tertiary">
+      <ion-icon name="logo-apple" slot="start"></ion-icon>
+      Sign up with Apple
+    </ion-button> -->
+  </form>
+</ion-content>
+
+<ion-footer style="padding-left: 10%; padding-right: 10%; " class="ion-no-border" color="translucent">
+  <ion-button expand="block" shape="round" color="hk-ppid-main" (click)="Login()">Already a User ? Log In
+  </ion-button>
+  <ion-toolbar></ion-toolbar>
+</ion-footer>

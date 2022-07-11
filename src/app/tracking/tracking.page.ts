@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, LoadingController, ModalController, Platform, ToastController } from '@ionic/angular';
+import { LoadingController, ModalController, Platform, ToastController } from '@ionic/angular';
 import { TicketComponent } from '../components/ticket/ticket.component';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { GlobalService, TicketData } from '../services/global.service';
 
 @Component({
   selector: 'app-tracking',
@@ -11,30 +11,32 @@ import { Observable } from 'rxjs';
 })
 export class TrackingPage implements OnInit {
 
-  idTicket: string;
-  email: string;
-  loading: any;
-  txtIDTicket: string;
-  txtStatusTicket: string;
-  txtTipeTicket: string;
-  txtNamaPemohon: string;
-  txtEmail: string;
-  txtResponHK: string;
-  txtRincianInformasi: string;
-  txtTglTiketMasuk: string;
-  txtTglTindakLanjut: string;
-  txtTglSelesai: string;
-  isTicket: boolean = false;
+  public ticketDataList: TicketData[];
 
-  constructor(private platform: Platform,
+  loading: any;
+  modelData: any;
+
+  constructor(
     private loadingController: LoadingController,
-    private httpClient: HttpClient,
-    private alertController: AlertController,
-    private toastController: ToastController) {
+    private globalService: GlobalService,
+    private modalController: ModalController) {
     this.InitializeLoadingCtrl();
   }
 
-  ngOnInit() { }
+  DoRefresh(event?: any) {
+    this.GetTicketDataListByUser();
+
+    setTimeout(() => {
+      event.target.complete();
+    }, 1000);
+  }
+
+  ngOnInit() {
+  }
+
+  ionViewDidEnter() {
+    this.InitializeData();
+  }
 
   async InitializeLoadingCtrl() {
     this.loading = await this.loadingController.create({
@@ -42,92 +44,56 @@ export class TrackingPage implements OnInit {
     });
   }
 
-  TrackingTicket() {
-    try {
-      this.ValidateData();
-      this.TrackingTicketData();
-    } catch (e) {
-      this.PresentToast(e.message);
-      console.log(e.message);
+  async InitializeData() {
+    this.GetTicketDataListByUser();
+  }
+
+  public GetTicketDataListByUser() {
+    this.ticketDataList = [];
+    var data = this.globalService.GetTicketDataListByUser();
+    this.SubscribeGetTicketDataListByUser(data);
+  }
+
+  private SubscribeGetTicketDataListByUser(data: Observable<any>) {
+    data.subscribe(
+      (data: any) => {
+        // console.log(data);
+
+        if (data.isSuccess) {
+          this.MappingTicketData(data.data);
+        }
+        else {
+          this.globalService.PresentToast(data.message);
+        }
+      }
+    );
+  }
+
+  private MappingTicketData(result: any) {
+    var length: number = result.length;
+
+    for (let i = length - 1; i >= -0; i--) {
+      var ticketData = new TicketData;
+      ticketData.trx_ticket_id = result[i].trx_ticket_id.toString();
+      ticketData.trx_ticket_user_id = result[i].trx_ticket_user_id;
+      ticketData.trx_ticket_date_created = result[i].trx_ticket_date_created ? result[i].trx_ticket_date_created.split(' ')[0] : "-";
+      ticketData.trx_ticket_date_respond = result[i].trx_ticket_date_respond ? result[i].trx_ticket_date_respond.split(' ')[0] : "-";
+      ticketData.trx_ticket_date_closed = result[i].trx_ticket_date_closed ? result[i].trx_ticket_date_closed.split(' ')[0] : "-";
+      ticketData.trx_ticket_tipe = result[i].trx_ticket_tipe;
+      ticketData.trx_ticket_reference_id = result[i].trx_ticket_reference_id;
+      ticketData.trx_ticket_tujuan_alasan = result[i].trx_ticket_tujuan_alasan;
+      ticketData.trx_ticket_rincian = result[i].trx_ticket_rincian;
+      ticketData.trx_ticket_cara = result[i].trx_ticket_cara;
+      ticketData.trx_ticket_lampiran = result[i].trx_ticket_lampiran;
+      ticketData.trx_ticket_replyadmin = result[i].trx_ticket_replyadmin ? result[i].trx_ticket_replyadmin : "-";
+      ticketData.trx_ticket_rating = result[i].trx_ticket_rating;
+      ticketData.trx_ticket_status = result[i].trx_ticket_status;
+
+      this.ticketDataList.push(ticketData);
     }
   }
 
-  private ValidateData() {
-    if (!this.email)
-      throw new Error('Email wajib diisi.');
-    else if (!this.idTicket)
-      throw new Error('ID Tiket wajib diisi.');
-  }
-
-  private TrackingTicketData() {
-    var url = 'https://script.google.com/macros/s/AKfycbxaqQ0_dAgt0KjR2mxgpcbkrKG03N7zPgI5OW6sYljSA_ayL8u8gXIvRzaoEWkH62_mJA/exec?action=read&id=' + this.idTicket + '&email=' + this.email;
-    var data: Observable<any> = this.httpClient.get(url);
-    this.TrackingTicketDataFromDB(data);
-  }
-
-  private TrackingTicketDataFromDB(data: Observable<any>) {
-    data.subscribe(data => {
-      console.log(data);
-
-      if (data.records) {
-        this.isTicket = true;
-        this.txtIDTicket = data.records.ID_TIKET;
-        this.txtStatusTicket = data.records.STATUS_TIKET;
-        this.txtTipeTicket = data.records.TIPE_TIKET;
-        this.txtNamaPemohon = data.records.NAMA_PEMOHON;
-        this.txtEmail = data.records.EMAIL_PEMOHON;
-        this.txtResponHK = data.records.RESPON_HK;
-        this.txtRincianInformasi = data.records.RINCIAN_INFORMASI;
-        this.txtTglTiketMasuk = data.records.TANGGAL_TIKET_MASUK.split('T')[0];
-        this.txtTglTindakLanjut = data.records.TANGGAL_TINDAK_LANJUT.split('T')[0];
-        this.txtTglSelesai = data.records.TANGGAL_SELESAI.split('T')[0];
-      }
-      else {
-        this.PresentToast('Data tidak ditemukan. Pastikan Email dan ID Tiket benar.');
-        // throw new Error('Data tidak ditemukan.');
-        this.isTicket = false;
-      }
-    });
-  }
-
-  // private async TrackingTicketData() {
-  //   var result: any = "kosongan";
-  //   // this.PresentLoading();
-  //   fetch('https://script.google.com/macros/s/AKfycbxaqQ0_dAgt0KjR2mxgpcbkrKG03N7zPgI5OW6sYljSA_ayL8u8gXIvRzaoEWkH62_mJA/exec?action=read&id=' + this.idTicket + '&email=' + this.email)
-  //     .then(async response => response.json()).then(function (data) {
-  //       console.log(data);
-  //       console.log(data.records);
-
-  //       if (data.records) {
-  //         var ticket = data.records;
-  //         this.txtNamaPemohon = ticket.NAMA_PEMOHON;
-  //         // console.log(ticket.ASAL_PEMOHON);
-  //         // result = "true";
-
-  //       } else {
-  //         result = "false";
-  //         // throw new Error("Data Email dan ID Tiket tidak dapat ditemukan");
-  //       }
-
-  //       // let authors = data.results;
-  //       // return authors.map(function (author) {
-  //       //   console.log(author);
-  //       // })
-  //     })
-  //   // .catch(function (error) {
-  //   //   throw new Error(error);
-
-  //   //   // this.loadingController.dismiss();
-  //   //   // this.PresentToast(e.message);
-  //   //   // console.log(error);
-  //   // })
-  //   console.log(result);
-  // }
-
-  async PresentLoading() {
-    await this.loading.present();
-  }
-
+<<<<<<< HEAD
   public async PresentNotif(headerText: string, text: string) {
     await this.alertController.create({
       mode: 'ios',
@@ -138,16 +104,29 @@ export class TrackingPage implements OnInit {
       }]
     }).then(alert => {
       return alert.present();
+=======
+  public async ShowDetailTicket(ticketData) {
+    const modal = await this.modalController.create({
+      component: TicketComponent,
+      initialBreakpoint: 0.6,
+      breakpoints: [0, 0.6, 0.95],
+      mode: 'md',
+      componentProps: {
+        'ticketData': ticketData
+      }
+>>>>>>> 8e131f1f4db7f1d40bb9138168c87b9eb1e28c1a
     });
-  }
+    // modal.present();
+    modal.onDidDismiss().then((modelData) => {
+      if (modelData.role == "confirm") {
+        if (modelData.data.dataPassing == "CANCELTICKET") {
+          console.log("harusnya jalanin GetTicketDataListByUser lagi");
 
-  private async PresentToast(msg: string) {
-    const toast = await this.toastController.create({
-      message: msg,
-      duration: 2000,
-      color: "dark",
-      mode: "ios"
-    });
-    toast.present();
+          this.GetTicketDataListByUser();
+        }
+      }
+    })
+
+    return await modal.present();
   }
 }

@@ -12,6 +12,7 @@
     <ion-title *ngIf="isDownloadFormulir">Download Formulir</ion-title>
     <ion-title *ngIf="isPengajuanInf">Tata Cara</ion-title>
     <ion-title *ngIf="isKeberatan">Tata Cara</ion-title>
+    <ion-title *ngIf="isDisabilitas">Tata Cara</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -31,20 +32,25 @@
       scrolling="yes"></iframe>
   </div>
   <div *ngIf="isInformasiTersediaSetiapSaat">
-    <iframe src="https://kip.hutamakarya.com/informasi-tersedia-setiap-saat" style="width:100%;height:100%" scrolling="yes"></iframe>
+    <iframe src="https://kip.hutamakarya.com/informasi-tersedia-setiap-saat" style="width:100%;height:100%"
+      scrolling="yes"></iframe>
   </div>
   <div *ngIf="isLaporanLayananInformasiPublik">
-    <iframe src="https://kip.hutamakarya.com/laporan-layanan-informasi-publik" style="width:100%;height:100%" scrolling="yes"></iframe>
+    <iframe src="https://kip.hutamakarya.com/laporan-layanan-informasi-publik" style="width:100%;height:100%"
+      scrolling="yes"></iframe>
   </div>
   <div *ngIf="isDownloadFormulir">
     <iframe src="https://kip.hutamakarya.com/download-formulir" style="width:100%;height:100%" scrolling="yes"></iframe>
   </div>
   <div *ngIf="isPengajuanInf">
-    <img src="../../../assets/images/img-10.png">
+    <img src="../../../assets/images/img-38.jpg">
     <!-- <iframe src="https://kip.hutamakarya.com/tata-cara-permohonan-informasi" style="width:100%;height:100%" scrolling="yes"></iframe> -->
   </div>
   <div *ngIf="isKeberatan">
-      <img src="../../../assets/images/img-11.png">
-      <!-- <iframe src="https://kip.hutamakarya.com/tara-cara-pengajuan-keberatan" style="width:100%;height:100%" scrolling="yes"></iframe> -->
+    <img src="../../../assets/images/img-39.jpg">
+    <!-- <iframe src="https://kip.hutamakarya.com/tara-cara-pengajuan-keberatan" style="width:100%;height:100%" scrolling="yes"></iframe> -->
+  </div>
+  <div *ngIf="isDisabilitas">
+    <img src="../../../assets/images/img-40.jpg">
   </div>
 </ion-content>

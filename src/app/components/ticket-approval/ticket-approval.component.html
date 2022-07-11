@@ -1,0 +1,225 @@
+<!-- <div>
+  <hr style="height: 20px; background-color: #e6e6e6; margin: 0px;">
+</div> -->
+
+<div class="vertical-align-content" scrollY="true" style="overflow-y: auto;">
+  <br>
+  <div button class="ion-padding" style="font-size: xx-large; padding-bottom: 0px; padding-top: 0px;"
+    (click)="CloseTicketApproval()">
+    <ion-icon slot="start" color="hk-ppid-main" name="close"></ion-icon>
+  </div>
+  <!-- <ion-item lines="none" button detail="false" (click)="CloseTicketApproval()">
+    <ion-icon color="hk-ppid-main" name="close"></ion-icon>
+  </ion-item> -->
+
+  <div class="statusTicket centerOnAll" style="background-color: #FFB194;">
+    <ion-text style="color: rgb(230, 33, 41); display: block;">{{approvalTicketData.trx_ticket_status}}</ion-text>
+  </div>
+
+  <ion-text style="font-size: 20px; font-weight: 700; color: #2c365a" class="ion-padding">{{
+    approvalTicketData.trx_ticket_tipe }}</ion-text> <br>
+  <ion-text *ngIf="isPermohonan" style="font-size: 12px; color: #B87781" class="ion-padding">oleh
+    {{approvalTicketData.trx_ticket_jenis}}
+  </ion-text>
+  <ion-text *ngIf="isKeberatan" style="font-size: 12px; color: #B87781" class="ion-padding" (click)="DetailAcuanTicket(approvalTicketData)">lihat acuan</ion-text>
+
+  <div class="ion-padding">
+    <ion-row button style="color: #2c365a;" (click)="DetailIdentitasUser()">
+      <ion-col size="1.5" class="statusB" style="font-size: xx-large;">
+        <ion-icon name="person-outline"></ion-icon>
+      </ion-col>
+      <ion-col size="0.5">
+        <hr style="height: 100%; width: 0.5px; background-color: #e6e6e6; margin: 0px;">
+      </ion-col>
+      <ion-col size="9">
+        <ion-text style="font-size: 12px; color: #2c365a; line-height: 25px;">Nama Pemohon</ion-text>
+        <br>
+        <ion-text style="font-size: 16px; font-weight: 700; color: #2c365a">{{
+          approvalTicketData.trx_ticket_user_data.md_user_name }}
+        </ion-text> <br>
+      </ion-col>
+      <ion-col size="1" class="statusB">
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </ion-col>
+    </ion-row>
+
+    <!-- <ion-text style="font-size: 12px; color: #2c365a; line-height: 25px;">Nama Pemohon</ion-text>
+    <br>
+    <ion-text style="font-size: 16px; font-weight: 700; color: #2c365a">{{
+      approvalTicketData.trx_ticket_user_data.md_user_name }}
+    </ion-text> <br> -->
+
+    <hr style="height: 10px; margin: 0px;">
+    <hr style="height: 0.5px; background-color: #e6e6e6; margin: 0px;">
+    <hr style="height: 10px; margin: 0px;">
+
+    <!-- ////////////////////////////// -->
+
+    <ion-row style="color: #2c365a;">
+      <ion-col size="1.5" class="statusB" style="font-size: xx-large;">
+        <ion-icon name="checkmark-done-outline"></ion-icon>
+      </ion-col>
+      <ion-col size="0.5">
+        <hr style="height: 100%; width: 0.5px; background-color: #e6e6e6; margin: 0px;">
+      </ion-col>
+      <ion-col size="10">
+        <ion-text style="font-size: 12px; color: #2c365a; line-height: 25px;">Tujuan Request</ion-text>
+        <br>
+        <ion-text style="font-size: 16px; font-weight: 700; color: #2c365a">{{
+          approvalTicketData.trx_ticket_tujuan_alasan }}
+        </ion-text> <br>
+      </ion-col>
+    </ion-row>
+
+    <!-- <ion-text style="font-size: 12px; color: #2c365a; line-height: 25px;">Tujuan Request</ion-text>
+    <br>
+    <ion-text style="font-size: 16px; font-weight: 700; color: #2c365a">{{approvalTicketData.trx_ticket_tujuan_alasan}}
+    </ion-text> <br> -->
+
+    <hr style="height: 10px; margin: 0px;">
+    <hr style="height: 0.5px; background-color: #e6e6e6; margin: 0px;">
+    <hr style="height: 10px; margin: 0px;">
+
+    <!-- ////////////////////////////// -->
+
+    <ion-row style="color: #2c365a;">
+      <ion-col size="1.5" class="statusB" style="font-size: xx-large;">
+        <ion-icon name="clipboard-outline"></ion-icon>
+      </ion-col>
+      <ion-col size="0.5">
+        <hr style="height: 100%; width: 0.5px; background-color: #e6e6e6; margin: 0px;">
+      </ion-col>
+      <ion-col size="10">
+        <ion-text style="font-size: 12px; color: #2c365a; line-height: 25px;">Rincian Informasi</ion-text>
+        <br>
+        <ion-text style="font-size: 16px; font-weight: 700; color: #2c365a">{{
+          approvalTicketData.trx_ticket_rincian }}
+        </ion-text> <br>
+      </ion-col>
+    </ion-row>
+
+    <!-- <ion-text style="font-size: 12px; color: #2c365a; line-height: 25px;">Rincian Informasi</ion-text>
+    <br>
+    <ion-text style="font-size: 16px; font-weight: 700; color: #2c365a">{{
+      approvalTicketData.trx_ticket_rincian }}
+    </ion-text> <br> -->
+
+    <hr style="height: 10px; margin: 0px;">
+    <hr style="height: 0.5px; background-color: #e6e6e6; margin: 0px;">
+    <hr style="height: 10px; margin: 0px;">
+
+    <!-- ////////////////////////////// -->
+
+    <ion-row style="color: #2c365a;">
+      <ion-col size="1.5" class="statusB" style="font-size: xx-large;">
+        <ion-icon name="share-outline"></ion-icon>
+      </ion-col>
+      <ion-col size="0.5">
+        <hr style="height: 100%; width: 0.5px; background-color: #e6e6e6; margin: 0px;">
+      </ion-col>
+      <ion-col size="10">
+        <ion-text style="font-size: 12px; color: #2c365a; line-height: 25px;">Cara Memperoleh Informasi</ion-text>
+        <br>
+        <ion-text style="font-size: 16px; font-weight: 700; color: #2c365a">{{
+          approvalTicketData.trx_ticket_cara }}
+        </ion-text> <br>
+      </ion-col>
+    </ion-row>
+
+    <!-- <ion-text style="font-size: 12px; color: #2c365a; line-height: 25px;">Cara Memperoleh Informasi</ion-text>
+    <br>
+    <ion-text style="font-size: 16px; font-weight: 700; color: #2c365a">{{
+      approvalTicketData.trx_ticket_cara }}
+    </ion-text> <br> -->
+
+    <hr style="height: 10px; margin: 0px;">
+    <hr style="height: 0.5px; background-color: #e6e6e6; margin: 0px;">
+    <hr style="height: 10px; margin: 0px;">
+
+    <!-- ////////////////////////////// -->
+
+    <ion-row style="color: #2c365a;">
+      <ion-col size="1.5" class="statusB" style="font-size: xx-large;">
+        <ion-icon name="time-outline"></ion-icon>
+      </ion-col>
+      <ion-col size="0.5">
+        <hr style="height: 100%; width: 0.5px; background-color: #e6e6e6; margin: 0px;">
+      </ion-col>
+      <ion-col size="4">
+        <ion-text style="font-size: 12px; color: #2c365a; line-height: 25px;">Date Created</ion-text>
+        <br>
+        <ion-text style="font-size: 16px; font-weight: 700; color: #2c365a">{{
+          approvalTicketData.trx_ticket_date_created }}
+        </ion-text> <br>
+      </ion-col>
+      <ion-col size="1.5" class="statusB" style="font-size: xx-large;">
+        <ion-icon name="timer-outline"></ion-icon>
+      </ion-col>
+      <ion-col size="0.5">
+        <hr style="height: 100%; width: 0.5px; background-color: #e6e6e6; margin: 0px;">
+      </ion-col>
+      <ion-col size="4">
+        <ion-text style="font-size: 12px; color: #2c365a; line-height: 25px;">Date Respond</ion-text>
+        <br>
+        <ion-text style="font-size: 16px; font-weight: 700; color: #2c365a">{{
+          approvalTicketData.trx_ticket_date_respond }}
+        </ion-text> <br>
+      </ion-col>
+    </ion-row>
+
+    <!-- <ion-row style="padding: 0px;">
+      <ion-col size="6" style="padding: 0px;">
+        <ion-text style="font-size: 12px; color: #2c365a; line-height: 25px;">Date Created</ion-text>
+        <br>
+        <ion-text style="font-size: 16px; font-weight: 700; color: #2c365a">{{
+          approvalTicketData.trx_ticket_date_created }}
+        </ion-text> <br>
+      </ion-col>
+
+      <ion-col size="6" style="padding: 0px;">
+        <ion-text style="font-size: 12px; color: #2c365a; line-height: 25px;">Date Respond</ion-text>
+        <br>
+        <ion-text style="font-size: 16px; font-weight: 700; color: #2c365a">{{
+          approvalTicketData.trx_ticket_date_respond }}
+        </ion-text> <br>
+      </ion-col>
+    </ion-row> -->
+
+    <!-- <hr style="height: 10px; margin: 0px;">
+    <hr style="height: 0.5px; background-color: #e6e6e6; margin: 0px;">
+    <hr style="height: 10px; margin: 0px;"> -->
+
+    <!-- ////////////////////////////// -->
+
+    <!-- <br *ngIf="!photo"> -->
+    <hr style="height: 10px; margin: 0px;">
+    <hr style="height: 0.5px; background-color: #e6e6e6; margin: 0px;">
+    <!-- <hr style="height: 10px; margin: 0px;"> -->
+
+    <div class="ion-padding-top ion-padding-bottom">
+      <img style="max-height: 200px; " class="center" src="{{ photo }}" />
+    </div>
+
+    <ion-row *ngIf="isStatusOpen" class="statusA">
+      <ion-col size="5.75" class="statusB" style="background-color: #F2E8E9;" button
+        (click)="RejectTicket(approvalTicketData)">
+        <ion-text style="color: #B87781;">Tolak Tiket</ion-text>
+      </ion-col>
+      <ion-col size="0.5"></ion-col>
+      <ion-col size="5.75" class="statusB" style="background-color: #E2EDEB;" button
+        (click)="StartProcessTicket(approvalTicketData)">
+        <ion-text style="color: #647F79;">Mulai Proses</ion-text>
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="isStatusInProgress" class="statusA">
+      <ion-col size="12" class="statusB" style="background-color: #F2E8E9;" button
+        (click)="FinishTicket(approvalTicketData)">
+        <ion-text style="color: #B87781;">Selesaikan Tiket</ion-text>
+      </ion-col>
+    </ion-row>
+  </div>
+</div>
+
+<!-- /// UNTUK DI ROW ion-align-items-center -->
+<!-- /// UNTUK DI COL class="ion-align-self-center" -->

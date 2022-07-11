@@ -18,6 +18,7 @@ export class InformationPage implements OnInit {
   isDownloadFormulir: boolean = false;
   isPengajuanInf: boolean = false;
   isKeberatan: boolean = false;
+  isDisabilitas: boolean = false;
 
   constructor(public activatedRoute: ActivatedRoute,
     public router: Router,
@@ -39,6 +40,7 @@ export class InformationPage implements OnInit {
         this.isDownloadFormulir = this.router.getCurrentNavigation().extras.state.indexForm == this.globalService.IndexPageData.DwnFormulir ? true : false;
         this.isPengajuanInf = this.router.getCurrentNavigation().extras.state.indexForm == this.globalService.IndexPageData.PermohonanInformasi ? true : false;
         this.isKeberatan = this.router.getCurrentNavigation().extras.state.indexForm == this.globalService.IndexPageData.PengajuanKeberatan ? true : false;
+        this.isDisabilitas = this.router.getCurrentNavigation().extras.state.indexForm == this.globalService.IndexPageData.Disabilitas ? true : false;
       }
     });
   }

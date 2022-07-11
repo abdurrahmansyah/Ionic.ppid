@@ -5,7 +5,7 @@ import { TabsPage } from './tabs.page';
 
 const routes: Routes = [
   {
-    path: 'tabs',
+    path: '',
     component: TabsPage,
     children: [
       {
@@ -17,6 +17,14 @@ const routes: Routes = [
         loadChildren: () => import('../tracking/tracking.module').then(m => m.TrackingPageModule)
       },
       {
+        path: 'account',
+        loadChildren: () => import('../account/account.module').then( m => m.AccountPageModule)
+      },
+      {
+        path: 'admin',
+        loadChildren: () => import('../admin/admin.module').then( m => m.AdminPageModule)
+      },
+{
         path: '',
         redirectTo: '/tabs/home',
         pathMatch: 'full'

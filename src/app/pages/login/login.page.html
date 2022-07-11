@@ -1,0 +1,55 @@
+<ion-content>
+
+  <ion-img style="width: 70%; display: block; margin-left: auto; margin-right: auto;"
+    src="../../assets/images/ppid-logo.png"></ion-img>
+
+  <form (ngSubmit)="Login()" [formGroup]="credentials">
+
+    <ion-text style="font-size: 20px; font-weight: 700; color: var(--ion-color-hk-ppid-main);" class="ion-padding">Masuk</ion-text>
+    <br>
+
+    <div class="input-group" style="padding-top: 10px;">
+      <ion-item class="border" lines="none">
+        <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>
+      </ion-item>
+      <div *ngIf="(email.dirty || email.touched) && email.errors" class="errors">
+        <ion-text *ngIf="email.errors?.required">Email Tidak Boleh Kosong</ion-text>
+        <ion-text *ngIf="email.errors?.email">Format Email Salah</ion-text>
+        <!-- <span *ngIf="email.errors?.required">Email is required</span>
+        <span *ngIf="email.errors?.email">Email is invalid</span> -->
+      </div>
+      <br>
+
+      <ion-item class="border" lines="none">
+        <ion-input [type]="passwordType" placeholder="Password" formControlName="password"></ion-input>
+        <ion-icon name="{{iconName}}" item-end (click)="togglePass()"></ion-icon>
+      </ion-item>
+      <div *ngIf="(password.dirty || password.touched) && password.errors" class="errors">
+        <span *ngIf="password.errors?.required">Password Tidak Boleh Kosong</span>
+        <span *ngIf="password.errors?.minlength">Password Minimal 6 Karakter</span>
+      </div>
+    </div>
+
+    <hr style="height: 12px; margin-top: 0px; margin-bottom: 0px;" no-padding>
+
+    <ion-icon class="icon" name="stop"></ion-icon>
+    <span>&nbsp;</span>
+    <span class="text"> Ingat Saya ?</span>
+
+    <br>
+    <br>
+
+    <ion-row class="ion-align-items-center">
+      <ion-col size="12" class="ion-text-center">
+        <ion-button shape="round" type="submit" [disabled]="!credentials.valid" color="hk-ppid-main">Masuk Dengan Akun Saya</ion-button>
+      </ion-col>
+    </ion-row>
+  </form>
+  <ion-button expand="full" fill="clear" color="hk-ppid-main" (click)="ForgetPassword()">Lupa Password</ion-button>
+</ion-content>
+
+<ion-footer style="padding-left: 10%; padding-right: 10%; " class="ion-no-border" color="translucent">
+  <ion-button expand="block" shape="round" color="hk-ppid-main" (click)="Register()">Pemohon Baru? Buat Akun
+  </ion-button>
+  <ion-toolbar></ion-toolbar>
+</ion-footer>
