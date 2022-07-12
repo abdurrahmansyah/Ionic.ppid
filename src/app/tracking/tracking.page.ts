@@ -93,18 +93,6 @@ export class TrackingPage implements OnInit {
     }
   }
 
-<<<<<<< HEAD
-  public async PresentNotif(headerText: string, text: string) {
-    await this.alertController.create({
-      mode: 'ios',
-      header: headerText,
-      message: text,
-      buttons: [{
-        text: 'OK',
-      }]
-    }).then(alert => {
-      return alert.present();
-=======
   public async ShowDetailTicket(ticketData) {
     const modal = await this.modalController.create({
       component: TicketComponent,
@@ -114,7 +102,6 @@ export class TrackingPage implements OnInit {
       componentProps: {
         'ticketData': ticketData
       }
->>>>>>> 8e131f1f4db7f1d40bb9138168c87b9eb1e28c1a
     });
     // modal.present();
     modal.onDidDismiss().then((modelData) => {
