@@ -23,7 +23,7 @@
     </ion-col>
   </ion-row>
 
-  <form (ngSubmit)="Register()" [formGroup]="credentials">
+  <form [formGroup]="credentials">
     <div class="input-group" style="padding-top: 10px;">
       <ion-item class="border" lines="none">
         <ion-input type="text" placeholder="Nama Lengkap" formControlName="name"></ion-input>
@@ -72,7 +72,7 @@
       </div>
       <br>
 
-      <ion-item class="border" lines="none"> 
+      <ion-item class="border" lines="none">
         <ion-input [type]="numberType" placeholder="No NPWP" formControlName="npwp"></ion-input>
       </ion-item>
       <div *ngIf="(npwp.dirty || npwp.touched) && npwp.errors" class="errors">
@@ -143,7 +143,7 @@
 </ion-content>
 
 <ion-footer style="padding-left: 10%; padding-right: 10%; " class="ion-no-border" color="translucent">
-  <ion-button expand="block" shape="round" color="hk-ppid-main" (click)="Login()">Already a User ? Log In
+  <ion-button expand="block" shape="round" color="hk-ppid-main">Already a User ? Log In
   </ion-button>
   <ion-toolbar></ion-toolbar>
 </ion-footer>
