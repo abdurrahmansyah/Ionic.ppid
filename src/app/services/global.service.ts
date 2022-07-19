@@ -83,12 +83,17 @@ export class GlobalService {
     // var url = 'http://sihk.hutamakarya.com/apippid/loginppid.php';
     var url = 'http://kipdev.hutamakarya.com/api/login';
 
+    console.log("Log : Run Api login...");
     this.http.post(url, postdata).subscribe(
       async (data: any) => {
-        console.log("Log : Run Api login...");
+        console.log("Log : Run Api login berhasil");
 
         if (data.isSuccess) {
+          console.log("Log : Run Api signInWithEmailAndPassword...");
+
           await this.authFirebaseService.signInWithEmailAndPassword(credentials.email, credentials.password).then(async (userCredential) => {
+            console.log("Log : Run Api signInWithEmailAndPassword berhasil");
+
             if (userCredential.user.emailVerified) {
               // if (true) {
               await this.MappingUserData(data);
@@ -117,6 +122,8 @@ export class GlobalService {
 
             }
           }).catch(async (error) => {
+            console.log("Log : Run Api signInWithEmailAndPassword gagal");
+
             await loading.dismiss();
             var error_msg = error.split('(')[1];
             error_msg = error_msg.split(')')[0];
@@ -184,6 +191,8 @@ export class GlobalService {
           this.PresentToast(data.message);
         }
       }, async (error: any) => {
+        console.log("Log : Run Api login gagal");
+
         await loading.dismiss();
         this.PresentToast("BUG: Error Connection");
         // this.PresentAlert(JSON.stringify(error));
