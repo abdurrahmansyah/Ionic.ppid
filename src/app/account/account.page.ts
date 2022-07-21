@@ -14,7 +14,7 @@ export class AccountPage implements OnInit {
   iconName: string = 'eye';
   passwordType: string = 'password';
   passwordShown: boolean = false;
-  numberType: string = 'number';
+  numberType: string = 'tel';
   pekerjaanDataList = this.globalService.pekerjaanDataList;
   isUserDataRequired: boolean = false;
   isUserDataWaitingApproval: boolean = false;

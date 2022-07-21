@@ -97,7 +97,7 @@
       <br>
 
       <ion-item class="border" lines="none">
-        <ion-input type="number" placeholder="No HP" formControlName="telp"></ion-input>
+        <ion-input type="tel" placeholder="No HP" formControlName="telp"></ion-input>
       </ion-item>
       <div *ngIf="(telp.dirty || telp.touched) && telp.errors" class="errors">
         <span *ngIf="telp.errors?.required">No HP Tidak Boleh Kosong</span>

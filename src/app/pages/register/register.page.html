@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header> -->
 
-<ion-content>
+<ion-content fullscreen="true">
 
   <div class="buttonBack">
     <ion-buttons style="font-size: 50px;">
@@ -44,7 +44,7 @@
       <br>
 
       <ion-item class="border" lines="none">
-        <ion-input type="number" placeholder="No HP" formControlName="telp"></ion-input>
+        <ion-input type="tel" placeholder="No HP" formControlName="telp"></ion-input>
       </ion-item>
       <div *ngIf="(telp.dirty || telp.touched) && telp.errors" class="errors">
         <span *ngIf="telp.errors?.required">No HP Tidak Boleh Kosong</span>
@@ -108,5 +108,5 @@
 <ion-footer style="padding-left: 10%; padding-right: 10%; " class="ion-no-border" color="translucent">
   <ion-button expand="block" shape="round" color="hk-ppid-main" (click)="Login()">Sudah Memiliki Akun ? Masuk
   </ion-button>
-  <ion-toolbar></ion-toolbar>
+  <ion-toolbar color="translucent"></ion-toolbar>
 </ion-footer>

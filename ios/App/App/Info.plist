@@ -48,5 +48,11 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>This app needs to collect photos for validation</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app needs to collect photos for validation</string>
+	<key>NSCameraUsageDescription</key>
+	<string>This app needs to collect photos for validation</string>
 </dict>
 </plist>
