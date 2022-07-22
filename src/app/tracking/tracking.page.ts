@@ -12,6 +12,7 @@ import { GlobalService, TicketData } from '../services/global.service';
 export class TrackingPage implements OnInit {
 
   public ticketDataList: TicketData[];
+  isTrackingPageHasSeen: boolean = false;
 
   loading: any;
   modelData: any;
@@ -45,25 +46,32 @@ export class TrackingPage implements OnInit {
   }
 
   async InitializeData() {
-    this.GetTicketDataListByUser();
+    if (!this.isTrackingPageHasSeen)
+      await this.GetTicketDataListByUser();
   }
 
-  public GetTicketDataListByUser() {
+  public async GetTicketDataListByUser() {
+    const loading = await this.loadingController.create();
+    await loading.present();
+
     this.ticketDataList = [];
     var data = this.globalService.GetTicketDataListByUser();
-    this.SubscribeGetTicketDataListByUser(data);
+    this.SubscribeGetTicketDataListByUser(data, loading);
   }
 
-  private SubscribeGetTicketDataListByUser(data: Observable<any>) {
+  private SubscribeGetTicketDataListByUser(data: Observable<any>, loading: HTMLIonLoadingElement) {
     data.subscribe(
-      (data: any) => {
+      async (data: any) => {
         // console.log(data);
 
         if (data.isSuccess) {
           this.MappingTicketData(data.data);
+          this.isTrackingPageHasSeen = true;
+          await loading.dismiss();
         }
         else {
           this.globalService.PresentToast(data.message);
+          await loading.dismiss();
         }
       }
     );
