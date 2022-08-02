@@ -63,7 +63,8 @@
       <br>
 
       <ion-item class="border" lines="none">
-        <ion-input [type]="confirmPasswordType" placeholder=" Confirm Password" formControlName="confirmPassword"></ion-input>
+        <ion-input [type]="confirmPasswordType" placeholder=" Confirm Password" formControlName="confirmPassword">
+        </ion-input>
         <ion-icon name="{{confirmPasswordIconName}}" item-end (click)="toggleConfirmPass()"></ion-icon>
       </ion-item>
       <div *ngIf="(confirmPassword.dirty || confirmPassword.touched) && confirmPassword.errors" class="errors">
@@ -74,11 +75,13 @@
 
     <hr style="height: 12px; margin-top: 0px; margin-bottom: 0px;" no-padding>
 
-    <ion-icon class="icon" name="stop"></ion-icon>
-    <span>&nbsp;</span>
-    <span class="text">I Agree to The </span>
-    <span>&nbsp;</span>
-    <span class="text" style="font-weight: 700;">Term and Conditions</span>
+    <div (click)="toggleIAgree()">
+      <ion-icon class="icon" name="{{iconIAgree}}"></ion-icon>
+      <span>&nbsp;</span>
+      <span class="text">I Agree to The </span>
+      <span>&nbsp;</span>
+      <span class="text" style="font-weight: 700;">Term and Conditions</span>
+    </div>
 
     <br>
     <br>

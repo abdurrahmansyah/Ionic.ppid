@@ -21,6 +21,7 @@ export class LoginPage implements OnInit {
   iconName: string = 'eye';
   passwordType: string = 'password';
   passwordShown: boolean = false;
+  iconIngatSaya: string = 'stop-outline';
 
   constructor(
     private fb: FormBuilder,
@@ -66,6 +67,11 @@ export class LoginPage implements OnInit {
     }
   }
 
+  public toggleIngatSaya() {
+    if (this.iconIngatSaya == 'stop-outline') this.iconIngatSaya = 'stop';
+    else this.iconIngatSaya = 'stop-outline';
+  }
+
   async Login() {
     try {
       this.globalService.Login(this.credentials.value);
@@ -86,7 +92,7 @@ export class LoginPage implements OnInit {
     // this.router.navigateByUrl('/register', { replaceUrl: false });
   }
 
-  public async ForgetPassword(){
+  public async ForgetPassword() {
     try {
       const modal = await this.modalController.create({
         component: ForgetPasswordComponent,
@@ -103,7 +109,7 @@ export class LoginPage implements OnInit {
         //   rootPage: ForgetPasswordPage,
         // },
       });
-  
+
       await modal.present();
     } catch (e) {
       console.log(e);

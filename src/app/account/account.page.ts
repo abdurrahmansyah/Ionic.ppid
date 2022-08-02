@@ -24,6 +24,7 @@ export class AccountPage implements OnInit {
   txtButton: string = 'Perbarui Akun';
   photo: any;
   isDisableBtnFoto: boolean = true;
+  iconIAgree: string = 'stop-outline';
 
   constructor(
     private fb: FormBuilder,
@@ -118,6 +119,11 @@ export class AccountPage implements OnInit {
     }
   }
 
+  public toggleIAgree() {
+    if (this.iconIAgree == 'stop-outline') this.iconIAgree = 'stop';
+    else this.iconIAgree = 'stop-outline';
+  }
+
   public Help() {
     var txtStatusMessage = this.globalService.userData.md_user_status.split('_')[1];
     txtStatusMessage = txtStatusMessage + ' Pastikan data diri sesuai dengan data pada identitas';
@@ -155,15 +161,21 @@ export class AccountPage implements OnInit {
             this.globalService.PresentAlert('Foto KTP tidak boleh kosong!');
             this.credentials.controls['ktp_data'].disable();
           } else {
-            this.globalService.UpdateAccount(this.credentials.value)
-            this.credentials.controls['ktp_data'].disable();
-            if (this.globalService.isUpdateAccountSuccess) {
-              this.DisableCredentialControl();
+            if (this.iconIAgree == 'stop') {
+              this.globalService.UpdateAccount(this.credentials.value)
+              this.credentials.controls['ktp_data'].disable();
+              if (this.globalService.isUpdateAccountSuccess) {
+                this.DisableCredentialControl();
 
-              this.isModeEdit = false;
-              this.txtButton = 'Perbarui Akun';
-            } else {
-              this.CancelEdit();
+                this.isModeEdit = false;
+                this.txtButton = 'Perbarui Akun';
+              } else {
+                this.CancelEdit();
+              }
+            }
+            else {
+              this.globalService.PresentAlert("Silahkan menyetujui Term and Conditions");
+              this.credentials.controls['ktp_data'].disable();
             }
           }
         }
@@ -224,7 +236,7 @@ export class AccountPage implements OnInit {
       }, {
         text: 'Lanjut',
         handler: async () => {
-          const image = await this.photoService.TakeAPhoto();
+          const image = await this.photoService.ChooseFromGallery();
           this.photo = this.photoService.ConvertPhotoBase64ToImage(image.base64String);
 
           // var dateData = this.globalService.GetDate()

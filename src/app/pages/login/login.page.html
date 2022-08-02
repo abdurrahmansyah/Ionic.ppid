@@ -6,7 +6,8 @@
 
   <form (ngSubmit)="Login()" [formGroup]="credentials">
 
-    <ion-text style="font-size: 20px; font-weight: 700; color: var(--ion-color-hk-ppid-main);" class="ion-padding">Masuk</ion-text>
+    <ion-text style="font-size: 20px; font-weight: 700; color: var(--ion-color-hk-ppid-main);" class="ion-padding">Masuk
+    </ion-text>
     <br>
 
     <div class="input-group" style="padding-top: 10px;">
@@ -33,16 +34,19 @@
 
     <hr style="height: 12px; margin-top: 0px; margin-bottom: 0px;" no-padding>
 
-    <ion-icon class="icon" name="stop"></ion-icon>
-    <span>&nbsp;</span>
-    <span class="text"> Ingat Saya ?</span>
+    <div (click)="toggleIngatSaya()">
+      <ion-icon class="icon" name="{{iconIngatSaya}}"></ion-icon>
+      <span>&nbsp;</span>
+      <span class="text"> Ingat Saya ?</span>
+    </div>
 
     <br>
     <br>
 
     <ion-row class="ion-align-items-center">
       <ion-col size="12" class="ion-text-center">
-        <ion-button shape="round" type="submit" [disabled]="!credentials.valid" color="hk-ppid-main">Masuk Dengan Akun Saya</ion-button>
+        <ion-button shape="round" type="submit" [disabled]="!credentials.valid" color="hk-ppid-main">Masuk Dengan Akun
+          Saya</ion-button>
       </ion-col>
     </ion-row>
   </form>

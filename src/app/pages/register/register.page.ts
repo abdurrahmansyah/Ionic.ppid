@@ -17,6 +17,7 @@ export class RegisterPage implements OnInit {
   confirmPasswordType: string = 'password';
   passwordShown: boolean = false;
   confirmPasswordShown: boolean = false;
+  iconIAgree: string = 'stop-outline';
 
   constructor(
     private fb: FormBuilder,
@@ -53,9 +54,9 @@ export class RegisterPage implements OnInit {
 
   async Register() {
     if (this.credentials.value.confirmPassword == this.credentials.value.password)
-      this.globalService.Register(this.credentials.value);
-    else
-      this.globalService.PresentToast("Password Not Match With Confirm Password");
+      if (this.iconIAgree == 'stop') this.globalService.Register(this.credentials.value);
+      else this.globalService.PresentToast("Silahkan menyetujui Term and Conditions");
+    else this.globalService.PresentToast("Password Not Match With Confirm Password");
   }
 
   public Login() {
@@ -104,5 +105,10 @@ export class RegisterPage implements OnInit {
       this.confirmPasswordType = '';
       this.confirmPasswordIconName = 'eye-off';
     }
+  }
+
+  public toggleIAgree() {
+    if (this.iconIAgree == 'stop-outline') this.iconIAgree = 'stop';
+    else this.iconIAgree = 'stop-outline';
   }
 }
