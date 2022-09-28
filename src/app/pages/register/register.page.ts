@@ -45,8 +45,9 @@ export class RegisterPage implements OnInit {
           name: ['', [Validators.required, Validators.pattern('[a-zA-Z ]*')]],
           email: [this.router.getCurrentNavigation().extras.state.emailLog, [Validators.required, Validators.email]],
           telp: ['', [Validators.required, Validators.pattern('[0-9]*')]],
-          password: ['', [Validators.required, Validators.minLength(6)]],
-          confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
+          password: ['', [Validators.required, Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~€£¥₩])(?=.*?[0-9]).{8,}$")]],
+          confirmPassword: ['', [Validators.required, Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~€£¥₩])(?=.*?[0-9]).{8,}$")]],
+          // confirmPassword: ['', [Validators.required, Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9  !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~€£¥₩])(?=.*?[A-Z 0-9]).{8,}$")]],
         });
       }
     });
@@ -54,7 +55,10 @@ export class RegisterPage implements OnInit {
 
   async Register() {
     if (this.credentials.value.confirmPassword == this.credentials.value.password)
-      if (this.iconIAgree == 'stop') this.globalService.Register(this.credentials.value);
+      if (this.iconIAgree == 'stop') {
+        this.credentials.value.email = this.credentials.value.email.toLowerCase();
+        this.globalService.Register(this.credentials.value);
+      }
       else this.globalService.PresentToast("Silahkan menyetujui Term and Conditions");
     else this.globalService.PresentToast("Password Not Match With Confirm Password");
   }

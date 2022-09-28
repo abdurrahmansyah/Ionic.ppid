@@ -36,7 +36,7 @@ export class LoginPage implements OnInit {
   ngOnInit() {
     this.credentials = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [Validators.required, Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~€£¥₩])(?=.*?[0-9]).{8,}$")]],
     });
 
     this.GetExtras();
@@ -74,8 +74,9 @@ export class LoginPage implements OnInit {
 
   async Login() {
     try {
+      this.credentials.value.email = this.credentials.value.email.toLowerCase();
+      
       this.globalService.Login(this.credentials.value);
-
     } catch (e) {
       console.log(e);
     }

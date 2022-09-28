@@ -58,7 +58,8 @@
       </ion-item>
       <div *ngIf="(password.dirty || password.touched) && password.errors" class="errors">
         <span *ngIf="password.errors?.required">Password Tidak Boleh Kosong</span>
-        <span *ngIf="password.errors?.minlength">Password Minimal 6 Karakter</span>
+        <span *ngIf="password.errors?.pattern">Password Minimal 8 Karakter, Mengandung Huruf Kapital, Angka dan Karakter Khusus</span>
+        <!-- <span *ngIf="password.errors?.minlength">Hasshhh</span> -->
       </div>
       <br>
 
@@ -69,7 +70,7 @@
       </ion-item>
       <div *ngIf="(confirmPassword.dirty || confirmPassword.touched) && confirmPassword.errors" class="errors">
         <span *ngIf="confirmPassword.errors?.required">Ulang Password Tidak Boleh Kosong</span>
-        <span *ngIf="confirmPassword.errors?.minlength">Ulang Password Minimal 6 Karakter</span>
+        <span *ngIf="confirmPassword.errors?.pattern">Password Minimal 8 Karakter, Mengandung Huruf Kapital, Angka dan Karakter Khusus</span>
       </div>
     </div>
 

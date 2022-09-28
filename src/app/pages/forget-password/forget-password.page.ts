@@ -48,6 +48,7 @@ export class ForgetPasswordPage implements OnInit {
       const loading = await this.loadingController.create();
       await loading.present();
 
+      this.credentials.value.email = this.credentials.value.email.toLowerCase();
       this.authFirebaseService.sendPasswordResetEmail(this.credentials.value.email).then(async (aaaa) => {
         console.log(aaaa);
         

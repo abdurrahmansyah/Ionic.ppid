@@ -28,7 +28,7 @@
       </ion-item>
       <div *ngIf="(password.dirty || password.touched) && password.errors" class="errors">
         <span *ngIf="password.errors?.required">Password Tidak Boleh Kosong</span>
-        <span *ngIf="password.errors?.minlength">Password Minimal 6 Karakter</span>
+        <span *ngIf="password.errors?.pattern">Password Minimal 8 Karakter, Mengandung Huruf Kapital, Angka dan Karakter Khusus</span>
       </div>
     </div>
 
