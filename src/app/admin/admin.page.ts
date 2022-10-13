@@ -140,7 +140,8 @@ export class AdminPage implements OnInit {
     };
 
     console.log("Log : Run Api getListUserApproval...");
-    var data: any = this.httpClient.get('http://kipdev.hutamakarya.com/api/getListUserApproval', requestOptions);
+    // var data: any = this.httpClient.get('http://kipdev.hutamakarya.com/api/getListUserApproval', requestOptions);
+    var data: any = this.httpClient.get('http://kip.hutamakarya.com/api/getListUserApproval', requestOptions);
     data.subscribe(async data => {
       if (data.isSuccess) {
         console.log("Log : Run Api getListUserApproval berhasil");
@@ -186,7 +187,8 @@ export class AdminPage implements OnInit {
       this.approvalTicketDataExtendList = [];
 
       console.log("Log : Run Api getListTicketApproval...");
-      var data: any = this.httpClient.get('http://kipdev.hutamakarya.com/api/getListTicketApproval', requestOptions);
+      // var data: any = this.httpClient.get('http://kipdev.hutamakarya.com/api/getListTicketApproval', requestOptions);
+      var data: any = this.httpClient.get('http://kip.hutamakarya.com/api/getListTicketApproval', requestOptions);
       data.subscribe(async data => {
         if (data.isSuccess) {
           console.log("Log : Run Api getListTicketApproval berhasil");
@@ -250,7 +252,8 @@ export class AdminPage implements OnInit {
         this.ticketDataList = [];
 
         console.log("Log : Run Api getListTicketData...");
-        var data: any = this.httpClient.get('http://kipdev.hutamakarya.com/api/getListTicketData', requestOptions);
+        // var data: any = this.httpClient.get('http://kipdev.hutamakarya.com/api/getListTicketData', requestOptions);
+        var data: any = this.httpClient.get('http://kip.hutamakarya.com/api/getListTicketData', requestOptions);
         data.subscribe(async (data: { isSuccess: any; data: any[]; message: any; }) => {
           if (data.isSuccess) {
             console.log("Log : Run Api getListTicketData berhasil");
