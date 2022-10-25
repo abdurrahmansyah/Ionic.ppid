@@ -196,7 +196,7 @@ export class GlobalService {
         console.log("Log : Run Api login gagal");
 
         await loading.dismiss();
-        this.PresentToast("BUG: Error Connection");
+        this.PresentToast("BUG: Error Connection for login");
         // this.PresentAlert(JSON.stringify(error));
       }
     );
