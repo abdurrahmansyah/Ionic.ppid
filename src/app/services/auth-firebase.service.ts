@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { applyActionCode, Auth, confirmPasswordReset, createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, user, UserCredential } from '@angular/fire/auth';
+import { applyActionCode, Auth, confirmPasswordReset, createUserWithEmailAndPassword, deleteUser, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, user, UserCredential } from '@angular/fire/auth';
+import { Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
+import { AuthenticationService } from './authentication.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +13,10 @@ export class AuthFirebaseService {
   confirmationResult: any;
 
   constructor(
-    private _fireAuth: Auth
+    private _fireAuth: Auth,
+    private toastController: ToastController,
+    private router: Router,
+    private authService: AuthenticationService
   ) { }
 
   async createUserWithEmailAndPassword(email, password) {
@@ -81,4 +87,26 @@ export class AuthFirebaseService {
     }
   }
 
+  async deleteUser(){
+    try {
+      const response = await deleteUser(this._fireAuth.currentUser).then(() => {
+        this.PresentToast("Hapus Akun Berhasil");
+        this.authService.logout();
+        this.router.navigateByUrl('/welcome', { replaceUrl: true });
+      });
+      return response;
+    } catch (e) {
+      throw (e);
+    }
+  }
+
+  async PresentToast(msg: string) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 2000,
+      color: "dark",
+      mode: "ios"
+    });
+    toast.present();
+  }
 }

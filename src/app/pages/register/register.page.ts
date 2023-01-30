@@ -67,6 +67,10 @@ export class RegisterPage implements OnInit {
     this.router.navigateByUrl('/login', { replaceUrl: true });
   }
 
+  public TermConditions() {
+    window.open("https://kip.hutamakarya.com/pemberitahuan-privasi");
+  }
+
   get name() {
     return this.credentials.get('name');
   }

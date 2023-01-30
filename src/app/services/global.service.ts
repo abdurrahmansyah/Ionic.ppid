@@ -78,11 +78,12 @@ export class GlobalService {
 
     let postdata = new FormData();
     postdata.append('md_user_email', credentials.email);
-    postdata.append('password', credentials.password);
+    // postdata.append('password', credentials.password);
 
     // var url = 'http://sihk.hutamakarya.com/apippid/loginppid.php';
     // var url = 'http://kipdev.hutamakarya.com/api/login';
-    var url = 'https://kip.hutamakarya.com/api/login';
+    // var url = 'https://kip.hutamakarya.com/api/login';
+    var url = 'https://kip.hutamakarya.com/api/loginWithoutPassword';
 
     console.log("Log : Run Api login...");
     this.http.post(url, postdata).subscribe(
@@ -384,13 +385,62 @@ export class GlobalService {
     });
   }
 
+  public async DeleteAccountByChangeData(credentials: { telp, ktp, ktp_data, npwp, pekerjaan, alamat, institusi }) {
+    const loading = await this.loadingController.create();
+    await loading.present();
+
+    let postdata = new FormData();
+    postdata.append('md_user_id', this.userData.md_user_id);
+    postdata.append('md_user_token', this.userData.md_user_token);
+    postdata.append('md_user_name', '[Deleted] ' + this.userData.md_user_name);
+    postdata.append('md_user_email', '[Deleted] ' + this.userData.md_user_email + ' - ' + new Date().toString());
+    postdata.append('md_user_telp', '---');
+    postdata.append('md_user_ktp', '');
+    postdata.append('md_user_ktp_data', '');
+    postdata.append('md_user_npwp', '');
+    postdata.append('md_user_pekerjaan_id', '');
+    postdata.append('md_user_address', '');
+    postdata.append('md_user_instution', '');
+    postdata.append('md_user_admin', 'FALSE');
+    postdata.append('md_user_status', this.statusUserData.NOTACTIVE);
+
+    const requestOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + this.userData.md_user_token,
+      }),
+    };
+
+    var url = 'https://kip.hutamakarya.com/api/updateAccount';
+
+    this.http.post(url, postdata, requestOptions).subscribe(
+      async (data: any) => {
+        if (data.isSuccess) {
+          await loading.dismiss();
+          await this.authFirebaseService.deleteUser();
+          // this.isUpdateAccountSuccess = true;
+        }
+        else {
+          await loading.dismiss();
+          // this.isUpdateAccountSuccess = false;
+          this.PresentToast("Gagal melakukan hapus akun!");
+        }
+      }, async (err) => {
+        await loading.dismiss();
+        // this.isUpdateAccountSuccess = false;
+        this.PresentToast("BUG: " + err?.message);
+      }
+    )
+  }
+
   public async UpdateAccount(credentials: { telp, ktp, ktp_data, npwp, pekerjaan, alamat, institusi }) {
     const loading = await this.loadingController.create();
     await loading.present();
 
     let postdata = new FormData();
-    postdata.append('md_user_token', this.userData.md_user_token);
     postdata.append('md_user_id', this.userData.md_user_id);
+    postdata.append('md_user_token', this.userData.md_user_token);
+    postdata.append('md_user_name', this.userData.md_user_name);
+    postdata.append('md_user_email', this.userData.md_user_email);
     postdata.append('md_user_telp', credentials.telp);
     postdata.append('md_user_ktp', credentials.ktp);
     postdata.append('md_user_ktp_data', credentials.ktp_data);
@@ -1200,7 +1250,7 @@ export class AcuanTicketData {
 
 export class StatusUserData {
   // public readonly ACTIVE: string = "ACTIVE";
-  // public readonly NOTACTIVE: string = "NOT ACTIVE";
+  public readonly NOTACTIVE: string = "NOT ACTIVE";
   public readonly KYCREQUIRED: string = "KYC REQUIRED";
   public readonly KYCWAITINGAPPROVAL: string = "KYC WAITING APPROVAL";
   public readonly KYCVERIFIED: string = "KYC VERIFIED";

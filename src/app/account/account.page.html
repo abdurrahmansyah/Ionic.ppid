@@ -22,6 +22,9 @@
   <ion-button *ngIf="isModeEdit" fill="clear" shape="round" color="danger" class="posisiBatal"
     style="padding-left: 10px;" (click)="CancelEdit()">Batal</ion-button> <br>
 
+  <ion-button *ngIf="!isModeEdit" fill="clear" shape="round" color="danger" class="posisiBatal"
+    style="padding-left: 10px;" (click)="DeleteUser()">Hapus Akun</ion-button> <br>
+
   <div *ngIf="isUserDataRequired" class="posisiStatus">
     <ion-row>
       <ion-col size="1" style="padding: 0;" class="ion-align-self-center">
@@ -201,7 +204,7 @@
         <span>&nbsp;</span>
         <span class="text">I Agree to The </span>
         <span>&nbsp;</span>
-        <span class="text" style="font-weight: 700;">Term and Conditions</span>
+        <span class="text" style="font-weight: 700;" (click)="TermConditions()">Term and Conditions</span>
       </div>
 
       <br>

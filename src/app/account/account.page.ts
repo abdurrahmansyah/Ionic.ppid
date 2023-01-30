@@ -131,6 +131,10 @@ export class AccountPage implements OnInit {
     this.PresentAlertRejected(txtStatusMessage);
   }
 
+  public TermConditions() {
+    window.open("https://kip.hutamakarya.com/pemberitahuan-privasi");
+  }
+
   PresentAlertRejected(msg: string) {
     this.alertController.create({
       mode: 'ios',
@@ -223,6 +227,24 @@ export class AccountPage implements OnInit {
     this.credentials.controls['pekerjaan'].setValue(this.globalService.userData.md_user_pekerjaan_id);
     this.credentials.controls['alamat'].setValue(this.globalService.userData.md_user_address);
     this.credentials.controls['institusi'].setValue(this.globalService.userData.md_user_instution);
+  }
+
+  public DeleteUser(){
+    this.alertController.create({
+      mode: 'ios',
+      message: '<h3>Warning!</h3><p>Apakah anda yakin ingin menghapus akun</p>',
+      buttons: [{
+        text: 'Batal',
+        role: 'Cancel'
+      }, {
+        text: 'Lanjut',
+        handler: async () => {
+          this.globalService.DeleteAccountByChangeData(this.credentials.value);
+        }
+      }]
+    }).then(alert => {
+      return alert.present();
+    });
   }
 
   public async TakeAPhoto() {
