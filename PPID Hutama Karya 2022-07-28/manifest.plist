@@ -11,19 +11,19 @@
 					<key>kind</key>
 					<string>software-package</string>
 					<key>url</key>
-					<string>https://kip.hutamakarya.com</string>
+					<string>https://ppid.hutamakarya.com</string>
 				</dict>
 				<dict>
 					<key>kind</key>
 					<string>display-image</string>
 					<key>url</key>
-					<string>https://kip.hutamakarya.com</string>
+					<string>https://ppid.hutamakarya.com</string>
 				</dict>
 				<dict>
 					<key>kind</key>
 					<string>full-size-image</string>
 					<key>url</key>
-					<string>https://kip.hutamakarya.com</string>
+					<string>https://ppid.hutamakarya.com</string>
 				</dict>
 			</array>
 			<key>metadata</key>
@@ -47,7 +47,7 @@
 					<key>kind</key>
 					<string>software-package</string>
 					<key>url</key>
-					<string>https://kip.hutamakarya.com../-87498BEE-8C5A-48BA-80FC-83283D8B636C</string>
+					<string>https://ppid.hutamakarya.com../-87498BEE-8C5A-48BA-80FC-83283D8B636C</string>
 					<key>variantDescriptors</key>
 					<array>
 						<dict>
@@ -173,7 +173,7 @@
 					<key>kind</key>
 					<string>software-package</string>
 					<key>url</key>
-					<string>https://kip.hutamakarya.com../-6B75F612-DF2F-474F-9FAD-141EA86CBD12</string>
+					<string>https://ppid.hutamakarya.com../-6B75F612-DF2F-474F-9FAD-141EA86CBD12</string>
 					<key>variantDescriptors</key>
 					<array>
 						<dict>
@@ -347,7 +347,7 @@
 					<key>kind</key>
 					<string>software-package</string>
 					<key>url</key>
-					<string>https://kip.hutamakarya.com../-72913783-279A-4F27-9663-B1BE96708BEF</string>
+					<string>https://ppid.hutamakarya.com../-72913783-279A-4F27-9663-B1BE96708BEF</string>
 					<key>variantDescriptors</key>
 					<array>
 						<dict>
@@ -366,7 +366,7 @@
 					<key>kind</key>
 					<string>software-package</string>
 					<key>url</key>
-					<string>https://kip.hutamakarya.com../-7E20F5EA-CED1-471B-8860-A8BD4DF265B3</string>
+					<string>https://ppid.hutamakarya.com../-7E20F5EA-CED1-471B-8860-A8BD4DF265B3</string>
 					<key>variantDescriptors</key>
 					<array>
 						<dict>
@@ -478,7 +478,7 @@
 					<key>kind</key>
 					<string>software-package</string>
 					<key>url</key>
-					<string>https://kip.hutamakarya.com../-2D109B69-CC3E-4111-AD43-9575D6E73FB8</string>
+					<string>https://ppid.hutamakarya.com../-2D109B69-CC3E-4111-AD43-9575D6E73FB8</string>
 					<key>variantDescriptors</key>
 					<array>
 						<dict>
@@ -503,7 +503,7 @@
 					<key>kind</key>
 					<string>software-package</string>
 					<key>url</key>
-					<string>https://kip.hutamakarya.com../-55506575-2387-45AA-901B-7D3BFDE84FEB</string>
+					<string>https://ppid.hutamakarya.com../-55506575-2387-45AA-901B-7D3BFDE84FEB</string>
 					<key>variantDescriptors</key>
 					<array>
 						<dict>
@@ -560,7 +560,7 @@
 					<key>kind</key>
 					<string>software-package</string>
 					<key>url</key>
-					<string>https://kip.hutamakarya.com../-1ECCC5C4-EC2D-422D-8E99-A1490EE487A4</string>
+					<string>https://ppid.hutamakarya.com../-1ECCC5C4-EC2D-422D-8E99-A1490EE487A4</string>
 					<key>variantDescriptors</key>
 					<array>
 						<dict>
@@ -579,7 +579,7 @@
 					<key>kind</key>
 					<string>software-package</string>
 					<key>url</key>
-					<string>https://kip.hutamakarya.com../-C50E10F4-4828-4C55-9392-7999AF5744C6</string>
+					<string>https://ppid.hutamakarya.com../-C50E10F4-4828-4C55-9392-7999AF5744C6</string>
 					<key>variantDescriptors</key>
 					<array>
 						<dict>
@@ -726,7 +726,7 @@
 					<key>kind</key>
 					<string>software-package</string>
 					<key>url</key>
-					<string>https://kip.hutamakarya.com../-249CC153-A83B-4A7F-903E-2650AFE98BF0</string>
+					<string>https://ppid.hutamakarya.com../-249CC153-A83B-4A7F-903E-2650AFE98BF0</string>
 					<key>variantDescriptors</key>
 					<array>
 						<dict>
@@ -838,7 +838,7 @@
 					<key>kind</key>
 					<string>software-package</string>
 					<key>url</key>
-					<string>https://kip.hutamakarya.com../-8F04B8AD-2178-4B1E-B664-C8F435EB3BB6</string>
+					<string>https://ppid.hutamakarya.com../-8F04B8AD-2178-4B1E-B664-C8F435EB3BB6</string>
 					<key>variantDescriptors</key>
 					<array>
 						<dict>
@@ -915,7 +915,7 @@
 					<key>kind</key>
 					<string>software-package</string>
 					<key>url</key>
-					<string>https://kip.hutamakarya.com../-9ECA5F12-8086-48E4-BA2A-A1882AB6F4B3</string>
+					<string>https://ppid.hutamakarya.com../-9ECA5F12-8086-48E4-BA2A-A1882AB6F4B3</string>
 					<key>variantDescriptors</key>
 					<array>
 						<dict>
@@ -936,7 +936,7 @@
 					<key>kind</key>
 					<string>software-package</string>
 					<key>url</key>
-					<string>https://kip.hutamakarya.com../-0E1D5505-DC7E-4368-858A-367616862991</string>
+					<string>https://ppid.hutamakarya.com../-0E1D5505-DC7E-4368-858A-367616862991</string>
 					<key>variantDescriptors</key>
 					<array>
 						<dict>
@@ -1295,7 +1295,7 @@
 					<key>kind</key>
 					<string>software-package</string>
 					<key>url</key>
-					<string>https://kip.hutamakarya.com../-31E11AAE-3CDD-4C50-A04E-C2540F3F9E0B</string>
+					<string>https://ppid.hutamakarya.com../-31E11AAE-3CDD-4C50-A04E-C2540F3F9E0B</string>
 					<key>variantDescriptors</key>
 					<array>
 						<dict>
@@ -1535,7 +1535,7 @@
 					<key>kind</key>
 					<string>software-package</string>
 					<key>url</key>
-					<string>https://kip.hutamakarya.com../-56C7003F-C4A5-4971-B717-630384FEF854</string>
+					<string>https://ppid.hutamakarya.com../-56C7003F-C4A5-4971-B717-630384FEF854</string>
 					<key>variantDescriptors</key>
 					<array>
 						<dict>
@@ -1572,7 +1572,7 @@
 					<key>kind</key>
 					<string>software-package</string>
 					<key>url</key>
-					<string>https://kip.hutamakarya.com../-D01EFA9D-0E08-4450-92AB-268BA7A6650D</string>
+					<string>https://ppid.hutamakarya.com../-D01EFA9D-0E08-4450-92AB-268BA7A6650D</string>
 					<key>variantDescriptors</key>
 					<array>
 						<dict>
@@ -1621,7 +1621,7 @@
 					<key>kind</key>
 					<string>software-package</string>
 					<key>url</key>
-					<string>https://kip.hutamakarya.com../-BBC96BC0-E2E6-430C-873E-04495BD459A3</string>
+					<string>https://ppid.hutamakarya.com../-BBC96BC0-E2E6-430C-873E-04495BD459A3</string>
 					<key>variantDescriptors</key>
 					<array>
 						<dict>
@@ -1660,7 +1660,7 @@
 					<key>kind</key>
 					<string>software-package</string>
 					<key>url</key>
-					<string>https://kip.hutamakarya.com../-1EE60023-3D73-4E29-9BE5-ED8B872C2DDA</string>
+					<string>https://ppid.hutamakarya.com../-1EE60023-3D73-4E29-9BE5-ED8B872C2DDA</string>
 					<key>variantDescriptors</key>
 					<array>
 						<dict>
@@ -1792,7 +1792,7 @@
 					<key>kind</key>
 					<string>software-package</string>
 					<key>url</key>
-					<string>https://kip.hutamakarya.com../-E5ADA3EA-7D2D-44BE-8BD1-B64D7B72C303</string>
+					<string>https://ppid.hutamakarya.com../-E5ADA3EA-7D2D-44BE-8BD1-B64D7B72C303</string>
 					<key>variantDescriptors</key>
 					<array>
 						<dict>
@@ -1968,7 +1968,7 @@
 					<key>kind</key>
 					<string>software-package</string>
 					<key>url</key>
-					<string>https://kip.hutamakarya.com../-44CE3144-1E13-40B0-9934-2C3BFE04E9BF</string>
+					<string>https://ppid.hutamakarya.com../-44CE3144-1E13-40B0-9934-2C3BFE04E9BF</string>
 					<key>variantDescriptors</key>
 					<array>
 						<dict>
@@ -1993,7 +1993,7 @@
 					<key>kind</key>
 					<string>software-package</string>
 					<key>url</key>
-					<string>https://kip.hutamakarya.com../-E0D12199-58B8-4B92-97D6-0D05F75638AD</string>
+					<string>https://ppid.hutamakarya.com../-E0D12199-58B8-4B92-97D6-0D05F75638AD</string>
 					<key>variantDescriptors</key>
 					<array>
 						<dict>
@@ -2024,7 +2024,7 @@
 					<key>kind</key>
 					<string>software-package</string>
 					<key>url</key>
-					<string>https://kip.hutamakarya.com../-99E2F390-137E-4E43-B9D4-B5403CEC2AF4</string>
+					<string>https://ppid.hutamakarya.com../-99E2F390-137E-4E43-B9D4-B5403CEC2AF4</string>
 					<key>variantDescriptors</key>
 					<array>
 						<dict>
@@ -2049,7 +2049,7 @@
 					<key>kind</key>
 					<string>software-package</string>
 					<key>url</key>
-					<string>https://kip.hutamakarya.com../-4186DC06-5F62-41FA-9D21-EA41405C71E6</string>
+					<string>https://ppid.hutamakarya.com../-4186DC06-5F62-41FA-9D21-EA41405C71E6</string>
 					<key>variantDescriptors</key>
 					<array>
 						<dict>
@@ -2077,7 +2077,7 @@
 					<key>kind</key>
 					<string>software-package</string>
 					<key>url</key>
-					<string>https://kip.hutamakarya.com../-6277A73D-D2B7-45F1-8A4D-DEF9760026B9</string>
+					<string>https://ppid.hutamakarya.com../-6277A73D-D2B7-45F1-8A4D-DEF9760026B9</string>
 					<key>variantDescriptors</key>
 					<array>
 						<dict>
@@ -2152,7 +2152,7 @@
 					<key>kind</key>
 					<string>software-package</string>
 					<key>url</key>
-					<string>https://kip.hutamakarya.com../-58DED654-C673-47FD-A963-1C1E7468B828</string>
+					<string>https://ppid.hutamakarya.com../-58DED654-C673-47FD-A963-1C1E7468B828</string>
 					<key>variantDescriptors</key>
 					<array>
 						<dict>
@@ -2279,7 +2279,7 @@
 					<key>kind</key>
 					<string>software-package</string>
 					<key>url</key>
-					<string>https://kip.hutamakarya.com../-C17E0E9F-F251-4422-A5D9-5FD64176B2F9</string>
+					<string>https://ppid.hutamakarya.com../-C17E0E9F-F251-4422-A5D9-5FD64176B2F9</string>
 					<key>variantDescriptors</key>
 					<array>
 						<dict>
@@ -2330,7 +2330,7 @@
 					<key>kind</key>
 					<string>software-package</string>
 					<key>url</key>
-					<string>https://kip.hutamakarya.com../-15818C11-BE73-4C42-859A-112D86A1A337</string>
+					<string>https://ppid.hutamakarya.com../-15818C11-BE73-4C42-859A-112D86A1A337</string>
 					<key>variantDescriptors</key>
 					<array>
 						<dict>
@@ -2386,7 +2386,7 @@
 					<key>kind</key>
 					<string>software-package</string>
 					<key>url</key>
-					<string>https://kip.hutamakarya.com../-68A1E268-C439-4CF9-9C24-2CCAE8062F63</string>
+					<string>https://ppid.hutamakarya.com../-68A1E268-C439-4CF9-9C24-2CCAE8062F63</string>
 					<key>variantDescriptors</key>
 					<array>
 						<dict>
@@ -2428,7 +2428,7 @@
 					<key>kind</key>
 					<string>software-package</string>
 					<key>url</key>
-					<string>https://kip.hutamakarya.com../-1CA67C78-4889-4E52-A579-3E68C1F3C893</string>
+					<string>https://ppid.hutamakarya.com../-1CA67C78-4889-4E52-A579-3E68C1F3C893</string>
 					<key>variantDescriptors</key>
 					<array>
 						<dict>

@@ -9,6 +9,7 @@ import { UserApprovalComponent } from '../components/user-approval/user-approval
 import { UpdateUserDataPage } from '../pages/update-user-data/update-user-data.page';
 import { GlobalService, TicketData, TicketDataExtend, UserData } from '../services/global.service';
 import { TabsPage } from '../tabs/tabs.page';
+import { dataTemp } from '../dataTemp';
 
 @Component({
   selector: 'app-admin',
@@ -140,8 +141,7 @@ export class AdminPage implements OnInit {
     };
 
     console.log("Log : Run Api getListUserApproval...");
-    // var data: any = this.httpClient.get('http://kipdev.hutamakarya.com/api/getListUserApproval', requestOptions);
-    var data: any = this.httpClient.get('https://kip.hutamakarya.com/api/getListUserApproval', requestOptions);
+    var data: any = this.httpClient.get(dataTemp.urlHit + 'getListUserApproval', requestOptions);
     data.subscribe(async data => {
       if (data.isSuccess) {
         console.log("Log : Run Api getListUserApproval berhasil");
@@ -187,8 +187,7 @@ export class AdminPage implements OnInit {
       this.approvalTicketDataExtendList = [];
 
       console.log("Log : Run Api getListTicketApproval...");
-      // var data: any = this.httpClient.get('http://kipdev.hutamakarya.com/api/getListTicketApproval', requestOptions);
-      var data: any = this.httpClient.get('https://kip.hutamakarya.com/api/getListTicketApproval', requestOptions);
+      var data: any = this.httpClient.get(dataTemp.urlHit + 'getListTicketApproval', requestOptions);
       data.subscribe(async data => {
         if (data.isSuccess) {
           console.log("Log : Run Api getListTicketApproval berhasil");
@@ -252,8 +251,7 @@ export class AdminPage implements OnInit {
         this.ticketDataList = [];
 
         console.log("Log : Run Api getListTicketData...");
-        // var data: any = this.httpClient.get('http://kipdev.hutamakarya.com/api/getListTicketData', requestOptions);
-        var data: any = this.httpClient.get('https://kip.hutamakarya.com/api/getListTicketData', requestOptions);
+        var data: any = this.httpClient.get(dataTemp.urlHit + 'getListTicketData', requestOptions);
         data.subscribe(async (data: { isSuccess: any; data: any[]; message: any; }) => {
           if (data.isSuccess) {
             console.log("Log : Run Api getListTicketData berhasil");

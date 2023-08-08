@@ -132,7 +132,7 @@ export class AccountPage implements OnInit {
   }
 
   public TermConditions() {
-    window.open("https://kip.hutamakarya.com/pemberitahuan-privasi");
+    window.open("https://ppid.hutamakarya.com/pemberitahuan-privasi");
   }
 
   PresentAlertRejected(msg: string) {

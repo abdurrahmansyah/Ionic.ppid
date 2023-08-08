@@ -9,11 +9,11 @@
 	<key>manifest</key>
 	<dict>
 		<key>appURL</key>
-		<string>https://kip.hutamakarya.com</string>
+		<string>https://ppid.hutamakarya.com</string>
 		<key>displayImageURL</key>
-		<string>https://kip.hutamakarya.com</string>
+		<string>https://ppid.hutamakarya.com</string>
 		<key>fullSizeImageURL</key>
-		<string>https://kip.hutamakarya.com</string>
+		<string>https://ppid.hutamakarya.com</string>
 	</dict>
 	<key>method</key>
 	<string>development</string>

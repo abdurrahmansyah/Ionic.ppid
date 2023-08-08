@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { InjectorInstance } from '../app.module';
 import { AuthFirebaseService } from './auth-firebase.service';
 import { EmailVerificationComponent } from '../components/email-verification/email-verification.component';
+import { dataTemp } from '../dataTemp';
 
 const TOKEN_KEY = 'my-token';
 
@@ -80,10 +81,7 @@ export class GlobalService {
     postdata.append('md_user_email', credentials.email);
     // postdata.append('password', credentials.password);
 
-    // var url = 'http://sihk.hutamakarya.com/apippid/loginppid.php';
-    // var url = 'http://kipdev.hutamakarya.com/api/login';
-    // var url = 'https://kip.hutamakarya.com/api/login';
-    var url = 'https://kip.hutamakarya.com/api/loginWithoutPassword';
+    var url = dataTemp.urlHit + 'loginWithoutPassword';
 
     console.log("Log : Run Api login...");
     this.http.post(url, postdata).subscribe(
@@ -156,8 +154,7 @@ export class GlobalService {
                       postdata.append('md_user_email', credentials.email);
                       postdata.append('password', newPassword);
 
-                      // var url = 'http://kipdev.hutamakarya.com/api/updatePasswordByEmail';
-                      var url = 'https://kip.hutamakarya.com/api/updatePasswordByEmail';
+                      var url = dataTemp.urlHit + 'updatePasswordByEmail';
 
                       this.http.post(url, postdata).subscribe(
                         async (data: any) => {
@@ -211,9 +208,7 @@ export class GlobalService {
   //   postdata.append('md_user_email', credentials.email);
   //   postdata.append('password', credentials.password);
 
-  //   // var url = 'http://sihk.hutamakarya.com/apippid/loginppid.php';
-  //   var url = 'http://kipdev.hutamakarya.com/api/login';
-  //   var url = 'https://kip.hutamakarya.com/api/login';
+  // var url = dataTemp.urlHit + 'login';
 
   //   this.http.post(url, postdata).subscribe(
   //     async (data: any) => {
@@ -304,9 +299,7 @@ export class GlobalService {
     postdata.append('md_user_admin', 'FALSE');
     postdata.append('md_user_status', this.statusUserData.KYCREQUIRED);
 
-    // var url = 'http://sihk.hutamakarya.com/apippid/registerppid.php';
-    // var url = 'http://kipdev.hutamakarya.com/api/register';
-    var url = 'https://kip.hutamakarya.com/api/register';
+    var url = dataTemp.urlHit + 'register';
 
     this.http.post(url, postdata).subscribe(
       async (data: any) => {
@@ -370,8 +363,7 @@ export class GlobalService {
     let postdata = new FormData();
     postdata.append('md_user_id', dataUser.id);
 
-    // var url = 'http://kipdev.hutamakarya.com/api/deleteAccountById';
-    var url = 'https://kip.hutamakarya.com/api/deleteAccountById';
+    var url = dataTemp.urlHit + 'deleteAccountById';
 
     var data: any = this.httpClient.post(url, postdata);
     data.subscribe(async data => {
@@ -410,7 +402,7 @@ export class GlobalService {
       }),
     };
 
-    var url = 'https://kip.hutamakarya.com/api/updateAccount';
+    var url = dataTemp.urlHit + 'updateAccount';
 
     this.http.post(url, postdata, requestOptions).subscribe(
       async (data: any) => {
@@ -457,8 +449,7 @@ export class GlobalService {
       }),
     };
 
-    // var url = 'http://kipdev.hutamakarya.com/api/checkIsNikExist';
-    var url = 'https://kip.hutamakarya.com/api/checkIsNikExist';
+    var url = dataTemp.urlHit + 'checkIsNikExist';
 
     this.http.post(url, postdata, requestOptions).subscribe(
       async (data: any) => {
@@ -467,9 +458,7 @@ export class GlobalService {
           this.isUpdateAccountSuccess = false;
           this.PresentToast("Update akun gagal! " + data.message);
         } else {
-          // var url = 'http://sihk.hutamakarya.com/apippid/updateAccount.php';
-          // var url = 'http://kipdev.hutamakarya.com/api/updateAccount';
-          var url = 'https://kip.hutamakarya.com/api/updateAccount';
+          var url = dataTemp.urlHit + 'updateAccount';
 
           this.http.post(url, postdata, requestOptions).subscribe(
             async (data: any) => {
@@ -523,8 +512,7 @@ export class GlobalService {
       }),
     };
 
-    // var url = 'http://kipdev.hutamakarya.com/api/approveOrRejectUser';
-    var url = 'https://kip.hutamakarya.com/api/approveOrRejectUser';
+    var url = dataTemp.urlHit + 'approveOrRejectUser';
 
     this.http.post(url, postdata, requestOptions).subscribe(
       async (data: any) => {
@@ -569,8 +557,7 @@ export class GlobalService {
       }),
     };
 
-    // var url = 'http://kipdev.hutamakarya.com/api/getUserById';
-    var url = 'https://kip.hutamakarya.com/api/getUserById';
+    var url = dataTemp.urlHit + 'getUserById';
 
     this.http.post(url, postdata, requestOptions).subscribe(
       async (data: any) => {
@@ -613,9 +600,7 @@ export class GlobalService {
       }),
     };
 
-    // var url = 'http://sihk.hutamakarya.com/apippid/createPermohonan.php';
-    // var url = 'http://kipdev.hutamakarya.com/api/createPermohonan';
-    var url = 'https://kip.hutamakarya.com/api/createPermohonan';
+    var url = dataTemp.urlHit + 'createPermohonan';
 
     this.http.post(url, postdata, requestOptions).subscribe(
       async (data: any) => {
@@ -652,8 +637,7 @@ export class GlobalService {
       }),
     };
 
-    // var url = 'http://kipdev.hutamakarya.com/api/createAjuanKeberatan';
-    var url = 'https://kip.hutamakarya.com/api/createAjuanKeberatan';
+    var url = dataTemp.urlHit + 'createAjuanKeberatan';
 
     this.http.post(url, postdata, requestOptions).subscribe(
       async (data: any) => {
@@ -678,9 +662,7 @@ export class GlobalService {
       }),
     };
 
-    // var url = 'http://sihk.hutamakarya.com/apippid/getListPekerjaan.php';
-    // var url = 'http://kipdev.hutamakarya.com/api/getListPekerjaan';
-    var url = 'https://kip.hutamakarya.com/api/getListPekerjaan';
+    var url = dataTemp.urlHit + 'getListPekerjaan';
 
     var data: any = this.httpClient.get(url, requestOptions);
     data.subscribe(data => {
@@ -706,9 +688,7 @@ export class GlobalService {
       }),
     };
 
-    // var url = 'http://sihk.hutamakarya.com/apippid/getListUserApproval.php';
-    // var url = 'http://kipdev.hutamakarya.com/api/getListUserApproval';
-    var url = 'https://kip.hutamakarya.com/api/getListUserApproval';
+    var url = dataTemp.urlHit + 'getListUserApproval';
 
     var data: any = this.httpClient.get(url, requestOptions);
     data.subscribe(data => {
@@ -763,8 +743,7 @@ export class GlobalService {
       }),
     };
 
-    // var url = 'http://kipdev.hutamakarya.com/api/getListTicketApproval';
-    var url = 'https://kip.hutamakarya.com/api/getListTicketApproval';
+    var url = dataTemp.urlHit + 'getListTicketApproval';
 
     var data: any = this.httpClient.get(url, requestOptions);
     data.subscribe(data => {
@@ -837,8 +816,7 @@ export class GlobalService {
       }),
     };
 
-    // var url = 'http://kipdev.hutamakarya.com/api/getListTicketData';
-    var url = 'https://kip.hutamakarya.com/api/getListTicketData';
+    var url = dataTemp.urlHit + 'getListTicketData';
 
     var data: any = this.httpClient.get(url, requestOptions);
     data.subscribe(data => {
@@ -904,9 +882,7 @@ export class GlobalService {
       }),
     };
 
-    // var url = 'http://sihk.hutamakarya.com/apippid/getTicketDataListByUser.php';
-    // var url = 'http://kipdev.hutamakarya.com/api/getTicketDataListByUser';
-    var url = 'https://kip.hutamakarya.com/api/getTicketDataListByUser';
+    var url = dataTemp.urlHit + 'getTicketDataListByUser';
 
     return this.httpClient.post(url, postdata, requestOptions);
   }
@@ -923,8 +899,7 @@ export class GlobalService {
       }),
     };
 
-    // var url = 'http://kipdev.hutamakarya.com/api/getTicketDataById';
-    var url = 'https://kip.hutamakarya.com/api/getTicketDataById';
+    var url = dataTemp.urlHit + 'getTicketDataById';
 
     var data = this.httpClient.post(url, postdata, requestOptions);
     data.subscribe((data: any) => {
@@ -980,9 +955,7 @@ export class GlobalService {
       }),
     };
 
-    // var url = 'http://sihk.hutamakarya.com/apippid/cancelPermohonan.php';
-    // var url = 'http://kipdev.hutamakarya.com/api/cancelPermohonan';
-    var url = 'https://kip.hutamakarya.com/api/cancelPermohonan';
+    var url = dataTemp.urlHit + 'cancelPermohonan';
 
     return this.httpClient.post(url, postdata, requestOptions);
   }
@@ -999,8 +972,7 @@ export class GlobalService {
       }),
     };
 
-    // var url = 'http://kipdev.hutamakarya.com/api/startProcessTicket';
-    var url = 'https://kip.hutamakarya.com/api/startProcessTicket';
+    var url = dataTemp.urlHit + 'startProcessTicket';
 
     return this.httpClient.post(url, postdata, requestOptions);
   }
@@ -1021,8 +993,7 @@ export class GlobalService {
       }),
     };
 
-    // var url = 'http://kipdev.hutamakarya.com/api/finishOrRejectTicket';
-    var url = 'https://kip.hutamakarya.com/api/finishOrRejectTicket';
+    var url = dataTemp.urlHit + 'finishOrRejectTicket';
 
     this.http.post(url, postdata, requestOptions).subscribe(
       async (data: any) => {
