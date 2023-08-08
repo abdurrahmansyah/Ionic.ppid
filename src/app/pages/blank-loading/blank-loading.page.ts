@@ -11,6 +11,7 @@ import { Storage } from '@capacitor/storage';
   styleUrls: ['./blank-loading.page.scss'],
 })
 export class BlankLoadingPage implements OnInit {
+  isAdmin: boolean = false;
 
   constructor(private loadingController: LoadingController,
     private globalService: GlobalService,
@@ -23,17 +24,25 @@ export class BlankLoadingPage implements OnInit {
 
     if (await this.globalService.GetUserDataFromStorage()) {
       if (this.globalService.GetListPekerjaan()) {
-        if (this.globalService.GetListUserApproval()) {
-          if (this.globalService.GetListTicketApproval()) {
-            if (this.globalService.GetListTicketData()){
-              await Storage.set({key: BLANKPAGE_KEY, value: 'true'});
+        if (this.globalService.userData.md_user_admin == "TRUE") {
+          if (this.globalService.GetListUserApproval()) {
+            if (this.globalService.GetListTicketApproval()) {
+              // if (this.globalService.GetListTicketData()){
+              await Storage.set({ key: BLANKPAGE_KEY, value: 'true' });
               await loading.dismiss();
-              this.router.navigateByUrl('/tabs', { replaceUrl:true });
+              this.router.navigateByUrl('/tabs', { replaceUrl: true });
+              // }
             }
           }
+        } else {
+          await Storage.set({ key: BLANKPAGE_KEY, value: 'true' });
+          await loading.dismiss();
+          this.router.navigateByUrl('/tabs', { replaceUrl: true });
         }
       }
     }
+
+    
   }
 
   private async PresentLoading() {

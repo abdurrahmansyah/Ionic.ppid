@@ -4,6 +4,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { AutoLoginGuard } from './guards/auto-login.guard';
 import { StandardGuard } from './guards/standard.guard';
 import { WelcomeGuard } from './guards/welcome.guard';
+import { StartDataResolveService } from './resolver/start-data-resolve.service';
 
 const routes: Routes = [
   {
@@ -24,7 +25,10 @@ const routes: Routes = [
     path: 'tabs',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule),
     // canLoad: [AuthGuard]
-    canLoad: [StandardGuard]
+    canLoad: [StandardGuard],
+    resolve: {
+      startData : StartDataResolveService
+    }
   },
   {
     path: 'permohonan-informasi',

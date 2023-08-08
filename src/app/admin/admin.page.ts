@@ -18,6 +18,7 @@ import { dataTemp } from '../dataTemp';
 })
 export class AdminPage implements OnInit {
   public txtDayNow: string;
+  public isLoaded: boolean = false;
   public txtJumlahTiketSelesai: string = "0";
   public txtJumlahTiketProses: string = "0";
   public txtTotalTiket: string = "0";
@@ -91,6 +92,8 @@ export class AdminPage implements OnInit {
       if (this.globalService.GetDiffDays(ticketSelesaiData) >= 0)
         this.txtTiketOntime = (+this.txtTiketOntime + 1).toString();
     });
+
+    this.isLoaded = true;
   }
 
 
@@ -128,8 +131,11 @@ export class AdminPage implements OnInit {
 
   async DoRefresh(event?: any) {
     console.log("Log : Do Refresh Page Admin");
+    this.isLoaded = false;
     const loading = await this.loadingController.create();
     await loading.present();
+
+    ///////////////////////////////// GetListUserApproval /////////////////////////////////
 
     this.approvalUserDataList = [];
     this.globalService.totalApproval = '0';
@@ -176,6 +182,7 @@ export class AdminPage implements OnInit {
         this.isNoUser = false;
       }
       else {
+        this.isLoaded = true;
         await loading.dismiss();
         console.log(data.message);
         this.isNoUser = true;
@@ -241,6 +248,7 @@ export class AdminPage implements OnInit {
           this.isNoTicket = false;
         }
         else {
+          this.isLoaded = true;
           await loading.dismiss();
           console.log(data.message);
           this.isNoTicket = true;
@@ -297,10 +305,11 @@ export class AdminPage implements OnInit {
               this.ticketDataList.push(ticketData);
             });
 
-            this.InitializeAnalyticsData(this.ticketDataList);
+            this.InitializeAnalyticsData(this.ticketDataList); // this.isLoaded = true;
             await loading.dismiss();
           }
           else {
+            this.isLoaded = true;
             await loading.dismiss();
             console.log(data.message);
           }

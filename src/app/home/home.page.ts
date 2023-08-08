@@ -24,6 +24,9 @@ export class HomePage {
   }
 
   async ngOnInit() {
+    var data = this.activatedRoute.snapshot.data['startData'];
+    console.log("data dari fetch resolver: ", data);
+    
     await this.ShowWelcomeAlertPPID();
 
     // get extras ini tidak dipakai lagi

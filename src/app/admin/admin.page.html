@@ -29,62 +29,96 @@
           <div class="container2" style="background-color: #09024f; color: #ffffff;">
             <div style="width: 100%; padding: 0px 16px;">
               <br>
-              <ion-card class="invisible-card ion-no-padding ion-no-margin" style="color: #ffffff;">
-                <ion-row class="ion-no-padding">
-                  <ion-col size="4" class="statusB" style="font-size: x-large; background-color: #110594;">
-                    <ion-icon name="bar-chart-outline"></ion-icon>
-                  </ion-col>
-                  <ion-col size="8" class="ion-align-self-center">
-                    <!-- <ion-text style="font-size: 12px;  line-height: 25px;">This year</ion-text> -->
-                    <!-- <br> -->
-                    <ion-text style="font-size: 16px; font-weight: 700; ">This year</ion-text> <br>
-                  </ion-col>
-                </ion-row>
-                <ion-row>
-                  <ion-col>
-                    <hr style="height: 5px; margin: 0px;">
-                    <hr style="height: 0.5px; background-color: #e6e6e6; margin: 0px;">
-                  </ion-col>
-                </ion-row>
-              </ion-card>
+              <div *ngIf="!isLoaded">
+                <ion-skeleton-text [animated]="true"
+                  style="width: 80%; height: 34px; border-radius: 5px; background-color: #0e037a;"></ion-skeleton-text>
+                <ion-skeleton-text [animated]="true"
+                  style="width: 100%; height: 5px; border-radius: 5px; background-color: #0e037a;"></ion-skeleton-text>
+              </div>
+              <div *ngIf="isLoaded">
+                <ion-card class="invisible-card ion-no-padding ion-no-margin" style="color: #ffffff;">
+                  <ion-row class="ion-no-padding">
+                    <ion-col size="4" class="statusB" style="font-size: x-large; background-color: #110594;">
+                      <ion-icon name="bar-chart-outline"></ion-icon>
+                    </ion-col>
+                    <ion-col size="8" class="ion-align-self-center">
+                      <!-- <ion-text style="font-size: 12px;  line-height: 25px;">This year</ion-text> -->
+                      <!-- <br> -->
+                      <ion-text style="font-size: 16px; font-weight: 700; ">This year</ion-text> <br>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col>
+                      <hr style="height: 5px; margin: 0px;">
+                      <hr style="height: 0.5px; background-color: #e6e6e6; margin: 0px;">
+                    </ion-col>
+                  </ion-row>
+                </ion-card>
+              </div>
               <br>
               <!-- <br> -->
               <br>
-              <ion-text style="font-size: 50px; font-weight: 700;">{{txtJumlahTiketSelesai}}/{{txtTotalTiket}}</ion-text>
-              <ion-text style="font-size: 12px; "> tiket</ion-text>
-              <br>
-              <ion-text style="font-size: 16px; ">Total Diproses</ion-text>
+              <div *ngIf="!isLoaded">
+                <ion-skeleton-text [animated]="true"
+                  style="width: 100%; height: 50px; border-radius: 5px; background-color: #0e037a;"></ion-skeleton-text>
+                <ion-skeleton-text [animated]="true"
+                  style="width: 60%; height: 16px; border-radius: 5px; background-color: #0e037a;"></ion-skeleton-text>
+              </div>
+              <div *ngIf="isLoaded">
+                <ion-text
+                  style="font-size: 50px; font-weight: 700;">{{txtJumlahTiketSelesai}}/{{txtTotalTiket}}</ion-text>
+                <ion-text style="font-size: 12px; "> tiket</ion-text>
+                <br>
+                <ion-text style="font-size: 16px; ">Total Diproses</ion-text>
+              </div>
             </div>
           </div>
           <span style="padding-left: 10px;"> </span>
           <div class="container2" style="background-color: #063351; color: #ffffff;">
             <div style="width: 100%; padding: 0px 16px;">
               <br>
-              <ion-card class="invisible-card ion-no-padding ion-no-margin" style="color: #ffffff;">
-                <ion-row class="ion-no-padding">
-                  <ion-col size="4" class="statusB" style="font-size: x-large; background-color: #0e639c;">
-                    <ion-icon name="podium-outline"></ion-icon>
-                  </ion-col>
-                  <ion-col size="8" class="ion-align-self-center">
-                    <!-- <ion-text style="font-size: 12px;  line-height: 25px;">This year</ion-text> -->
-                    <!-- <br> -->
-                    <ion-text style="font-size: 16px; font-weight: 700; ">This year</ion-text> <br>
-                  </ion-col>
-                </ion-row>
-                <ion-row>
-                  <ion-col>
-                    <hr style="height: 5px; margin: 0px;">
-                    <hr style="height: 0.5px; background-color: #e6e6e6; margin: 0px;">
-                  </ion-col>
-                </ion-row>
-              </ion-card>
+              <div *ngIf="!isLoaded">
+                <ion-skeleton-text [animated]="true"
+                  style="width: 80%; height: 34px; border-radius: 5px; background-color: #0a4a75;"></ion-skeleton-text>
+                <ion-skeleton-text [animated]="true"
+                  style="width: 100%; height: 5px; border-radius: 5px; background-color: #0a4a75;"></ion-skeleton-text>
+              </div>
+              <div *ngIf="isLoaded">
+                <ion-card class="invisible-card ion-no-padding ion-no-margin" style="color: #ffffff;">
+                  <ion-row class="ion-no-padding">
+                    <ion-col size="4" class="statusB" style="font-size: x-large; background-color: #0e639c;">
+                      <ion-icon name="podium-outline"></ion-icon>
+                    </ion-col>
+                    <ion-col size="8" class="ion-align-self-center">
+                      <!-- <ion-text style="font-size: 12px;  line-height: 25px;">This year</ion-text> -->
+                      <!-- <br> -->
+                      <ion-text style="font-size: 16px; font-weight: 700; ">This year</ion-text> <br>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col>
+                      <hr style="height: 5px; margin: 0px;">
+                      <hr style="height: 0.5px; background-color: #e6e6e6; margin: 0px;">
+                    </ion-col>
+                  </ion-row>
+                </ion-card>
+              </div>
               <br>
               <!-- <br> -->
               <br>
-              <ion-text style="font-size: 50px; font-weight: 700;">{{txtPersenTiketSelesai}}</ion-text>
-              <ion-text style="font-size: 12px; "> %</ion-text>
-              <br>
-              <ion-text style="font-size: 16px; ">Tiket Selesai</ion-text>
+              <div *ngIf="!isLoaded">
+                <ion-skeleton-text [animated]="true"
+                  style="width: 100%; height: 50px; border-radius: 5px; background-color: #0a4a75;"></ion-skeleton-text>
+                <ion-skeleton-text [animated]="true"
+                  style="width: 60%; height: 16px; border-radius: 5px; background-color: #0a4a75;"></ion-skeleton-text>
+              </div>
+
+              <div *ngIf="isLoaded">
+                <ion-text style="font-size: 50px; font-weight: 700;">{{txtPersenTiketSelesai}}</ion-text>
+                <ion-text style="font-size: 12px; "> %</ion-text>
+                <br>
+                <ion-text style="font-size: 16px; ">Tiket Selesai</ion-text>
+              </div>
             </div>
           </div>
 
@@ -93,43 +127,58 @@
           <div class="container2" style="background-color: #08137a; color: #ffffff;">
             <div style="width: 100%; padding: 0px 5px;">
               <br>
-              <ion-card class="invisible-card ion-no-padding ion-no-margin" style="color: #ffffff;">
-                <ion-row style="padding: 5px 5px 0px 5px; ">
-                  <ion-col size="9" class="ion-align-self-center">
-                    <ion-text style="font-size: 20px; font-weight: 700;">Ontime</ion-text> <br>
-                  </ion-col>
-                  <ion-col size="3" class="statusB ion-align-self-end" style="font-size: x-large; font-weight: 700;">
-                    <ion-icon name="ribbon-outline"></ion-icon>
-                  </ion-col>
-                </ion-row>
-                <ion-row style="padding: 0px 5px 0px 7px;">
+              <div *ngIf="!isLoaded" style="padding: 0px 11px;">
+                <ion-skeleton-text [animated]="true"
+                  style="width: 100%; height: 40px; border-radius: 5px; background-color: #0e1c9f; "></ion-skeleton-text>
+                <ion-skeleton-text [animated]="true"
+                  style="width: 50%; height: 30px; border-radius: 5px; background-color: #0e1c9f;"></ion-skeleton-text>
+                <ion-skeleton-text [animated]="true"
+                  style="width: 100%; height: 5px; border-radius: 5px; background-color: #0e1c9f;"></ion-skeleton-text>
+                <ion-skeleton-text [animated]="true"
+                  style="width: 100%; height: 40px; border-radius: 5px; background-color: #0e1c9f;"></ion-skeleton-text>
+                <ion-skeleton-text [animated]="true"
+                  style="width: 50%; height: 30px; border-radius: 5px; background-color: #0e1c9f;"></ion-skeleton-text>
+              </div>
+
+              <div *ngIf="isLoaded">
+                <ion-card class="invisible-card ion-no-padding ion-no-margin" style="color: #ffffff;">
+                  <ion-row style="padding: 5px 5px 0px 5px; ">
+                    <ion-col size="9" class="ion-align-self-center">
+                      <ion-text style="font-size: 20px; font-weight: 700;">Ontime</ion-text> <br>
+                    </ion-col>
+                    <ion-col size="3" class="statusB ion-align-self-end" style="font-size: x-large; font-weight: 700;">
+                      <ion-icon name="ribbon-outline"></ion-icon>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row style="padding: 0px 5px 0px 7px;">
+                    <ion-col>
+                      <ion-text style="font-size: 16px;">{{txtTiketOntime}} Tiket</ion-text> <br>
+                    </ion-col>
+                  </ion-row>
+                </ion-card>
+                <ion-row>
                   <ion-col>
-                    <ion-text style="font-size: 16px;">{{txtTiketOntime}} Tiket</ion-text> <br>
+                    <hr style="height: 10px; margin: 0px;">
+                    <hr style="height: 0.5px; background-color: #e6e6e6; margin: 0px;">
+                    <hr style="height: 10px; margin: 0px;">
                   </ion-col>
                 </ion-row>
-              </ion-card>
-              <ion-row>
-                <ion-col>
-                  <hr style="height: 10px; margin: 0px;">
-                  <hr style="height: 0.5px; background-color: #e6e6e6; margin: 0px;">
-                  <hr style="height: 10px; margin: 0px;">
-                </ion-col>
-              </ion-row>
-              <ion-card class="invisible-card ion-no-margin " style="color: #ffffff;">
-                <ion-row style="padding: 5px 5px 0px 5px; ">
-                  <ion-col size="9" class="ion-align-self-center">
-                    <ion-text style="font-size: 20px; font-weight: 700;">Telat</ion-text> <br>
-                  </ion-col>
-                  <ion-col size="3" class="statusB ion-align-self-end" style="font-size: x-large; font-weight: 700;">
-                    <ion-icon name="thumbs-down-outline"></ion-icon>
-                  </ion-col>
-                </ion-row>
-                <ion-row style="padding: 0px 5px 0px 7px;">
-                  <ion-col>
-                    <ion-text style="font-size: 16px;">{{txtTiketTerlambat}} Tiket</ion-text> <br>
-                  </ion-col>
-                </ion-row>
-              </ion-card>
+                <ion-card class="invisible-card ion-no-margin " style="color: #ffffff;">
+                  <ion-row style="padding: 5px 5px 0px 5px; ">
+                    <ion-col size="9" class="ion-align-self-center">
+                      <ion-text style="font-size: 20px; font-weight: 700;">Telat</ion-text> <br>
+                    </ion-col>
+                    <ion-col size="3" class="statusB ion-align-self-end" style="font-size: x-large; font-weight: 700;">
+                      <ion-icon name="thumbs-down-outline"></ion-icon>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row style="padding: 0px 5px 0px 7px;">
+                    <ion-col>
+                      <ion-text style="font-size: 16px;">{{txtTiketTerlambat}} Tiket</ion-text> <br>
+                    </ion-col>
+                  </ion-row>
+                </ion-card>
+              </div>
             </div>
           </div>
         </div>
@@ -142,21 +191,28 @@
       </ion-text>
       <hr style="height: 10px; margin: 0px;">
 
-      <div *ngIf="isNoUser">
-        <ion-card>
-          <ion-item button color="hk-ppid" lines="none">
-            <ion-label>Tidak Ada Persetujuan Pengguna</ion-label>
-          </ion-item>
-        </ion-card>
+      <div *ngIf="!isLoaded" class="ion-padding">
+        <ion-skeleton-text [animated]="true"
+          style="width: 100%; height: 140px; border-radius: 5px; background-color: #0a4a75; "></ion-skeleton-text>
       </div>
 
-      <div *ngFor="let approvalUserData of approvalUserDataList">
-        <ion-card>
-          <ion-item button color="hk-ppid" lines="none" (click)="OpenUserApproval(approvalUserData)">
-            <ion-label>{{approvalUserData.md_user_name}}</ion-label>
-            <ion-note color="light" slot="end">{{approvalUserData.md_user_date_modified}}</ion-note>
-          </ion-item>
-        </ion-card>
+      <div *ngIf="isLoaded">
+        <div *ngIf="isNoUser">
+          <ion-card>
+            <ion-item button color="hk-ppid" lines="none">
+              <ion-label>Tidak Ada Persetujuan Pengguna</ion-label>
+            </ion-item>
+          </ion-card>
+        </div>
+  
+        <div *ngFor="let approvalUserData of approvalUserDataList">
+          <ion-card>
+            <ion-item button color="hk-ppid" lines="none" (click)="OpenUserApproval(approvalUserData)">
+              <ion-label>{{approvalUserData.md_user_name}}</ion-label>
+              <ion-note color="light" slot="end">{{approvalUserData.md_user_date_modified}}</ion-note>
+            </ion-item>
+          </ion-card>
+        </div>
       </div>
 
       <!-- <ion-card>
@@ -188,63 +244,70 @@
       </ion-text>
       <hr style="height: 10px; margin: 0px;">
 
-      <div *ngIf="isNoTicket">
-        <ion-card button Lines="none">
-          <div class="ion-padding">
-            <ion-text>Anda Tidak Memiliki Daftar Permohonan Tiket</ion-text>
-            <hr style="height: 10px; margin: 0px;">
-            <ion-text style="font-size: 20px; font-weight: 700; color: #2c365a">Tiket Kosong</ion-text>
-            <hr style="height: 10px; margin: 0px;">
-          </div>
-        </ion-card>
+      <div *ngIf="!isLoaded" class="ion-padding">
+        <ion-skeleton-text [animated]="true"
+          style="width: 100%; height: 140px; border-radius: 5px; background-color: #0a4a75; "></ion-skeleton-text>
       </div>
 
-      <!-- <div *ngFor="let approvalTicketDataExtend of approvalTicketDataExtendList">
-        <ion-card button Lines="none" (click)="OpenTicketApproval(approvalTicketDataExtend.ticketData)">
-          <div class="ion-padding">
-            <ion-text>{{approvalTicketDataExtend.ticketData.trx_ticket_date_created}}</ion-text>
-            <hr style="height: 10px; margin: 0px;">
-            <ion-text style="font-size: 20px; font-weight: 700; color: #2c365a">{{approvalTicketDataExtend.ticketData.trx_ticket_tipe}}</ion-text>
-            <hr style="height: 10px; margin: 0px;">
-          </div>
-        </ion-card>
-      </div> -->
-
-      <div *ngFor="let approvalTicketDataExtend of approvalTicketDataExtendList">
-        <ion-card button Lines="none" (click)="OpenTicketApproval(approvalTicketDataExtend.ticketData)">
-          <ion-row>
-            <ion-col size="8.5" class="ion-padding">
+      <div *ngIf="isLoaded">
+        <div *ngIf="isNoTicket">
+          <ion-card button Lines="none">
+            <div class="ion-padding">
+              <ion-text>Anda Tidak Memiliki Daftar Permohonan Tiket</ion-text>
+              <hr style="height: 10px; margin: 0px;">
+              <ion-text style="font-size: 20px; font-weight: 700; color: #2c365a">Tiket Kosong</ion-text>
+              <hr style="height: 10px; margin: 0px;">
+            </div>
+          </ion-card>
+        </div>
+  
+        <!-- <div *ngFor="let approvalTicketDataExtend of approvalTicketDataExtendList">
+          <ion-card button Lines="none" (click)="OpenTicketApproval(approvalTicketDataExtend.ticketData)">
+            <div class="ion-padding">
               <ion-text>{{approvalTicketDataExtend.ticketData.trx_ticket_date_created}}</ion-text>
               <hr style="height: 10px; margin: 0px;">
-              <ion-text style="font-size: 20px; font-weight: 700; color: #2c365a">
-                {{approvalTicketDataExtend.ticketData.trx_ticket_tipe}}</ion-text>
+              <ion-text style="font-size: 20px; font-weight: 700; color: #2c365a">{{approvalTicketDataExtend.ticketData.trx_ticket_tipe}}</ion-text>
+              <hr style="height: 10px; margin: 0px;">
+            </div>
+          </ion-card>
+        </div> -->
+  
+        <div *ngFor="let approvalTicketDataExtend of approvalTicketDataExtendList">
+          <ion-card button Lines="none" (click)="OpenTicketApproval(approvalTicketDataExtend.ticketData)">
+            <ion-row>
+              <ion-col size="8.5" class="ion-padding">
+                <ion-text>{{approvalTicketDataExtend.ticketData.trx_ticket_date_created}}</ion-text>
+                <hr style="height: 10px; margin: 0px;">
+                <ion-text style="font-size: 20px; font-weight: 700; color: #2c365a">
+                  {{approvalTicketDataExtend.ticketData.trx_ticket_tipe}}</ion-text>
+                <hr style="height: 10px; margin: 0px;">
+              </ion-col>
+              <ion-col size="3.5" class="ion-padding">
+                <ion-text style="font-size: 12px; color: #2c365a">Sisa Waktu</ion-text> <br>
+                <ion-text style="font-size: 35px; font-weight: 700; color: #2c365a; ">
+                  {{approvalTicketDataExtend.sisaHari}}</ion-text>
+                <ion-text style="font-size: 12px; color: #2c365a"> hari</ion-text>
+              </ion-col>
+            </ion-row>
+          </ion-card>
+        </div>
+  
+        <!-- <ion-card Lines="none">
+          <ion-row>
+            <ion-col size="8.5" class="ion-padding">
+              <ion-text>2022-04-21</ion-text>
+              <hr style="height: 10px; margin: 0px;">
+              <ion-text style="font-size: 20px; font-weight: 700; color: #2c365a">Permohonan Informasi</ion-text>
               <hr style="height: 10px; margin: 0px;">
             </ion-col>
             <ion-col size="3.5" class="ion-padding">
               <ion-text style="font-size: 12px; color: #2c365a">Sisa Waktu</ion-text> <br>
-              <ion-text style="font-size: 35px; font-weight: 700; color: #2c365a; ">
-                {{approvalTicketDataExtend.sisaHari}}</ion-text>
+              <ion-text style="font-size: 35px; font-weight: 700; color: #2c365a; ">9</ion-text>
               <ion-text style="font-size: 12px; color: #2c365a"> hari</ion-text>
             </ion-col>
           </ion-row>
-        </ion-card>
+        </ion-card> -->
       </div>
-
-      <!-- <ion-card Lines="none">
-        <ion-row>
-          <ion-col size="8.5" class="ion-padding">
-            <ion-text>2022-04-21</ion-text>
-            <hr style="height: 10px; margin: 0px;">
-            <ion-text style="font-size: 20px; font-weight: 700; color: #2c365a">Permohonan Informasi</ion-text>
-            <hr style="height: 10px; margin: 0px;">
-          </ion-col>
-          <ion-col size="3.5" class="ion-padding">
-            <ion-text style="font-size: 12px; color: #2c365a">Sisa Waktu</ion-text> <br>
-            <ion-text style="font-size: 35px; font-weight: 700; color: #2c365a; ">9</ion-text>
-            <ion-text style="font-size: 12px; color: #2c365a"> hari</ion-text>
-          </ion-col>
-        </ion-row>
-      </ion-card> -->
     </div>
   </div>
 
