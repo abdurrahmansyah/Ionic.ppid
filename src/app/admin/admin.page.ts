@@ -182,8 +182,8 @@ export class AdminPage implements OnInit {
         this.isNoUser = false;
       }
       else {
-        this.isLoaded = true;
-        await loading.dismiss();
+        // this.isLoaded = true;
+        // await loading.dismiss();
         console.log(data.message);
         this.isNoUser = true;
       }
@@ -248,8 +248,8 @@ export class AdminPage implements OnInit {
           this.isNoTicket = false;
         }
         else {
-          this.isLoaded = true;
-          await loading.dismiss();
+          // this.isLoaded = true;
+          // await loading.dismiss();
           console.log(data.message);
           this.isNoTicket = true;
         }
@@ -306,6 +306,7 @@ export class AdminPage implements OnInit {
             });
 
             this.InitializeAnalyticsData(this.ticketDataList); // this.isLoaded = true;
+            this.isLoaded = true;
             await loading.dismiss();
           }
           else {

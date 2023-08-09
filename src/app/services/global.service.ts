@@ -31,6 +31,7 @@ export class GlobalService {
 
   httpClient = InjectorInstance.get<HttpClient>(HttpClient);
   public pekerjaanDataList = [];
+  public approvalData = [];
   public ticketDataList = [];
   public approvalUserDataList = [];
   public approvalTicketDataList = [];
@@ -676,6 +677,21 @@ export class GlobalService {
     });
 
     return true;
+  }
+
+  public GetApprovalData() {
+    console.log("Log : Run Api getApprovalData...");
+    this.approvalData = [];
+
+    const requestOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + this.userData.md_user_token,
+      }),
+    };
+
+    var url = dataTemp.urlHit + 'getApprovalData';
+
+    return this.httpClient.get(url, requestOptions);
   }
 
   public GetListUserApproval() {

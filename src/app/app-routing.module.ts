@@ -4,7 +4,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { AutoLoginGuard } from './guards/auto-login.guard';
 import { StandardGuard } from './guards/standard.guard';
 import { WelcomeGuard } from './guards/welcome.guard';
-import { StartDataResolveService } from './resolver/start-data-resolve.service';
+import { ApprovalDataResolveService } from './resolver/approval-data-resolve.service';
 
 const routes: Routes = [
   {
@@ -27,7 +27,7 @@ const routes: Routes = [
     // canLoad: [AuthGuard]
     canLoad: [StandardGuard],
     resolve: {
-      startData : StartDataResolveService
+      startData : ApprovalDataResolveService
     }
   },
   {
